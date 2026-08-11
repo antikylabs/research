@@ -6,8 +6,8 @@ Goal is can generate any character + animation and come out with specialized fli
 
 Could all be done locally too.
 
-Image Gen = ??? (FLUX.2 [dev] or https://huggingface.co/stabilityai/stable-diffusion-3.5-large or qwen-image)
-Video Gen = MiniMax H3
-Editor Pipeline = ???
-- https://github.com/joepUI/framekit-web
-- https://github.com/MathisVerstrepen/spritely
+- Image Gen = ??? (FLUX.2 [dev] or https://huggingface.co/stabilityai/stable-diffusion-3.5-large or qwen-image)
+- Video Gen = MiniMax H3
+- Editor Pipeline = ???
+  - https://github.com/joepUI/framekit-web
+  - https://github.com/MathisVerstrepen/spritely
