@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>WebGPU benchmark evidence suite</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <p class="eyebrow">WebGPU AOT research</p>
+        <h1>Benchmark evidence suite</h1>
+        <p class="lede">Three experiments report renderer performance, measurement noise, and controlled raw-WebGPU-versus-Three.js behavior from one place.</p>
+        <div class="protocol">
+          <span><strong>95</strong> isolated captures</span>
+          <span><strong>10 s</strong> measured per capture</span>
+          <span><strong>5 s</strong> warmup per capture</span>
+          <span><strong>Fresh Chrome</strong> per cell</span>
+        </div>
+      </header>
+
+      <section class="report-grid" aria-label="Benchmark reports">
+        <article class="report-card representative" data-report="representative">
+          <p class="eyebrow">01 · Representative systems</p>
+          <h2>Complete renderer demos</h2>
+          <p>BroMetal, TypeGPU, TypeGPU-Antiky, WESL, and Three.js run their real production architectures under a matched scene task.</p>
+          <dl><div><dt>Status</dt><dd data-field="status">Loading…</dd></div><div><dt>Dataset</dt><dd data-field="detail">Loading…</dd></div></dl>
+          <p class="boundary">Use this for the measured renderer ranking, then inspect frame pacing, GPU activity, API traffic, resource use, and operation counts behind it.</p>
+          <a href="/representative/">Open representative report <span>→</span></a>
+        </article>
+
+        <article class="report-card null" data-report="null">
+          <p class="eyebrow">02 · Measurement null</p>
+          <h2>Byte-identical baseline</h2>
+          <p>Five labels execute one shader artifact and one command graph to expose scheduling, thermal, and measurement variation.</p>
+          <dl><div><dt>Status</dt><dd data-field="status">Loading…</dd></div><div><dt>Dataset</dt><dd data-field="detail">Loading…</dd></div></dl>
+          <p class="boundary">Use this as the local noise floor. These labels are not independently generated authoring-system outputs.</p>
+          <a href="/controlled/">Open null-control report <span>→</span></a>
+        </article>
+
+        <article class="report-card architecture" data-report="architecture">
+          <p class="eyebrow">03 · Renderer construction</p>
+          <h2>Raw WebGPU vs real Three.js</h2>
+          <p>A matched static 32-light GGX plus ACES task isolates baseline orchestration while allowing renderer topology to be measured.</p>
+          <dl><div><dt>Status</dt><dd data-field="status">Loading…</dd></div><div><dt>Dataset</dt><dd data-field="detail">Loading…</dd></div></dl>
+          <p class="boundary">Use this for a narrow static-task architecture comparison, not general shader-authoring superiority.</p>
+          <a href="/controlled/architecture.html">Open architecture report <span>→</span></a>
+        </article>
+      </section>
+
+      <section class="scope">
+        <div><p class="eyebrow">Interpretation order</p><h2>Gate first. Measurement second. Claim last.</h2></div>
+        <ol>
+          <li><strong>Scene/task:</strong> confirm that the intended workload dimensions match.</li>
+          <li><strong>Topology/artifact:</strong> identify whether GPU work or generated shaders differ.</li>
+          <li><strong>Attribution:</strong> make only the claim supported by the gates above.</li>
+        </ol>
+        <p>Descriptor-derived bytes are not physical VRAM. Chrome GPU-process time is not shader-core occupancy. API payload volume is not physical bus traffic, and a one-way upload is not a CPU↔GPU round trip.</p>
+      </section>
+
+      <footer>
+        <a href="/representative/?dataset=results-traffic">Open the preserved directional-traffic campaign</a>
+        <span>All raw runs and time series remain linked from their experiment reports.</span>
+      </footer>
+    </main>
+    <script type="module" src="/overview.js"></script>
+  </body>
+</html>

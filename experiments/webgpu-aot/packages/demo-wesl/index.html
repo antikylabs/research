@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>WESL Static — Heavy Sponza</title>
+  </head>
+  <body>
+    <main id="app" class="workload-shell">
+      <canvas id="demo" aria-label="WESL static-link Sponza workload"></canvas>
+      <section class="loading-card" role="status">
+        <div class="loading-title"><strong>WESL // LINKED COMPUTE FIELD</strong><span id="load-percent">0%</span></div>
+        <p id="status" class="workload-status">Linking eight WESL shader modules…</p>
+        <div class="loading-meter"><progress id="load-progress" max="1" value="0"></progress><span>WESL×8</span></div>
+        <div class="loading-bits" aria-hidden="true">
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/index.ts"></script>
+  </body>
+</html>

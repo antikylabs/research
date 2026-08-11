@@ -1,0 +1,27 @@
+{
+  "name": "webgpu-aot",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "benchmark:all": "node packages/benchmark-all/scripts/run.mjs",
+    "build": "npm run build --workspace typegpu-antiky && npm run build:demos",
+    "build:demos": "npm run build --workspace demo-brometal && npm run build --workspace demo-typegpu && npm run build --workspace demo-typegpu-antiky && npm run build --workspace demo-wesl && npm run build --workspace demo-threejs",
+    "build:typegpu-antiky": "npm run build --workspace typegpu-antiky && npm run build --workspace demo-typegpu-antiky",
+    "compare:demos": "node scripts/compare-demos.mjs",
+    "report:all": "node packages/benchmark-all/scripts/report.mjs",
+    "test": "npm run test:tooling && npm run typecheck && npm run build --workspace typegpu-antiky && npm run test:workspaces",
+    "test:tooling": "node --test test/*.test.mjs",
+    "test:workspaces": "npm run test --workspaces --if-present",
+    "typecheck": "tsc --project tsconfig.json --noEmit && npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.1",
+    "@webgpu/types": "0.1.71",
+    "playwright-core": "1.62.1",
+    "typescript": "5.9.3"
+  }
+}

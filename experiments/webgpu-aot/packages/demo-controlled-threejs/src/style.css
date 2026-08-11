@@ -1,0 +1,5 @@
+:root { color: #e8edf5; background: #071016; font-family: ui-sans-serif, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; }
+canvas { display: block; width: 100vw; height: 100vh; object-fit: contain; }
+#identity { position: fixed; left: 16px; top: 16px; padding: 7px 10px; border: 1px solid #38505c; border-radius: 7px; background: rgba(7, 16, 22, .85); color: #aabac6; font-size: 12px; }

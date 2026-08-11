@@ -1,0 +1,22 @@
+{
+  "name": "demo-threejs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@types/three": "0.185.4",
+    "vite": "8.2.1",
+    "vitest": "4.1.10",
+    "webgpu": "0.4.0"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.playwright-mcp/
+artifacts/
+tmp/
+packages/benchmark/public/results/20*/
+packages/benchmark/public/results-traffic/20*/

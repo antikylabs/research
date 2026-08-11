@@ -1,0 +1,18 @@
+{
+  "name": "benchmark-controlled",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "benchmark": "node scripts/run.mjs",
+    "benchmark:architecture": "node scripts/run-architecture.mjs",
+    "build": "vite build",
+    "report": "vite",
+    "test": "node --test test/*.test.mjs && vitest run test/model.test.ts",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  }
+}

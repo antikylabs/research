@@ -1,0 +1,9 @@
+dist/
+public/verification/
+public/architecture-verification/
+public/results/*
+!public/results/latest/
+!public/results/latest/*.json
+public/architecture-results/*
+!public/architecture-results/latest/
+!public/architecture-results/latest/*.json

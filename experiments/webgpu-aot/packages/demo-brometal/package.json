@@ -1,0 +1,25 @@
+{
+  "name": "demo-brometal",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:shader": "node scripts/build-shader.mjs",
+    "prebuild": "npm run build:shader",
+    "build": "vite build",
+    "predev": "npm run build:shader",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "wgpu-matrix": "3.3.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "vite": "8.2.1",
+    "vitest": "4.1.10",
+    "webgpu": "0.4.0"
+  }
+}

@@ -1,0 +1,7 @@
+:root { color: #e8edf2; background: #07100f; font-family: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; }
+canvas { display: block; width: 100vw; height: 100vh; }
+.notice { position: fixed; z-index: 1; top: 18px; left: 18px; max-width: 620px; padding: 12px 15px; border: 1px solid #4c6c67; border-radius: 8px; background: #07100fe6; }
+.notice strong { display: block; margin-bottom: 5px; color: #63e6be; font-size: 13px; }
+.notice span { color: #9eb0ad; font: 12px ui-monospace, monospace; }

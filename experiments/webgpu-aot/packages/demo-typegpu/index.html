@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>TypeGPU Runtime — Heavy Sponza</title>
+  </head>
+  <body>
+    <main id="app" class="workload-shell">
+      <canvas id="demo" aria-label="Heavy Sponza WebGPU benchmark"></canvas>
+      <section class="loading-card" role="status">
+        <div class="loading-title"><strong>TYPEGPU // RUNTIME FORWARD+</strong><span id="load-percent">0%</span></div>
+        <p id="status" class="workload-status">Resolving typed shader functions…</p>
+        <div class="loading-meter"><progress id="load-progress" max="1" value="0"></progress><span>TGSL</span></div>
+        <div class="loading-bits" aria-hidden="true">
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+          <span data-load-bit></span><span data-load-bit></span><span data-load-bit></span><span data-load-bit></span>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/index.ts"></script>
+  </body>
+</html>

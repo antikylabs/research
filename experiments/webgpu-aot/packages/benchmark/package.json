@@ -1,0 +1,25 @@
+{
+  "name": "benchmark",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "benchmark": "node scripts/run.mjs",
+    "measure:libraries": "node scripts/library-payloads.mjs",
+    "prebuild": "npm run measure:libraries",
+    "build": "vite build",
+    "dev": "node scripts/dev.mjs",
+    "report": "vite",
+    "test": "node --test test/*.test.mjs && vitest run test/*.test.ts",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "brometal": "0.17.1",
+    "esbuild": "0.28.2",
+    "three": "0.185.1",
+    "typegpu": "0.11.9",
+    "vite": "8.2.1",
+    "vitest": "4.1.10",
+    "wesl": "0.7.28"
+  }
+}

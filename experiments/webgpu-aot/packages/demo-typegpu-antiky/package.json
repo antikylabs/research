@@ -1,0 +1,27 @@
+{
+  "name": "demo-typegpu-antiky",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:shader": "node scripts/build-shaders.mjs",
+    "prebuild": "npm run build:shader",
+    "build": "vite build",
+    "predev": "npm run build:shader",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "wgpu-matrix": "3.3.0"
+  },
+  "devDependencies": {
+    "@webgpu/types": "0.1.71",
+    "typegpu": "0.11.9",
+    "typegpu-antiky": "0.0.0",
+    "vite": "8.2.1",
+    "vitest": "4.1.10",
+    "webgpu": "0.4.0"
+  }
+}
