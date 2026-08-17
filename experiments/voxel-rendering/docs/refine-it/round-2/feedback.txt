@@ -1,0 +1,9 @@
+not photorealistic, maybe we need textures? How do we get to the rendering outcome like our references in research/experiments/voxel-rendering/docs/refine-it/references?
+water blocks are not translucent or water like
+need knobs for depth of field.
+need knobs for time of day (moves sun)
+need knoos for turn moon on or off.
+need wasd control of camera and mouse movement to reposition (similar to fly mode of minecraft)
+the model isn't fully built missing sides of itself etc... maybe we should find many models and use them in a drop and render scene? We could have many models, and a few chosen backgrounds such as pedistal, forest, snow forest, mountains, beach, swamp, etc...
+stylized is just a filter... I think it would also change the shaders of diffent types of blocks and materials of them...
+did you look at bringing in shaders from https://github.com/lachlanmcdonald/magicavoxel-shaders??? we should really investigate?

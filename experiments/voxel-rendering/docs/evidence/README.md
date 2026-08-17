@@ -1,36 +1,50 @@
-# Live visual evidence
+# Refined visual evidence
 
-These images record the original Lumen Observatory through every renderer and presentation. The six
-renderer stills use the same camera, 1280 × 720 viewport, and DPR 1. Playwright MCP captured them
-from the Antiky-hosted game module in Chromium 151 on the Apple `metal-3` WebGPU adapter.
+This index is the review manifest for the six final **Golden Hour Valley Atelier** captures. Every
+image uses the same 160 × 96 × 256 scene, entrance-targeted camera, 1280 × 720 canvas, and DPR 1.
+Only the renderer and visible preset change.
 
-| Renderer | Presentation | Evidence | SHA-256 |
-| --- | --- | --- | --- |
-| Greedy mesh | Physical | [PNG](./voxel-mesh-physical.png) | `6c7930842a04e282642be511019342c8e15a1c89238ed9e9c1942de3680fff62` |
-| Greedy mesh | Graphic | [PNG](./voxel-mesh-graphic.png) | `3def9887d7c41a1abcca528d5200ad340cd519a843eabc60a2e6d3f440ae5b93` |
-| Face instances | Physical | [PNG](./voxel-instances-physical.png) | `85c231e54a1cba2849a45e896ee1324bb50a3a4018072c25712d71f7cfda310b` |
-| Face instances | Graphic | [PNG](./voxel-instances-graphic.png) | `4fbe9d41e5c2ffa1af7bb277f4e99e0e1c17d0724ae6dba2250bbedb7497f221` |
-| Dense DDA | Physical | [PNG](./voxel-raytrace-physical.png) | `70703aca45fc8686b8f99ce55a486375bede977a809e4ae65a048003a52a8220` |
-| Dense DDA | Graphic | [PNG](./voxel-raytrace-graphic.png) | `3bc7b68b3a8eae02d67c15bab6f2402d8fb0e811e9a82d00d68c03aafefaa493` |
+| Renderer | Preset | Checked-in PNG | Evidence ID | Artifact ID / SHA-256 |
+| --- | --- | --- | --- | --- |
+| Greedy mesh | Photorealistic | [PNG](./voxel-mesh-photorealistic.png) | `evidence-5560184c-7a4c-4d36-b650-baeef543ca11` | `artifact-62c7c12bcff3d333e7cb822bd53c070cd3b224db8a2f021c0b9b0950dd835003` |
+| Greedy mesh | Stylized | [PNG](./voxel-mesh-stylized.png) | `evidence-100addfe-b501-4fec-82d0-162e57fbf067` | `artifact-4c5fd25238a1d725a4e7e83cfcdd999223b7992ba33c56bfe77584b318a65030` |
+| Face instances | Photorealistic | [PNG](./voxel-instances-photorealistic.png) | `evidence-282482d9-953c-4149-8d87-227e67a23765` | `artifact-2c7ec0cfc0a1c274f8f60031bfbd9dcb502d50b69f4a44b25af2bc27b22948df` |
+| Face instances | Stylized | [PNG](./voxel-instances-stylized.png) | `evidence-60599378-8233-43d6-8471-ff36983f02c3` | `artifact-a5b0c118a84dc7d6fd6e1be40462b984a2ee413ff78246cbf1ac6433b026069b` |
+| Dense DDA | Photorealistic | [PNG](./voxel-raytrace-photorealistic.png) | `evidence-9e1cd742-4331-4b7b-9014-5336004a26a0` | `artifact-285475457af147982fc302241968aaf5ffad979dae06f8d5db44e42d598fdd12` |
+| Dense DDA | Stylized | [PNG](./voxel-raytrace-stylized.png) | `evidence-3af7a4b5-aeb8-428a-b56a-b5a52d403709` | `artifact-0fdec6fd91319789a1dc9a45b1a4a6a4364aa2664cc85b6a1607af930d14c343` |
 
-The [field-lab UI capture](./voxel-field-lab-ui.png) is a separate 1200 × 714 standalone-browser
-capture after the generated `.vox` file was uploaded and Face instances / Physical was selected.
-Its SHA-256 is `5d65abe2df751974833291bcf95da6dc50d058514537beb4bc3246e37de65dae`.
+The SHA-256 for each PNG is the hexadecimal portion of its artifact ID.
 
-## What the images show
+## Capture identity
 
-- The raster physical views keep palette identity, readable corner shading, and emissive fixtures.
-- The graphic views visibly change grading and face bands without changing scene geometry.
-- Face instances preserve each exposed voxel face, while greedy meshing removes compatible seams.
-- The path tracer produces a sky-lit image with emissive and secondary-ray contribution, then stops
-  at 256 running-mean samples.
+| Field | Value |
+| --- | --- |
+| Antiky development session | `14a62a73-ba7a-4373-ae96-9d8d58743018` |
+| Accepted build revision | `1` |
+| Runtime | `ef08a0c9-35a5-4e2d-82c2-739f219dc863` |
+| Scene fingerprint | `753a16b1` |
+| Canvas | 1280 × 720, DPR 1 |
+| Capture boundary | Canvas only; no desktop pixels or audio |
+| Managed-artifact review state | `private-unreviewed` before check-in review |
 
-The path-traced result remains noisy in dark and emissive-adjacent regions. Its graphic presentation
-also deliberately quantizes the environment into broad bands. The physical raster image is clean
-but is not hyperrealistic: it has no shadow map, reflections, transparency, or image-based lighting.
-These images are evidence for the bounded experiment, not publication approval or a performance
-benchmark.
+The managed Antiky artifacts are session-scoped capture receipts. `private-unreviewed` describes
+their state before check-in review; it is not publication approval. The PNGs linked above are the
+portable evidence set.
 
-Antiky also retained a separate managed canvas master during the development session. Its SHA-256
-was `c765c1b4af484b783f7f605fa6ac6ca2924b1b55792efa41f644886024d0a651`; the session-scoped artifact
-was marked `private-unreviewed`, canvas-only, and audio-free.
+## What a reviewer should check
+
+- All three rows have both Photorealistic and Stylized output from the same camera and scene.
+- The foreground path, steps, vegetation, and lanterns establish near depth instead of leaving the
+  model floating against a sky.
+- The atelier and entrance remain the focal subject; the pond, dock, hills, forest, and ruins carry
+  the middle and far depth planes.
+- Photorealistic raster output shows golden-hour direct light, shadows, bloom, vignette, tone
+  mapping, and focus falloff. Stylized output changes color and quantization without changing the
+  underlying scene.
+- Dense DDA output shows the thin-lens treatment, soft direct shadowing, and accumulated reflection
+  and glass approximations.
+
+“Photorealistic” is the requested preset name and describes its cinematic, PBR-oriented intent. It
+does not mean that the image is indistinguishable from photography. Glass remains approximate, and
+the dense path uses about 63 MiB before its accumulation targets. See the [refinement report](../refine-it/summary.md)
+and [field notes](../field-notes.md) for the acceptance audit and tradeoffs.

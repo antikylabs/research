@@ -1,5 +1,11 @@
 # Voxel rendering experiment plan
 
+> **Historical plan:** This document records the first implementation completed on 2026-08-16.
+> Its Lumen Observatory scale, 64-cell dense limit, presentation labels, and visual evidence were
+> superseded by the [refinement brief](./refine-it/refine-goal.md) and
+> [refinement acceptance report](./refine-it/summary.md). Keep this page as decision history; use
+> the [current summary](./summary.md) and [evidence manifest](./evidence/README.md) for current facts.
+
 Plan date: 2026-08-16
 
 Completion date: 2026-08-16. All five packets and the completion definition were verified; see the

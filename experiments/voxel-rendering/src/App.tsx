@@ -29,19 +29,19 @@ const APPROACHES: Readonly<Record<ApproachId, Readonly<{
   mesh: {
     eyebrow: '01 · surface',
     label: 'Greedy mesh',
-    note: 'AO-aware merged geometry · physical raster',
+    note: 'Greedy AO surface mesh · shadowed cinematic HDR',
     factory: createMeshApproach,
   },
   instances: {
     eyebrow: '02 · faces',
     label: 'Face instances',
-    note: 'One quad per exposed face · graphic raster',
+    note: 'Exposed-face instancing · shadowed cinematic HDR',
     factory: createInstancesApproach,
   },
   raytrace: {
     eyebrow: '03 · volume',
     label: 'Path trace',
-    note: 'Dense DDA · progressive indirect light',
+    note: 'Dense DDA path tracing · thin-lens accumulation',
     factory: createRaytraceApproach,
   },
 });
@@ -180,13 +180,13 @@ export default function App() {
     setIssue(null);
     try {
       const started = performance.now();
-      const response = await fetch('./models/lumen-observatory.vox');
+      const response = await fetch('./models/golden-hour-valley-atelier.vox');
       if (!response.ok) throw new Error(`Fixture request failed with HTTP ${response.status}.`);
       const document = parseVox(await response.arrayBuffer());
       const parseMilliseconds = performance.now() - started;
       setVoxDocument(document);
-      setSourceName('lumen-observatory.vox');
-      setScene(normalizeVoxModel(document, 0, 'Lumen Observatory · .vox', parseMilliseconds));
+      setSourceName('golden-hour-valley-atelier.vox');
+      setScene(normalizeVoxModel(document, 0, 'Golden Hour Valley Atelier · .vox', parseMilliseconds));
       cameraRef.current = new OrbitCamera();
     } catch (error) {
       setIssue(diagnostic(error));
@@ -305,7 +305,7 @@ export default function App() {
                   key={option}
                   onClick={() => setStyle(option)}
                   type="button"
-                >{option === 'physical' ? 'Physical' : 'Graphic'}</button>
+                >{option === 'physical' ? 'Photorealistic' : 'Stylized'}</button>
               ))}
             </div>
           </section>
@@ -360,7 +360,7 @@ export default function App() {
 
           <section className="inspector-section support-note">
             <span className="section-label">Import boundary</span>
-            <p>Validated MagicaVoxel v150 base models. Scene graphs and animation are diagnosed, not silently claimed. Glass is an opaque/tinted approximation.</p>
+            <p>Validated MagicaVoxel v150 base models. Scene graphs and animation are diagnosed, not silently claimed. Raster glass is tinted/specular; the path tracer adds bounded reflections. Full refraction is out of scope.</p>
           </section>
         </aside>
       </section>

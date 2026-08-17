@@ -1,13 +1,18 @@
 # Voxel rendering field lab
 
-This browser study renders one voxel scene through three different BroMetal/WebGPU pipelines. Use
-it to compare AO-aware greedy meshing, exposed-face instancing, and progressive dense-grid ray
-traversal against the same camera, materials, and source data.
+This browser study renders one detailed voxel scene through three BroMetal/WebGPU pipelines. Use it
+to compare AO-aware greedy meshing, exposed-face instancing, and progressive dense-grid ray
+traversal with the same camera, source voxels, materials, and two visible presets:
+**Photorealistic** and **Stylized**.
 
-The implementation and live comparison are complete. Chromium 151 rendered every pipeline and
-presentation on an Apple `metal-3` WebGPU adapter; the checked-in [visual evidence](./docs/evidence/README.md)
-uses one scene, camera, viewport, and DPR. The [execution summary](./docs/summary.md) records the
-managed Antiky capture and interactive verification.
+The built-in **Golden Hour Valley Atelier** is a 160 × 96 × 256 scene with 376,721 occupied voxels
+and 33 authored material slots and variants. It surrounds the camera with continuous terrain: a
+foreground path, steps, foliage, and lanterns lead to the atelier, garden, pond, and dock; hills,
+forest, and ruins close the background. This depth is intentional because both presets use it for
+composition, atmosphere, and depth of field.
+
+See the [six-image evidence set](./docs/evidence/README.md) for the current output and the
+[refinement report](./docs/refine-it/summary.md) for the acceptance criteria and remaining limits.
 
 ## Run the study
 
@@ -18,19 +23,18 @@ npm install
 npm run dev
 ```
 
-Open <http://127.0.0.1:4178/>. The first view uses the original **Lumen Observatory** scene and the
-greedy mesh pipeline.
+Open <http://127.0.0.1:4178/>.
 
-- Select **Greedy mesh**, **Face instances**, or **Path trace** at the bottom of the stage.
-- Select **Physical** or **Graphic** in the inspector.
+- Select **Greedy mesh**, **Face instances**, or **Path trace** below the stage.
+- Select **Photorealistic** or **Stylized** in the inspector.
 - Drag the stage to orbit and use the wheel to move the camera.
 - Select **Load .vox** to load local MagicaVoxel data.
-- Select **Reopen this scene through the .vox parser** to test the bundled binary fixture.
+- Reopen the bundled scene through the `.vox` parser to exercise the generated fixture.
 
 The inspector reports submitted geometry or ray budgets, draw calls, payload bytes, sample count,
-and the deterministic build receipt. Import, device, and shader errors appear over the stage.
+and deterministic build receipts. Import, device, and shader errors appear over the stage.
 
-## Run through Antiky CLI and inspection MCP
+## Run through Antiky CLI
 
 From the sibling `antiky` repository, launch the game-module build through the supported host:
 
@@ -38,17 +42,16 @@ From the sibling `antiky` repository, launch the game-module build through the s
 npm run antiky -- dev --project ../research/experiments/voxel-rendering/voxel-rendering.antiky
 ```
 
-The project uses game port 4178 and inspection port 4179. The renderer and presentation can be
-selected in the hosted URL, for example:
+The project uses game port 4178 and inspection port 4179. Query parameters can select a pipeline
+and preset directly:
 
 ```text
 http://127.0.0.1:4178/?approach=raytrace&style=graphic
 ```
 
-Valid `approach` values are `mesh`, `instances`, and `raytrace`; valid `style` values are `physical`
-and `graphic`. The Antiky entry reports draw calls, upload bytes, scene facts, and path sample counts
-to the inspection runtime. Run `npm run antiky:build` in this directory to verify the game module
-without starting a development session.
+Valid `approach` values are `mesh`, `instances`, and `raytrace`. The internal style IDs remain
+`physical` and `graphic`; the interface presents them as **Photorealistic** and **Stylized**.
+`npm run antiky:build` verifies the game module without starting a development session.
 
 ## Supported `.vox` data
 
@@ -61,9 +64,10 @@ The loader accepts validated MagicaVoxel 150-or-newer base-model chunks:
   opaque/tinted glass mapping.
 
 The file stays in the browser. Scene graph, layer, transform, shape, animation, and unknown chunks
-are reported as unsupported diagnostics. They are not interpreted. Input is capped at 32 MiB, 64
-models, one million voxels per model, and two million voxels in total. The ray traversal proof has a
-separate maximum dimension of 64 on every axis.
+are reported as unsupported diagnostics rather than interpreted. Input is capped at 32 MiB, 64
+models, one million voxels per model, and two million voxels in total. The dense ray path has its own
+256-cell per-axis and 64 MiB volume limits. Glass is an approximation, not sorted transparency or
+physical refraction.
 
 ## Verify the implementation
 
@@ -71,35 +75,38 @@ separate maximum dimension of 64 on every axis.
 npm test
 npm run typecheck
 npm run build
+npm run antiky:build
 npm run measure
 ```
 
-`npm test` regenerates the original `.vox` fixture, compiles every typed BroMetal shader for
-production, and runs the parser, geometry, DDA, invalidation, camera, and lifecycle tests.
-`npm run measure` prints deterministic CPU-side receipts for all three representations.
+`npm test` regenerates the built-in `.vox` fixture, compiles the typed BroMetal shaders for
+production, and runs the parser, geometry, DDA, accumulation, camera, capture-fixture, and lifecycle
+tests. `npm run measure` prints deterministic CPU-side representation receipts; it does not measure
+GPU frame time. The [execution summary](./docs/summary.md) records the final check-in verification.
 
-The maintained shader sources and their generated WGSL are grouped by pipeline:
+The maintained shader sources and generated WGSL are grouped by pipeline:
 
-- [`src/approaches/mesh`](./src/approaches/mesh) — physical surface raster control;
-- [`src/approaches/instances`](./src/approaches/instances) — graphic exposed-face raster control;
-  and
+- [`src/approaches/mesh`](./src/approaches/mesh) — greedy surface rasterization;
+- [`src/approaches/instances`](./src/approaches/instances) — exposed-face instancing; and
 - [`src/approaches/raytrace`](./src/approaches/raytrace) — progressive volume traversal and
-  presentation passes.
+  presentation.
 
-Do not edit `*.shader.gen.ts` files directly. Run `npm run shaders` after changing an authored
-`*.shader.ts` file.
+Shared cinematic presentation code is in [`src/render`](./src/render). Do not edit
+`*.shader.gen.ts` files directly. Run `npm run shaders` after changing an authored `*.shader.ts`
+file.
 
-## Read the evidence
+## Read the study
 
-- [Experiment goal](./docs/goal.md)
-- [Implementation plan and completion definition](./docs/plan.md)
-- [Comparison field notes](./docs/field-notes.md)
-- [Execution summary](./docs/summary.md)
-- [Live visual evidence](./docs/evidence/README.md)
+- [Refinement goal](./docs/refine-it/refine-goal.md)
+- [Refinement acceptance report](./docs/refine-it/summary.md)
+- [Visual evidence and capture receipts](./docs/evidence/README.md)
+- [Pipeline comparison](./docs/field-notes.md)
+- [Execution and verification summary](./docs/summary.md)
+- [Original implementation plan](./docs/plan.md)
 - [Surface-meshing research](./docs/research/01-surface-meshing.md)
 - [Instanced-voxel research](./docs/research/02-instanced-voxels.md)
 - [Ray-traversal research](./docs/research/03-ray-traversal.md)
 - [Third-party notices](./THIRD_PARTY_NOTICES.md)
 
-The built-in scene and its generated `.vox` fixture are original experiment assets. WebGPU-.vox
-was read only as unlicensed prior art; no code, shader, parser, or asset from it is included.
+The built-in scene and generated `.vox` fixture are original experiment assets. WebGPU-.vox was
+read only as unlicensed prior art; no code, shader, parser, or asset from it is included.

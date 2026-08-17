@@ -94,7 +94,7 @@ fn fs_main(bm_in : BmVSOut) -> @location(0) vec4f {
   let geometry = geometrySmith(normal, view, light, roughness);
   let specular = fresnel * (distribution * geometry / max(4.0 * ndotv * ndotl, 0.0001));
   let diffuseWeight = (vec3f(1.0, 1.0, 1.0) - fresnel) * (1.0 - metallic);
-  let diffuse = diffuseWeight * bm_in.vColor * 0.31830988654751274;
+  let diffuse = diffuseWeight * bm_in.vColor * (1.0 / 3.14159265);
   let lightNdc = bm_in.vLightClip.xyz * (1.0 / max(bm_in.vLightClip.w, 0.0001));
   let shadowUv = vec2f(lightNdc.x * 0.5 + 0.5, 0.5 - lightNdc.y * 0.5);
   let compareDepth = lightNdc.z - (0.0007 + (1.0 - ndotl) * 0.0024);

@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { createBuiltInScene } from '../src/scene/built-in.ts';
+import { assertVoxEncodableScene } from '../src/vox/write-validation.ts';
 
 function int32(value: number): Buffer {
   const buffer = Buffer.allocUnsafe(4);
@@ -32,6 +33,7 @@ function dictionary(entries: Readonly<Record<string, string>>): Buffer {
 }
 
 const scene = createBuiltInScene();
+assertVoxEncodableScene(scene);
 const size = Buffer.concat([
   int32(scene.dimensions[0]),
   int32(scene.dimensions[2]),
@@ -98,4 +100,4 @@ const output = Buffer.concat([
 ]);
 const outputDirectory = path.resolve(import.meta.dirname, '../public/models');
 await mkdir(outputDirectory, { recursive: true });
-await writeFile(path.join(outputDirectory, 'lumen-observatory.vox'), output);
+await writeFile(path.join(outputDirectory, 'golden-hour-valley-atelier.vox'), output);

@@ -1,93 +1,74 @@
-# Voxel rendering experiment execution summary
+# Voxel rendering refinement summary
 
 Status: **complete**
 
-The field lab now runs as both a standalone comparison UI and an Antiky game module. All three
-BroMetal/WebGPU pipelines render the same original scene, accept the same parsed `.vox` scene, and
-offer physical and graphic presentations. Live Chromium inspection found and fixed one wheel-input
-defect. The final standalone pass completed with no browser-console errors.
+The field lab now renders the detailed **Golden Hour Valley Atelier** through greedy mesh,
+exposed-face instances, and dense DDA. Each pipeline exposes the requested **Photorealistic** and
+**Stylized** preset, and the [matched evidence set](./evidence/README.md) records all six outputs
+from one Antiky runtime, camera, viewport, and DPR.
 
-## Delivered
+## Delivered refinement
 
-- AO-aware greedy surface meshing with a typed physical/graphic raster shader.
-- Exposed-face instancing with six stable face orientations and a typed physical/graphic shader.
-- Dense DDA traversal with direct shadow rays, two bounded secondary traversals, RGBA16F running
-  mean accumulation, and a separate physical/graphic presentation pass.
-- A bounded MagicaVoxel parser, immutable normalized scene contract, original 4,546-voxel Lumen
-  Observatory, and generated `.vox` round-trip fixture.
-- A Studio-aligned React comparison shell with a shared orbit camera, renderer tabs, presentation
-  control, local file loading, model selection, visible failures, and live receipts.
-- An Antiky project manifest and game-module build for CLI development, inspection MCP diagnostics,
-  managed WebGPU capture, and query-selected renderer/presentation variants.
-- Checked-in visual evidence, research, comparison notes, deterministic measurement tooling, and
-  provenance notices.
+- An original 160 × 96 × 256 scene with fingerprint `753a16b1`, 376,721 occupied voxels, 33
+  authored material slots and variants, an approximately 87-voxel facade, and an approximately
+  20-voxel-wide door leaf.
+- Continuous terrain and explicit foreground, middle, and background staging so the model is part
+  of a scene rather than floating against the sky.
+- Golden-hour material and lighting treatment with water, emissive, metal, foliage, and approximate
+  glass responses.
+- Shared raster HDR presentation with axial camera-forward depth, focus-range blur, bloom,
+  vignette, ACES tone mapping, and 1536² shadow maps.
+- Thin-lens path sampling with direct sun and soft shadowing, two secondary traversals,
+  reflection/glass approximation, and a 512-sample running mean.
+- Semantic Antiky capture controls that select exactly one pipeline and either user-facing preset.
+- Six 1280 × 720, DPR 1 canvas captures with evidence and artifact receipts.
 
-## Automated verification on 2026-08-16
+The detailed requirement mapping is in the [refinement acceptance report](./refine-it/summary.md).
 
-| Check | Result |
+## Deterministic representation results
+
+| Pipeline | Representation result | Immutable bytes | Receipt or cap |
+| --- | --- | ---: | --- |
+| Greedy mesh | 286,522 exposed faces → 170,124 quads / 340,248 triangles | 39,468,768 B | `042b07fa` |
+| Face instances | 286,522 exposed faces / 573,044 triangles | 18,337,484 B | `008929e4` |
+| Dense DDA | 160 × 96 × 256 dense cells + material tables | 62,922,752 B | 515-cell traversal cap |
+
+These are deterministic CPU compilation and representation receipts. They are not GPU frame-time,
+GPU residency, or throughput benchmarks.
+
+## Live capture receipt
+
+Antiky development session `14a62a73-ba7a-4373-ae96-9d8d58743018` accepted build revision `1` and
+served runtime `ef08a0c9-35a5-4e2d-82c2-739f219dc863`. The six final images were captured from the
+canvas at 1280 × 720 and DPR 1. The managed evidence was canvas-only, contained no desktop pixels or
+audio, and was marked `private-unreviewed` before check-in review.
+
+The [evidence index](./evidence/README.md) records every filename, evidence ID, artifact ID, and
+SHA-256.
+
+## Final automated verification
+
+The final command suite ran against the refined scene and generated fixture on 2026-08-17.
+
+| Check | Final result |
 | --- | --- |
-| `npm test` | Passed: 15 files, 60 tests; all four authored shaders compiled for production |
+| `npm test` | Passed: 17 files and 77 tests; all five authored shaders compiled for production |
 | `npm run typecheck` | Passed |
-| `npm run build` | Passed |
-| `npm run antiky:build` | Passed; emitted the Antiky `dist/antiky.game.js` module |
-| `npm run measure` | Passed; printed deterministic receipts for all three representations |
-| Anti-slop prose check | 0 findings across the experiment documentation |
-| Anti-slop structure check | 0 findings; Vitest independently confirmed test collection |
-
-The final counts above include the regression test added after the live browser pass. The exact
-final command output is reproducible from the commands in the README.
-
-## Live WebGPU verification
-
-Antiky CLI launched `voxel-rendering.antiky` with the game on port 4178 and inspection MCP on port
-4179. Its capture capability report identified Playwright 1.62.1, Chromium 151.0.7922.34, browser
-revision 1234, WebGPU `available`, and a configured 1280 × 720 final canvas. Inspection reported a
-connected, running runtime with no development or framework diagnostics.
-
-Antiky's managed runtime retained one private canvas master:
-
-- evidence: `evidence-ad33e319-19ff-437e-82e1-9edd14f77aa4`;
-- artifact: `artifact-c765c1b4af484b783f7f605fa6ac6ca2924b1b55792efa41f644886024d0a651`;
-- PNG: 1280 × 720, 157,952 bytes;
-- SHA-256: `c765c1b4af484b783f7f605fa6ac6ca2924b1b55792efa41f644886024d0a651`;
-- accepted build revision: 1; and
-- privacy: canvas-only, no desktop pixels or audio, `private-unreviewed`.
-
-Playwright MCP then inspected all six renderer/presentation combinations at the same 1280 × 720
-viewport and DPR 1. The browser exposed `navigator.gpu`, vendor `apple`, and architecture
-`metal-3`. The path tracer reached its fixed 256-sample limit and reported its dense volume, two
-RGBA16F accumulation targets, four-ray-per-pixel ceiling, and 91-step traversal cap. Switching only
-the presentation preserved all 256 samples. Orbit and wheel input produced a `camera` accumulation
-reset.
-
-The standalone UI pass uploaded `public/models/lumen-observatory.vox`, then selected mesh,
-instances, and ray traversal without changing the source scene. All three reached `running`; mesh
-reported 1,737 greedy quads, instances reported 3,900 exposed faces, and ray traversal returned to
-256 samples. The final browser pass reported zero console errors. See the [visual evidence
-index](./evidence/README.md) for the checked-in images, hashes, environment, and limitations.
-
-## Defects found by live inspection
-
-The first wheel interaction produced `Unable to preventDefault inside passive event listener`.
-React had installed the canvas wheel handler as passive. The app now owns a native wheel listener
-with `{ passive: false }`; a regression test proves the option, cancellation, zoom callback, and
-cleanup. An inline favicon also removes the unrelated missing-icon console error.
-
-Antiky's browser log recorded aborted and conflicting inspection-transport requests while its
-managed browser and the separate Playwright MCP page were connected to the same development
-session. The active runtime's Antiky diagnostics remained empty, and a fresh standalone browser
-context had no errors. These transport messages are not treated as renderer diagnostics or GPU
-performance evidence.
+| `npm run build` | Passed: standalone Vite production bundle emitted |
+| `npm run antiky:build` | Passed: `dist/antiky.game.js` emitted |
+| `npm run measure` | Passed: reproduced fingerprint `753a16b1` and all three receipts above |
+| Anti-slop prose check | 0 findings across the current landing, evidence, comparison, and completion pages |
+| Anti-slop structure check | 0 findings across 96 files; test collection was independently proved by Vitest |
 
 ## Result and limits
 
-The greedy mesh is the keeper for a first Antiky renderer. It has the most conventional engine
-integration path and the cleanest controlled image. Face instances are a useful stylized and
-rapid-rebuild alternative. Dense DDA proves real progressive secondary-ray accumulation, but its
-256-sample image still has visible noise and overly dark enclosed faces.
+Greedy mesh remains the recommended first production direction because it produces conventional
+raster geometry and reduces the scene to 170,124 quads. Face instances preserve the voxel surface
+more directly with a smaller proof payload, at the cost of 286,522 submitted quads. Dense DDA now
+produces a credible cinematic comparison, but its 62,922,752-byte dense scene/material allocation,
+515-cell traversal cap, and 512-sample convergence remain research costs.
 
-The study demonstrates physically based shading and indirect-light transport; it does not yet
-produce a defensible hyperrealistic result. It also does not establish GPU frame-time, broad browser
-support, Tauri WebView behavior, transparent glass, denoising, sparse-world scaling, or a production
-Antiky voxel asset contract. Those are explicit merge or follow-on experiments, not hidden claims
-of this completed comparison.
+“Photorealistic” is the requested preset name and a statement of cinematic/PBR intent, not a claim
+that the output is indistinguishable from a photograph. Glass is still approximate. The study also
+does not establish GPU frame time, broad browser support, Tauri WebView behavior, denoising,
+sparse-world scaling, or a production Antiky voxel resource contract.
