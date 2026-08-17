@@ -7,6 +7,8 @@
     "fixture": "node --experimental-strip-types --experimental-transform-types scripts/write-built-in-vox.ts",
     "measure": "node --experimental-strip-types --experimental-transform-types scripts/measure-scene.ts",
     "dev": "npm run fixture && npm run shaders && vite --host 127.0.0.1 --port 4178",
+    "antiky:dev": "vite build --watch --config vite.antiky.config.ts",
+    "antiky:build": "npm run shaders:prod && tsc --noEmit && vite build --config vite.antiky.config.ts",
     "build": "npm run fixture && npm run shaders:prod && tsc --noEmit && vite build",
     "shaders": "brometal dev --once",
     "shaders:watch": "brometal dev",

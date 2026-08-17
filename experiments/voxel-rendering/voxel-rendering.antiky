@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "name": "Voxel Rendering Field Lab",
+  "development": {
+    "command": ["npm", "run", "antiky:dev"],
+    "shaderCommand": ["npm", "run", "shaders:watch"],
+    "workingDirectory": ".",
+    "url": "http://127.0.0.1:4178/",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "network": {
+    "host": "127.0.0.1",
+    "gamePort": 4178,
+    "inspectionPort": 4179
+  },
+  "build": {
+    "command": ["npm", "run", "antiky:build"],
+    "workingDirectory": "."
+  }
+}

@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ChangeEvent, PointerEvent, WheelEvent } from 'react';
+import type { ChangeEvent, PointerEvent } from 'react';
 
 import { createInstancesApproach } from './approaches/instances/index.ts';
 import { createMeshApproach } from './approaches/mesh/index.ts';
 import { createRaytraceApproach } from './approaches/raytrace/index.ts';
 import { GenerationFence } from './app/generation.ts';
+import { attachCanvasWheelZoom } from './app/canvas-wheel.ts';
 import { OrbitCamera } from './camera/orbit-camera.ts';
 import type {
   ApproachFactory,
@@ -90,6 +91,12 @@ export default function App() {
   useEffect(() => {
     styleRef.current = style;
   }, [style]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas === null) return undefined;
+    return attachCanvasWheelZoom(canvas, (deltaY) => cameraRef.current.zoom(deltaY * 0.018));
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -224,11 +231,6 @@ export default function App() {
     pointerRef.current = null;
   };
 
-  const zoom = (event: WheelEvent<HTMLCanvasElement>): void => {
-    event.preventDefault();
-    cameraRef.current.zoom(event.deltaY * 0.018);
-  };
-
   const approach = APPROACHES[approachId];
   const warning = scene.receipt.warnings[0];
   return (
@@ -254,7 +256,6 @@ export default function App() {
             onPointerMove={continueOrbit}
             onPointerUp={finishOrbit}
             onPointerCancel={finishOrbit}
-            onWheel={zoom}
           />
           <div className="stage-heading">
             <span>{approach.eyebrow}</span>
