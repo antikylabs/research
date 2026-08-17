@@ -1,0 +1,9 @@
+Shaders:
+
+- https://github.com/lachlanmcdonald/magicavoxel-shaders/tree/master
+
+Models:
+- https://github.com/kluchek/vox-models/tree/master
+- https://github.com/mikelovesrobots/mmmm
+- https://github.com/ephtracy/voxel-model
+- https://www.voxelmade.com/portfolio-item/tangled-tower/

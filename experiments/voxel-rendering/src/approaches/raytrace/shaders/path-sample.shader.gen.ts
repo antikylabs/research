@@ -252,8 +252,8 @@ fn fs_main(bm_in : BmVSOut) -> @location(0) vec4f {
   }
   let visibility = 1.0 - shadowHit;
   let diffuse0 = materialColor0.xyz * (bm_u.uSkyColor * 0.12 + bm_u.uSunColor * (directNdl * visibility));
-  let reflectedSun0 = reflect(bm_u.uSunDirection * (-1.0), shadingNormal0);
-  let specular0 = pow(max(dot(reflectedSun0, rayDirection0 * (-1.0)), 0.0), 6.0 + (1.0 - materialSurface0.x) * 90.0) * (0.04 + materialSurface0.y * 0.75 + materialSurface0.z * 0.6) * visibility;
+  let reflectedSun0 = reflect(bm_u.uSunDirection * -1.0, shadingNormal0);
+  let specular0 = pow(max(dot(reflectedSun0, rayDirection0 * -1.0), 0.0), 6.0 + (1.0 - materialSurface0.x) * 90.0) * (0.04 + materialSurface0.y * 0.75 + materialSurface0.z * 0.6) * visibility;
   var radiance = skyRadiance(rayDirection0, bm_u.uSkyColor, bm_u.uSunDirection, bm_u.uSunColor) * (1.0 - hit0) + materialColor0.xyz * (materialColor0.w * hit0) + diffuse0 * hit0 + bm_u.uSunColor * (specular0 * hit0);
   let random1 = vec2f(hash21(pixel + vec2f(bm_u.uSampleCount * 1.73 + 7.1, bm_u.uSeed + 3.7)), hash21(pixel + vec2f(bm_u.uSeed + 31.9, bm_u.uSampleCount * 2.17 + 11.3)));
   let rayDirection1 = bounceDirection(rayDirection0, shadingNormal0, random1, materialSurface0.x, materialSurface0.y, materialSurface0.z);

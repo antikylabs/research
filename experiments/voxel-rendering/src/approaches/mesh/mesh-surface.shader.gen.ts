@@ -99,7 +99,7 @@ fn fs_main(bm_in : BmVSOut) -> @location(0) vec4f {
   let geometry = geometrySmith(normal, view, light, roughness);
   let specular = fresnel * (distribution * geometry / max(4.0 * ndotv * ndotl, 0.0001));
   let diffuseWeight = (vec3f(1.0, 1.0, 1.0) - fresnel) * (1.0 - metallic);
-  let diffuse = diffuseWeight * bm_in.vColor * 0.31830988654751274;
+  let diffuse = diffuseWeight * bm_in.vColor * (1.0 / 3.14159265);
   let sunRadiance = bm_u.uSunColor * bm_u.uSunIntensity;
   let direct = (diffuse + specular) * sunRadiance * ndotl;
   let hemisphere = mix(bm_u.uGroundColor, bm_u.uSkyColor, normal.y * 0.5 + 0.5);
