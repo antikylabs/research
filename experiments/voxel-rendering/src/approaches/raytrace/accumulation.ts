@@ -13,6 +13,7 @@ export type RaytraceSampleDefinition = Readonly<{
   cameraRevision: number;
   viewportWidth: number;
   viewportHeight: number;
+  cameraSampleKey: string;
   materialLightKey: string;
   integratorKey: string;
   /** Presentation is deliberately tracked but excluded from sample validity. */
@@ -54,6 +55,7 @@ export function classifyRaytraceReset(
 ): Exclude<RaytraceResetReason, 'initial'> | null {
   if (previous.sceneFingerprint !== next.sceneFingerprint) return 'scene';
   if (previous.cameraRevision !== next.cameraRevision) return 'camera';
+  if (previous.cameraSampleKey !== next.cameraSampleKey) return 'camera';
   if (previous.viewportWidth !== next.viewportWidth
     || previous.viewportHeight !== next.viewportHeight) return 'viewport';
   if (previous.materialLightKey !== next.materialLightKey) return 'material-light';

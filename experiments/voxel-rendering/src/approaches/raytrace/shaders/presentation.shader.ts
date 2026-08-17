@@ -22,6 +22,7 @@ export default shader({
     uResolution: 'vec2',
     uExposure: 'float',
     uGraphic: 'float',
+    uFinalColorGrade: 'float',
   },
   varyings: { vUv: 'vec2' },
 
@@ -31,7 +32,7 @@ export default shader({
     return clip;
   },
 
-  fragment({ uAccumulation, uResolution, uExposure, uGraphic }, { vUv }) {
+  fragment({ uAccumulation, uResolution, uExposure, uGraphic, uFinalColorGrade }, { vUv }) {
     const hdr = texture(uAccumulation, vUv).xyz;
     const pixel = vec2(4 / uResolution.x, 4 / uResolution.y);
     let glow = texture(uAccumulation, vUv.add(vec2(pixel.x, 0))).xyz;
@@ -58,6 +59,10 @@ export default shader({
       0,
       1,
     );
-    return vec4(mix(physical, graphic, max(0, uGraphic)), 1);
+    return vec4(mix(
+      physical,
+      graphic,
+      max(0, uGraphic) * clamp(uFinalColorGrade, 0, 1),
+    ), 1);
   },
 });

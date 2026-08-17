@@ -10,27 +10,23 @@ import {
 
 import type { CameraSnapshot } from '../../camera/types.ts';
 import {
-  cameraFocusDistance,
   createSunViewProjection,
 } from '../../render/cinematic.ts';
+import { createLightingState } from '../../render/lighting.ts';
 import cinematicPresentShader from '../../render/cinematic-present.shader.gen.ts';
 import type {
   ApproachFactory,
-  PresentationStyle,
   RenderStats,
   VoxelApproach,
 } from '../../render/types.ts';
+import type { RenderSettings } from '../../studio/settings.ts';
 import { compileGreedyMesh } from './greedy-mesh.ts';
 import meshSurfaceShader from './mesh-surface.shader.gen.ts';
 
 const CLEAR_COLOR = Object.freeze([0, 0, 0, 1] as const);
-const SUN_DIRECTION = Object.freeze([-0.57, 0.63, 0.53] as const);
-const SUN_COLOR = Object.freeze([1, 0.46, 0.19] as const);
-const SKY_COLOR = Object.freeze([0.075, 0.17, 0.31] as const);
-const GROUND_COLOR = Object.freeze([0.13, 0.055, 0.026] as const);
-const FOG_COLOR = Object.freeze([0.17, 0.07, 0.055] as const);
 const SHADOW_SIZE = 1536;
 const TARGET_BYTES_PER_PIXEL = 12;
+const FOG_DENSITY = 0.00165;
 
 type MeshProgram = BroMetalProgram<
   (typeof meshSurfaceShader)['attributes'],
@@ -48,10 +44,6 @@ function asError(error: unknown): Error {
   return error instanceof Error ? error : new Error(String(error));
 }
 
-function sceneDiagonal(dimensions: readonly [number, number, number]): number {
-  return Math.max(1, Math.hypot(dimensions[0], dimensions[1], dimensions[2]));
-}
-
 function uploadImmutableGeometry(program: MeshProgram, mesh: ReturnType<typeof compileGreedyMesh>): void {
   if (mesh.receipt.indices === 0) return;
   program.attributes.aPosition.set(mesh.positions);
@@ -59,6 +51,7 @@ function uploadImmutableGeometry(program: MeshProgram, mesh: ReturnType<typeof c
   program.attributes.aColor.set(mesh.colors);
   program.attributes.aMaterial.set(mesh.materials);
   program.attributes.aEmissive.set(mesh.emissive);
+  program.attributes.aWater.set(mesh.water);
   program.attributes.aAo.set(mesh.ao);
   program.setIndices(mesh.indices);
 }
@@ -67,6 +60,7 @@ function uploadImmutableGeometry(program: MeshProgram, mesh: ReturnType<typeof c
 export const createMeshApproach: ApproachFactory = async (options): Promise<VoxelApproach> => {
   let renderer: Renderer | null = null;
   let surfaceProgram: MeshProgram | null = null;
+  let transparentProgram: MeshProgram | null = null;
   let presentationProgram: PresentationProgram | null = null;
   let shadowTarget: RenderTarget | null = null;
   let sceneTarget: RenderTarget | null = null;
@@ -79,37 +73,37 @@ export const createMeshApproach: ApproachFactory = async (options): Promise<Voxe
       onError: (error) => options.onError(asError(error)),
     });
     surfaceProgram = createProgram(renderer, meshSurfaceShader);
+    transparentProgram = createProgram(renderer, meshSurfaceShader, { blend: 'alpha' });
     presentationProgram = createProgram(renderer, cinematicPresentShader);
     shadowTarget = createRenderTarget(renderer, { width: SHADOW_SIZE, height: SHADOW_SIZE, depth: true });
-    const mesh = compileGreedyMesh(options.scene);
+    const mesh = compileGreedyMesh(options.scene, 'opaque');
+    const transparentMesh = compileGreedyMesh(options.scene, 'transmissive');
     uploadImmutableGeometry(surfaceProgram, mesh);
+    uploadImmutableGeometry(transparentProgram, transparentMesh);
     const fullscreen = createPlane({ width: 2, height: 2 });
     presentationProgram.attributes.aPosition.set(fullscreen.positions);
     presentationProgram.setIndices(fullscreen.indices);
 
-    const diagonal = sceneDiagonal(options.scene.dimensions);
-    surfaceProgram.uniforms.uLightViewProjection.set(createSunViewProjection(options.scene, SUN_DIRECTION));
-    surfaceProgram.uniforms.uSunDirection.set(SUN_DIRECTION);
-    surfaceProgram.uniforms.uSunColor.set(SUN_COLOR);
-    surfaceProgram.uniforms.uSunIntensity.set(4.8);
-    surfaceProgram.uniforms.uSkyColor.set(SKY_COLOR);
-    surfaceProgram.uniforms.uGroundColor.set(GROUND_COLOR);
-    surfaceProgram.uniforms.uAmbientIntensity.set(0.56);
-    surfaceProgram.uniforms.uFogColor.set(FOG_COLOR);
-    surfaceProgram.uniforms.uFogDensity.set(0.2 / diagonal);
+    surfaceProgram.uniforms.uFogDensity.set(FOG_DENSITY);
     surfaceProgram.uniforms.uShadowTexel.set([1 / SHADOW_SIZE, 1 / SHADOW_SIZE]);
+    transparentProgram.uniforms.uFogDensity.set(FOG_DENSITY);
+    transparentProgram.uniforms.uShadowTexel.set([1 / SHADOW_SIZE, 1 / SHADOW_SIZE]);
 
     const ownedRenderer = renderer;
     const ownedSurface = surfaceProgram;
+    const ownedTransparent = transparentProgram;
     const ownedPresentation = presentationProgram;
     const ownedShadow = shadowTarget;
     const hasGeometry = mesh.receipt.indices > 0;
+    const hasTransparent = transparentMesh.receipt.indices > 0;
     const uniformBytesPerFrame = meshSurfaceShader.layout.uniformBlockSize
+      * (hasTransparent ? 2 : 1)
       + cinematicPresentShader.layout.uniformBlockSize;
     let disposed = false;
-    let shadowReady = false;
-    let currentStyle: PresentationStyle = options.initialStyle;
+    let shadowKey = '';
+    let currentSettings: RenderSettings = options.initialSettings;
     let currentCamera: CameraSnapshot | null = null;
+    let currentElapsedSeconds = 0;
 
     const ensureSceneTarget = (): RenderTarget => {
       const width = Math.max(1, ownedRenderer.canvas.width);
@@ -126,34 +120,79 @@ export const createMeshApproach: ApproachFactory = async (options): Promise<Voxe
     stopLoop = ownedRenderer.loop(() => {
       if (disposed || currentCamera === null) return;
       const target = ensureSceneTarget();
-      if (hasGeometry && !shadowReady) {
+      const lighting = createLightingState(
+        currentSettings.lighting.timeOfDay,
+        currentSettings.lighting.moonEnabled,
+      );
+      const primaryDirection = lighting.sunIntensity > 0.001
+        ? lighting.sunDirection
+        : lighting.moonDirection;
+      const lightViewProjection = createSunViewProjection(options.scene, primaryDirection);
+      for (const program of [ownedSurface, ownedTransparent]) {
+        program.uniforms.uLightViewProjection.set(lightViewProjection);
+        program.uniforms.uSunDirection.set(lighting.sunDirection);
+        program.uniforms.uSunColor.set(lighting.sunColor);
+        program.uniforms.uSunIntensity.set(lighting.sunIntensity);
+        program.uniforms.uMoonDirection.set(lighting.moonDirection);
+        program.uniforms.uMoonColor.set(lighting.moonColor);
+        program.uniforms.uMoonIntensity.set(lighting.moonIntensity);
+        program.uniforms.uSkyColor.set(lighting.skyColor);
+        program.uniforms.uGroundColor.set(lighting.groundColor);
+        program.uniforms.uAmbientIntensity.set(lighting.ambientIntensity);
+        program.uniforms.uFogColor.set(lighting.fogColor);
+      }
+      if (hasGeometry && shadowKey !== lighting.key) {
         ownedSurface.uniforms.uShadowMap.set(target.texture);
         ownedSurface.uniforms.uShadowPass.set(1);
+        ownedSurface.uniforms.uTransparentPass.set(0);
         ownedRenderer.drawTo(
           ownedShadow,
           () => ownedSurface.draw(),
           { clear: [1, 1, 1, 1] },
         );
-        shadowReady = true;
+        shadowKey = lighting.key;
       }
-      if (hasGeometry) {
-        ownedSurface.uniforms.uViewProjection.set(currentCamera.viewProjection);
-        ownedSurface.uniforms.uCameraPosition.set(currentCamera.position);
-        ownedSurface.uniforms.uCameraForward.set(currentCamera.forward);
-        ownedSurface.uniforms.uShadowMap.set(ownedShadow.texture);
-        ownedSurface.uniforms.uShadowPass.set(0);
-        ownedSurface.uniforms.uStylized.set(currentStyle === 'graphic' ? 1 : 0);
-        ownedRenderer.drawTo(target, () => ownedSurface.draw(), { clear: [0, 0, 0, 0] });
-      } else {
-        ownedRenderer.drawTo(target, () => {}, { clear: [0, 0, 0, 0] });
+      for (const [program, transparent] of [
+        [ownedSurface, false],
+        [ownedTransparent, true],
+      ] as const) {
+        program.uniforms.uViewProjection.set(currentCamera.viewProjection);
+        program.uniforms.uCameraPosition.set(currentCamera.position);
+        program.uniforms.uCameraForward.set(currentCamera.forward);
+        program.uniforms.uShadowMap.set(ownedShadow.texture);
+        program.uniforms.uShadowPass.set(0);
+        program.uniforms.uTransparentPass.set(Number(transparent));
+        program.uniforms.uStylized.set(currentSettings.style === 'graphic' ? 1 : 0);
+        program.uniforms.uMaterialVariation.set(currentSettings.materialVariation);
+        program.uniforms.uTime.set(currentElapsedSeconds);
       }
+      ownedRenderer.drawTo(target, () => {
+        if (hasGeometry) ownedSurface.draw();
+        if (hasTransparent) ownedTransparent.draw();
+      }, { clear: [0, 0, 0, 0] });
       ownedPresentation.uniforms.uScene.set(target.texture);
       ownedPresentation.uniforms.uResolution.set([target.width, target.height]);
-      ownedPresentation.uniforms.uFocusDistance.set(cameraFocusDistance(currentCamera));
-      ownedPresentation.uniforms.uFocusRange.set(currentStyle === 'graphic' ? 15 : 14);
-      ownedPresentation.uniforms.uAperture.set(currentStyle === 'graphic' ? 0.55 : 0.8);
-      ownedPresentation.uniforms.uExposure.set(currentStyle === 'graphic' ? 1.12 : 1.15);
-      ownedPresentation.uniforms.uStylized.set(currentStyle === 'graphic' ? 1 : 0);
+      ownedPresentation.uniforms.uFocusDistance.set(currentSettings.depthOfField.focusDistance);
+      ownedPresentation.uniforms.uFocusRange.set(
+        Math.max(1, currentSettings.depthOfField.focusDistance * 0.08),
+      );
+      ownedPresentation.uniforms.uAperture.set(currentSettings.depthOfField.aperture);
+      ownedPresentation.uniforms.uDofEnabled.set(Number(currentSettings.depthOfField.enabled));
+      ownedPresentation.uniforms.uExposure.set(currentSettings.exposure);
+      ownedPresentation.uniforms.uStylized.set(currentSettings.style === 'graphic' ? 1 : 0);
+      ownedPresentation.uniforms.uFinalColorGrade.set(Number(currentSettings.finalColorGrade));
+      ownedPresentation.uniforms.uSkyColor.set(lighting.skyColor);
+      ownedPresentation.uniforms.uFogColor.set(lighting.fogColor);
+      ownedPresentation.uniforms.uSunDirection.set(lighting.sunDirection);
+      ownedPresentation.uniforms.uSunColor.set(lighting.sunColor);
+      ownedPresentation.uniforms.uSunIntensity.set(lighting.sunIntensity);
+      ownedPresentation.uniforms.uMoonDirection.set(lighting.moonDirection);
+      ownedPresentation.uniforms.uMoonColor.set(lighting.moonColor);
+      ownedPresentation.uniforms.uMoonIntensity.set(lighting.moonIntensity);
+      ownedPresentation.uniforms.uCameraForward.set(currentCamera.forward);
+      ownedPresentation.uniforms.uCameraRight.set(currentCamera.right);
+      ownedPresentation.uniforms.uCameraUp.set(currentCamera.up);
+      ownedPresentation.uniforms.uTanHalfFov.set(Math.tan(currentCamera.verticalFovRadians * 0.5));
       ownedPresentation.draw();
     });
     const ownedStopLoop = stopLoop;
@@ -164,21 +203,22 @@ export const createMeshApproach: ApproachFactory = async (options): Promise<Voxe
         approach: 'mesh',
         implementation: 'shadowed AO greedy mesh + cinematic HDR',
         voxels: mesh.receipt.voxels,
-        primitives: mesh.receipt.triangles,
-        drawCalls: hasGeometry ? 2 : 1,
-        oneTimeBytes: mesh.receipt.bufferBytes
+        primitives: mesh.receipt.triangles + transparentMesh.receipt.triangles,
+        drawCalls: Number(hasGeometry) + Number(hasTransparent) + 1,
+        oneTimeBytes: mesh.receipt.bufferBytes + transparentMesh.receipt.bufferBytes
           + targetBytes
           + SHADOW_SIZE * SHADOW_SIZE * TARGET_BYTES_PER_PIXEL,
         uploadBytesPerFrame: uniformBytesPerFrame,
-        detail: `${mesh.receipt.quads.toLocaleString()} greedy quads · ${mesh.receipt.exposedUnitFaces.toLocaleString()} exposed faces · 1536² soft sun shadow · HDR bloom + depth of field · ${currentStyle} grade · receipt ${mesh.receipt.fingerprint}`,
+        detail: `${mesh.receipt.quads.toLocaleString()} opaque + ${transparentMesh.receipt.quads.toLocaleString()} transmissive quads · alpha water/glass · 1536² relightable shadow · ${currentSettings.depthOfField.enabled ? 'DoF on' : 'DoF off'} · ${currentSettings.style} materials · ${currentSettings.lighting.timeOfDay.toFixed(2)}h · receipts ${mesh.receipt.fingerprint}/${transparentMesh.receipt.fingerprint}`,
       });
     };
 
     return Object.freeze({
-      frame(_elapsedSeconds, camera, style): void {
+      frame(elapsedSeconds, camera, settings): void {
         if (disposed) return;
         currentCamera = camera;
-        currentStyle = style;
+        currentSettings = settings;
+        currentElapsedSeconds = elapsedSeconds;
       },
       stats,
       dispose(): void {
@@ -189,6 +229,7 @@ export const createMeshApproach: ApproachFactory = async (options): Promise<Voxe
           sceneTarget?.dispose();
           ownedShadow.dispose();
           ownedPresentation.dispose();
+          ownedTransparent.dispose();
           ownedSurface.dispose();
         } finally {
           ownedRenderer.destroy();
@@ -200,6 +241,7 @@ export const createMeshApproach: ApproachFactory = async (options): Promise<Voxe
       stopLoop?.();
       shadowTarget?.dispose();
       presentationProgram?.dispose();
+      transparentProgram?.dispose();
       surfaceProgram?.dispose();
     } finally {
       renderer?.destroy();

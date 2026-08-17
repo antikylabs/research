@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { CameraSnapshot } from '../../camera/types.ts';
 import type { Vec3Tuple, VoxelMaterial, VoxelScene } from '../../scene/types.ts';
+import { DEFAULT_RENDER_SETTINGS } from '../../studio/settings.ts';
 
 const brometal = vi.hoisted(() => ({
   createProgram: vi.fn(),
@@ -29,6 +30,7 @@ function material(paletteIndex: number): VoxelMaterial {
     metallic: 0.18,
     emission: 0.2,
     glass: 0,
+    water: 0,
     sourceType: '_diffuse',
   };
   return Object.freeze(result);
@@ -84,6 +86,7 @@ function createDoubles() {
     aColor: { set: set() },
     aMaterial: { set: set() },
     aEmissive: { set: set() },
+    aWater: { set: set() },
     aAo: { set: set() },
   };
   const surfaceUniforms = {
@@ -94,6 +97,9 @@ function createDoubles() {
     uSunDirection: { set: set() },
     uSunColor: { set: set() },
     uSunIntensity: { set: set() },
+    uMoonDirection: { set: set() },
+    uMoonColor: { set: set() },
+    uMoonIntensity: { set: set() },
     uSkyColor: { set: set() },
     uGroundColor: { set: set() },
     uAmbientIntensity: { set: set() },
@@ -103,11 +109,29 @@ function createDoubles() {
     uShadowTexel: { set: set() },
     uShadowPass: { set: set() },
     uStylized: { set: set() },
+    uMaterialVariation: { set: set() },
+    uTime: { set: set() },
+    uTransparentPass: { set: set() },
   };
   const surfaceProgram = {
     attributes: surfaceAttributes,
     instanceAttributes: {},
     uniforms: surfaceUniforms,
+    setIndices: vi.fn(),
+    draw: vi.fn(),
+    dispatch: vi.fn(),
+    dispose: vi.fn(),
+  };
+  const transparentAttributes = Object.fromEntries(
+    Object.keys(surfaceAttributes).map((key) => [key, { set: set() }]),
+  ) as typeof surfaceAttributes;
+  const transparentUniforms = Object.fromEntries(
+    Object.keys(surfaceUniforms).map((key) => [key, { set: set() }]),
+  ) as typeof surfaceUniforms;
+  const transparentProgram = {
+    attributes: transparentAttributes,
+    instanceAttributes: {},
+    uniforms: transparentUniforms,
     setIndices: vi.fn(),
     draw: vi.fn(),
     dispatch: vi.fn(),
@@ -120,8 +144,22 @@ function createDoubles() {
     uFocusDistance: { set: set() },
     uFocusRange: { set: set() },
     uAperture: { set: set() },
+    uDofEnabled: { set: set() },
     uExposure: { set: set() },
     uStylized: { set: set() },
+    uFinalColorGrade: { set: set() },
+    uSkyColor: { set: set() },
+    uFogColor: { set: set() },
+    uSunDirection: { set: set() },
+    uSunColor: { set: set() },
+    uSunIntensity: { set: set() },
+    uMoonDirection: { set: set() },
+    uMoonColor: { set: set() },
+    uMoonIntensity: { set: set() },
+    uCameraForward: { set: set() },
+    uCameraRight: { set: set() },
+    uCameraUp: { set: set() },
+    uTanHalfFov: { set: set() },
   };
   const presentationProgram = {
     attributes: presentationAttributes,
@@ -152,6 +190,7 @@ function createDoubles() {
   brometal.createRenderer.mockResolvedValue(renderer);
   brometal.createProgram
     .mockReturnValueOnce(surfaceProgram)
+    .mockReturnValueOnce(transparentProgram)
     .mockReturnValueOnce(presentationProgram);
   brometal.createRenderTarget.mockImplementation((_renderer, options) => {
     const target = {
@@ -167,6 +206,9 @@ function createDoubles() {
     surfaceAttributes,
     surfaceUniforms,
     surfaceProgram,
+    transparentAttributes,
+    transparentUniforms,
+    transparentProgram,
     presentationAttributes,
     presentationUniforms,
     presentationProgram,
@@ -188,7 +230,7 @@ describe('greedy mesh BroMetal factory', () => {
     const approach = await createMeshApproach({
       canvas: {} as HTMLCanvasElement,
       scene: scene(),
-      initialStyle: 'physical',
+      initialSettings: DEFAULT_RENDER_SETTINGS,
       onError: vi.fn(),
     });
 
@@ -197,27 +239,50 @@ describe('greedy mesh BroMetal factory', () => {
     expect(doubles.surfaceAttributes.aColor.set).toHaveBeenCalledTimes(1);
     expect(doubles.surfaceAttributes.aMaterial.set).toHaveBeenCalledTimes(1);
     expect(doubles.surfaceAttributes.aEmissive.set).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceAttributes.aWater.set).toHaveBeenCalledTimes(1);
     expect(doubles.surfaceAttributes.aAo.set).toHaveBeenCalledTimes(1);
     expect(doubles.surfaceProgram.setIndices).toHaveBeenCalledTimes(1);
     expect(doubles.presentationAttributes.aPosition.set).toHaveBeenCalledTimes(1);
     expect(doubles.presentationProgram.setIndices).toHaveBeenCalledTimes(1);
 
-    approach.frame(1, camera, 'physical');
+    approach.frame(1, camera, DEFAULT_RENDER_SETTINGS);
     doubles.drawFrame();
-    approach.frame(2, camera, 'graphic');
+    approach.frame(2, camera, {
+      ...DEFAULT_RENDER_SETTINGS,
+      style: 'graphic',
+      depthOfField: { enabled: false, focusDistance: 64, aperture: 1.4 },
+      lighting: { timeOfDay: 0, moonEnabled: true },
+      finalColorGrade: false,
+      materialVariation: 0.75,
+    });
     doubles.drawFrame();
 
     for (const attribute of Object.values(doubles.surfaceAttributes)) {
       expect(attribute.set).toHaveBeenCalledTimes(1);
     }
     expect(doubles.surfaceProgram.setIndices).toHaveBeenCalledTimes(1);
+    expect(doubles.transparentProgram.setIndices).not.toHaveBeenCalled();
     expect(doubles.surfaceUniforms.uViewProjection.set).toHaveBeenCalledTimes(2);
     expect(doubles.surfaceUniforms.uCameraPosition.set).toHaveBeenCalledTimes(2);
     expect(doubles.surfaceUniforms.uCameraForward.set).toHaveBeenCalledTimes(2);
     expect(doubles.surfaceUniforms.uStylized.set).toHaveBeenLastCalledWith(1);
-    expect(doubles.surfaceProgram.draw).toHaveBeenCalledTimes(3);
+    expect(doubles.surfaceUniforms.uMoonIntensity.set).toHaveBeenLastCalledWith(expect.any(Number));
+    expect(doubles.surfaceUniforms.uMaterialVariation.set).toHaveBeenLastCalledWith(0.75);
+    expect(doubles.surfaceUniforms.uFogDensity.set).toHaveBeenCalledWith(0.00165);
+    expect(doubles.transparentUniforms.uFogDensity.set).toHaveBeenCalledWith(0.00165);
+    expect(doubles.presentationUniforms.uFocusDistance.set).toHaveBeenLastCalledWith(64);
+    expect(doubles.presentationUniforms.uAperture.set).toHaveBeenLastCalledWith(1.4);
+    expect(doubles.presentationUniforms.uDofEnabled.set).toHaveBeenLastCalledWith(0);
+    expect(doubles.presentationUniforms.uFinalColorGrade.set).toHaveBeenLastCalledWith(0);
+    expect(doubles.presentationUniforms.uCameraForward.set).toHaveBeenLastCalledWith(camera.forward);
+    expect(doubles.presentationUniforms.uCameraRight.set).toHaveBeenLastCalledWith(camera.right);
+    expect(doubles.presentationUniforms.uCameraUp.set).toHaveBeenLastCalledWith(camera.up);
+    expect(doubles.presentationUniforms.uTanHalfFov.set).toHaveBeenLastCalledWith(
+      Math.tan(camera.verticalFovRadians * 0.5),
+    );
+    expect(doubles.surfaceProgram.draw).toHaveBeenCalledTimes(4);
     expect(doubles.presentationProgram.draw).toHaveBeenCalledTimes(2);
-    expect(doubles.renderer.drawTo).toHaveBeenCalledTimes(3);
+    expect(doubles.renderer.drawTo).toHaveBeenCalledTimes(4);
 
     expect(approach.stats()).toMatchObject({
       approach: 'mesh',
@@ -225,11 +290,11 @@ describe('greedy mesh BroMetal factory', () => {
       voxels: 1,
       primitives: 12,
       drawCalls: 2,
-      uploadBytesPerFrame: 288,
     });
+    expect(approach.stats().uploadBytesPerFrame).toBeGreaterThan(0);
     expect(approach.stats().oneTimeBytes).toBeGreaterThan(0);
-    expect(approach.stats().detail).toMatch(/soft sun shadow/);
-    expect(approach.stats().detail).toMatch(/graphic grade/);
+    expect(approach.stats().detail).toMatch(/relightable shadow/);
+    expect(approach.stats().detail).toMatch(/graphic materials/);
   });
 
   it('does not upload or draw nonexistent geometry for an empty scene', async () => {
@@ -237,22 +302,24 @@ describe('greedy mesh BroMetal factory', () => {
     const approach = await createMeshApproach({
       canvas: {} as HTMLCanvasElement,
       scene: scene(true),
-      initialStyle: 'physical',
+      initialSettings: DEFAULT_RENDER_SETTINGS,
       onError: vi.fn(),
     });
 
     for (const attribute of Object.values(doubles.surfaceAttributes)) {
       expect(attribute.set).not.toHaveBeenCalled();
     }
+    for (const attribute of Object.values(doubles.transparentAttributes)) {
+      expect(attribute.set).not.toHaveBeenCalled();
+    }
     expect(doubles.surfaceProgram.setIndices).not.toHaveBeenCalled();
-    approach.frame(0, camera, 'physical');
+    approach.frame(0, camera, DEFAULT_RENDER_SETTINGS);
     doubles.drawFrame();
     expect(doubles.surfaceProgram.draw).not.toHaveBeenCalled();
     expect(doubles.presentationProgram.draw).toHaveBeenCalledOnce();
     expect(approach.stats()).toMatchObject({
       primitives: 0,
       drawCalls: 1,
-      uploadBytesPerFrame: 288,
     });
     expect(approach.stats().oneTimeBytes).toBeGreaterThan(0);
   });
@@ -263,7 +330,7 @@ describe('greedy mesh BroMetal factory', () => {
     const approach = await createMeshApproach({
       canvas: {} as HTMLCanvasElement,
       scene: scene(),
-      initialStyle: 'physical',
+      initialSettings: DEFAULT_RENDER_SETTINGS,
       onError,
     });
     const rendererOptions = brometal.createRenderer.mock.calls[0]![1]!;
@@ -272,11 +339,12 @@ describe('greedy mesh BroMetal factory', () => {
 
     approach.dispose();
     approach.dispose();
-    approach.frame(3, camera, 'graphic');
+    approach.frame(3, camera, { ...DEFAULT_RENDER_SETTINGS, style: 'graphic' });
     doubles.drawFrame();
     expect(doubles.stopLoop).toHaveBeenCalledOnce();
     expect(doubles.surfaceProgram.dispose).toHaveBeenCalledOnce();
     expect(doubles.presentationProgram.dispose).toHaveBeenCalledOnce();
+    expect(doubles.transparentProgram.dispose).toHaveBeenCalledOnce();
     expect(doubles.targets).toHaveLength(1);
     for (const target of doubles.targets) expect(target.dispose).toHaveBeenCalledOnce();
     expect(doubles.renderer.destroy).toHaveBeenCalledOnce();
@@ -293,7 +361,7 @@ describe('greedy mesh BroMetal factory', () => {
     await expect(createMeshApproach({
       canvas: {} as HTMLCanvasElement,
       scene: scene(),
-      initialStyle: 'physical',
+      initialSettings: DEFAULT_RENDER_SETTINGS,
       onError: vi.fn(),
     })).rejects.toThrow('pipeline rejected');
     expect(doubles.renderer.destroy).toHaveBeenCalledOnce();

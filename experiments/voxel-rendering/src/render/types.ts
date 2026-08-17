@@ -1,5 +1,6 @@
 import type { CameraSnapshot } from '../camera/types.ts';
 import type { VoxelScene } from '../scene/types.ts';
+import type { RenderSettings } from '../studio/settings.ts';
 
 export type ApproachId = 'mesh' | 'instances' | 'raytrace';
 export type PresentationStyle = 'physical' | 'graphic';
@@ -18,7 +19,7 @@ export type RenderStats = Readonly<{
 }>;
 
 export type VoxelApproach = Readonly<{
-  frame(elapsedSeconds: number, camera: CameraSnapshot, style: PresentationStyle): void;
+  frame(elapsedSeconds: number, camera: CameraSnapshot, settings: RenderSettings): void;
   stats(): RenderStats;
   dispose(): void;
 }>;
@@ -26,9 +27,8 @@ export type VoxelApproach = Readonly<{
 export type ApproachOptions = Readonly<{
   canvas: HTMLCanvasElement;
   scene: VoxelScene;
-  initialStyle: PresentationStyle;
+  initialSettings: RenderSettings;
   onError(error: Error): void;
 }>;
 
 export type ApproachFactory = (options: ApproachOptions) => Promise<VoxelApproach>;
-

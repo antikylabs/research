@@ -7,6 +7,7 @@ import {
 } from '../../scene/types.ts';
 
 export type FaceCode = 0 | 1 | 2 | 3 | 4 | 5;
+export type InstanceMaterialPass = 'all' | 'opaque' | 'transmissive';
 
 export type FaceDefinition = Readonly<{
   code: FaceCode;
@@ -119,6 +120,8 @@ export type FaceInstanceBuild = Readonly<{
   colorRoughness: Float32Array<ArrayBuffer>;
   /** Metallic, emission, glass approximation, normalized palette index. */
   materialPalette: Float32Array<ArrayBuffer>;
+  /** Water weight, separate from generic glass transmission. */
+  water: Float32Array<ArrayBuffer>;
   /** AO for shared corners 0, 1, 2, 3, in the 0..1 range. */
   cornerAo: Float32Array<ArrayBuffer>;
   receipt: FaceInstanceReceipt;
@@ -233,28 +236,44 @@ function hashBuild(sceneFingerprint: string, arrays: readonly Float32Array<Array
   return hash.toString(16).padStart(8, '0');
 }
 
-export function buildFaceInstances(scene: VoxelScene): FaceInstanceBuild {
+export function buildFaceInstances(
+  scene: VoxelScene,
+  pass: InstanceMaterialPass = 'all',
+): FaceInstanceBuild {
   validateScene(scene);
   const cells = canonicalCells(scene);
   const occupied = new Set<string>();
+  const cellByKey = new Map<string, VoxelCell>();
   for (const cell of cells) {
     validateCell(scene, cell);
     const key = voxelKey(cell.x, cell.y, cell.z);
     if (occupied.has(key)) throw new Error(`Instance surface received duplicate voxel ${key}.`);
     occupied.add(key);
+    cellByKey.set(key, cell);
   }
 
   const positions: number[] = [];
   const faceCodes: number[] = [];
   const colorRoughness: number[] = [];
   const materialPalette: number[] = [];
+  const water: number[] = [];
   const cornerAo: number[] = [];
+  let includedCells = 0;
 
   for (const cell of cells) {
     const material = scene.materials[cell.paletteIndex]!;
+    const transmissive = material.glass > 0.5;
+    if (pass === 'opaque' && transmissive) continue;
+    if (pass === 'transmissive' && !transmissive) continue;
+    includedCells += 1;
     const center = voxelWorldCenter(scene, cell);
     for (const face of FACE_DEFINITIONS) {
-      if (occupied.has(offsetKey(cell, face.normal))) continue;
+      const neighborKey = offsetKey(cell, face.normal);
+      const neighbor = cellByKey.get(neighborKey);
+      if (pass === 'all' && neighbor !== undefined) continue;
+      if (pass === 'opaque' && neighbor !== undefined
+        && scene.materials[neighbor.paletteIndex]!.glass <= 0.5) continue;
+      if (pass === 'transmissive' && neighbor?.paletteIndex === cell.paletteIndex) continue;
 
       positions.push(center[0], center[1], center[2]);
       faceCodes.push(face.code);
@@ -270,6 +289,7 @@ export function buildFaceInstances(scene: VoxelScene): FaceInstanceBuild {
         material.glass,
         material.paletteIndex / 255,
       );
+      water.push(material.water);
       for (const [u, v] of SHARED_CORNERS) {
         cornerAo.push(cornerOcclusion(occupied, cell, face, Math.sign(u), Math.sign(v)));
       }
@@ -280,19 +300,22 @@ export function buildFaceInstances(scene: VoxelScene): FaceInstanceBuild {
   const immutableFaceCodes = new Float32Array(faceCodes);
   const immutableColorRoughness = new Float32Array(colorRoughness);
   const immutableMaterialPalette = new Float32Array(materialPalette);
+  const immutableWater = new Float32Array(water);
   const immutableCornerAo = new Float32Array(cornerAo);
   const exposedFaces = immutableFaceCodes.length;
-  const candidateFaces = cells.length * FACE_DEFINITIONS.length;
+  const candidateFaces = includedCells * FACE_DEFINITIONS.length;
   const instanceBytes = immutablePositions.byteLength
     + immutableFaceCodes.byteLength
     + immutableColorRoughness.byteLength
     + immutableMaterialPalette.byteLength
+    + immutableWater.byteLength
     + immutableCornerAo.byteLength;
   const fingerprint = hashBuild(scene.fingerprint, [
     immutablePositions,
     immutableFaceCodes,
     immutableColorRoughness,
     immutableMaterialPalette,
+    immutableWater,
     immutableCornerAo,
   ]);
   const receipt: FaceInstanceReceipt = Object.freeze({
@@ -314,6 +337,7 @@ export function buildFaceInstances(scene: VoxelScene): FaceInstanceBuild {
     faceCodes: immutableFaceCodes,
     colorRoughness: immutableColorRoughness,
     materialPalette: immutableMaterialPalette,
+    water: immutableWater,
     cornerAo: immutableCornerAo,
     receipt,
   });

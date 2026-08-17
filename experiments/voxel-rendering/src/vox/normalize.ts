@@ -37,6 +37,7 @@ export function materialTableFromPalette(
       metallic: sourceType === '_metal' ? weight : 0,
       emission: emissionScale,
       glass: sourceType === '_glass' ? weight : 0,
+      water: sourceType === '_water' || source._antiky_water === '1' ? weight : 0,
       sourceType,
     });
   }));
@@ -75,7 +76,9 @@ export function normalizeVoxModel(
     paletteIndex: voxel.paletteIndex,
   })));
   const warnings = [...document.warnings];
-  if (document.materials.size > 0) warnings.push('MATL values use the experiment mapping; glass is opaque/tinted.');
+  if (document.materials.size > 0) {
+    warnings.push('MATL values use the experiment mapping; glass and water remain bounded optical approximations.');
+  }
   return Object.freeze({
     name,
     dimensions,

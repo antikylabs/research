@@ -24,6 +24,7 @@ const material = (
     metallic: 0,
     emission: 0,
     glass: 0,
+    water: 0,
     sourceType: '_diffuse',
     ...overrides,
   };
@@ -78,8 +79,9 @@ function expectIntegrity(mesh: GreedyMesh): void {
   expect(mesh.positions).toHaveLength(vertices * 3);
   expect(mesh.normals).toHaveLength(vertices * 3);
   expect(mesh.colors).toHaveLength(vertices * 3);
-  expect(mesh.materials).toHaveLength(vertices * 2);
+  expect(mesh.materials).toHaveLength(vertices * 4);
   expect(mesh.emissive).toHaveLength(vertices);
+  expect(mesh.water).toHaveLength(vertices);
   expect(mesh.ao).toHaveLength(vertices);
   expect(mesh.indices).toHaveLength(mesh.receipt.triangles * 3);
   expect(mesh.receipt.indices).toBe(mesh.indices.length);
@@ -89,6 +91,7 @@ function expectIntegrity(mesh: GreedyMesh): void {
       + mesh.colors.byteLength
       + mesh.materials.byteLength
       + mesh.emissive.byteLength
+      + mesh.water.byteLength
       + mesh.ao.byteLength
       + mesh.indices.byteLength,
   );
@@ -99,6 +102,7 @@ function expectIntegrity(mesh: GreedyMesh): void {
     ...mesh.colors,
     ...mesh.materials,
     ...mesh.emissive,
+    ...mesh.water,
     ...mesh.ao,
   ]) expect(Number.isFinite(value)).toBe(true);
   for (const index of mesh.indices) expect(index).toBeLessThan(vertices);
@@ -178,9 +182,11 @@ describe('AO-aware greedy surface mesh', () => {
     expect(new Set(mesh.normals)).toEqual(new Set([-1, 0, 1]));
     expect(new Set(mesh.colors).size).toBe(1);
     expect(mesh.colors[0]).toBeCloseTo(0.214);
-    expect(new Set(mesh.materials).size).toBe(2);
+    expect(new Set(mesh.materials).size).toBe(3);
     expect(mesh.materials[0]).toBeCloseTo(0.7);
     expect(mesh.materials[1]).toBe(0);
+    expect(mesh.materials[2]).toBe(0);
+    expect(mesh.materials[3]).toBeCloseTo(7 / 255);
     expect(new Set(mesh.emissive)).toEqual(new Set([0]));
     expect(new Set(mesh.ao)).toEqual(new Set([1]));
     expectIntegrity(mesh);
@@ -214,6 +220,36 @@ describe('AO-aware greedy surface mesh', () => {
     expect(mesh.receipt.exposedUnitFaces).toBe(10);
     expect(mesh.receipt.quads).toBe(10);
     expect(quadsWithNormal(mesh, [0, 1, 0])).toHaveLength(2);
+  });
+
+  it('splits opaque and transmissive boundaries without deleting either surface', () => {
+    const fixture = scene([
+      { x: 0, y: 0, z: 0, paletteIndex: 3 },
+      { x: 1, y: 0, z: 0, paletteIndex: 17 },
+    ], [2, 1, 1], {
+      17: { glass: 0.94, water: 1, sourceType: '_water' },
+    });
+
+    const opaque = compileGreedyMesh(fixture, 'opaque');
+    const transmissive = compileGreedyMesh(fixture, 'transmissive');
+
+    expect(opaque.receipt.exposedUnitFaces).toBe(6);
+    expect(transmissive.receipt.exposedUnitFaces).toBe(6);
+    expect(new Set(opaque.water)).toEqual(new Set([0]));
+    expect(new Set(transmissive.water)).toEqual(new Set([1]));
+  });
+
+  it('culls only same-material internal water faces in the transmissive pass', () => {
+    const water = scene([
+      { x: 0, y: 0, z: 0, paletteIndex: 17 },
+      { x: 1, y: 0, z: 0, paletteIndex: 17 },
+    ], [2, 1, 1], {
+      17: { glass: 0.94, water: 1, sourceType: '_water' },
+    });
+
+    const mesh = compileGreedyMesh(water, 'transmissive');
+    expect(mesh.receipt.exposedUnitFaces).toBe(10);
+    expect(mesh.receipt.quads).toBe(6);
   });
 
   it('refuses a material-equal merge when the corner AO signatures differ', () => {

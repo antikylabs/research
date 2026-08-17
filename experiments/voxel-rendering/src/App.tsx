@@ -1,24 +1,34 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ChangeEvent, PointerEvent } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import type { ChangeEvent, DragEvent } from 'react';
 
 import { createInstancesApproach } from './approaches/instances/index.ts';
 import { createMeshApproach } from './approaches/mesh/index.ts';
 import { createRaytraceApproach } from './approaches/raytrace/index.ts';
 import { GenerationFence } from './app/generation.ts';
-import { attachCanvasWheelZoom } from './app/canvas-wheel.ts';
-import { OrbitCamera } from './camera/orbit-camera.ts';
+import { FlyCamera } from './camera/fly-camera.ts';
+import { FlyInput } from './camera/fly-input.ts';
 import type {
   ApproachFactory,
   ApproachId,
-  PresentationStyle,
   RenderStats,
   VoxelApproach,
 } from './render/types.ts';
-import { createBuiltInScene } from './scene/built-in.ts';
+import {
+  composeStudioScene,
+  ENVIRONMENT_PRESETS,
+  listBundledSubjects,
+  type EnvironmentId,
+} from './scene/studio-scenes.ts';
 import type { VoxelScene } from './scene/types.ts';
 import { normalizeVoxModel } from './vox/normalize.ts';
 import { parseVox } from './vox/parse.ts';
-import type { VoxDocument } from './vox/parse.ts';
+import {
+  DEFAULT_RENDER_SETTINGS,
+  normalizeRenderSettings,
+  type RenderSettings,
+} from './studio/settings.ts';
+import { createStudioSessionState, reduceStudioSession } from './studio/session.ts';
+import { installFlyKeyboardListeners, startStudioPublisher } from './studio/runtime.ts';
 
 const APPROACHES: Readonly<Record<ApproachId, Readonly<{
   eyebrow: string;
@@ -48,6 +58,13 @@ const APPROACHES: Readonly<Record<ApproachId, Readonly<{
 
 type StageStatus = 'loading' | 'running' | 'failed';
 
+type CatalogEntry = Readonly<{
+  id: string;
+  label: string;
+  source: string;
+  subject: VoxelScene;
+}>;
+
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KiB`;
@@ -72,40 +89,80 @@ function defaultStats(approach: ApproachId, scene: VoxelScene): RenderStats {
 }
 
 export default function App() {
-  const builtInScene = useMemo(createBuiltInScene, []);
-  const [scene, setScene] = useState<VoxelScene>(builtInScene);
-  const [voxDocument, setVoxDocument] = useState<VoxDocument | null>(null);
-  const [sourceName, setSourceName] = useState('Built-in evidence scene');
-  const [approachId, setApproachId] = useState<ApproachId>('mesh');
-  const [style, setStyle] = useState<PresentationStyle>('physical');
+  const bundledCatalog = useMemo<readonly CatalogEntry[]>(() => listBundledSubjects().map(
+    (subject, index) => Object.freeze({
+      id: `bundled:${index}:${subject.fingerprint}`,
+      label: subject.name,
+      source: 'Original bundled subject',
+      subject,
+    }),
+  ), []);
+  const [catalog, setCatalog] = useState<readonly CatalogEntry[]>(bundledCatalog);
+  const [studio, dispatchStudio] = useReducer(
+    reduceStudioSession,
+    bundledCatalog[0]!.id,
+    createStudioSessionState,
+  );
+  const { approachId, environmentId, rendererGeneration, selectedModelId, settings } = studio;
+  const selectedEntry = catalog.find((entry) => entry.id === selectedModelId) ?? catalog[0]!;
+  const scene = useMemo(
+    () => composeStudioScene(selectedEntry.subject, environmentId),
+    [environmentId, selectedEntry],
+  );
+  const [mouseLook, setMouseLook] = useState(false);
   const [status, setStatus] = useState<StageStatus>('loading');
-  const [issue, setIssue] = useState<string | null>(null);
-  const [stats, setStats] = useState<RenderStats>(() => defaultStats('mesh', builtInScene));
+  const [rendererIssue, setRendererIssue] = useState<string | null>(null);
+  const [importIssue, setImportIssue] = useState<string | null>(null);
+  const [interactionIssue, setInteractionIssue] = useState<string | null>(null);
+  const [stats, setStats] = useState<RenderStats>(() => defaultStats('mesh', scene));
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const cameraRef = useRef(new OrbitCamera());
-  const styleRef = useRef(style);
+  const cameraRef = useRef(new FlyCamera());
+  const inputRef = useRef(new FlyInput());
+  const settingsRef = useRef(settings);
   const approachRef = useRef<VoxelApproach | null>(null);
   const generationRef = useRef(new GenerationFence());
-  const pointerRef = useRef<Readonly<{ id: number; x: number; y: number }> | null>(null);
 
   useEffect(() => {
-    styleRef.current = style;
-  }, [style]);
+    settingsRef.current = settings;
+  }, [settings]);
+
+  useEffect(() => {
+    return installFlyKeyboardListeners(
+      window,
+      inputRef.current,
+      () => document.pointerLockElement === canvasRef.current,
+    );
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas === null) return undefined;
-    return attachCanvasWheelZoom(canvas, (deltaY) => cameraRef.current.zoom(deltaY * 0.018));
+    const onPointerLockChange = (): void => {
+      const active = document.pointerLockElement === canvas;
+      setMouseLook(active);
+      if (active) setInteractionIssue(null);
+      if (!active) inputRef.current.clear();
+    };
+    const onMouseMove = (event: MouseEvent): void => {
+      if (document.pointerLockElement !== canvas) return;
+      cameraRef.current.look(event.movementX * 0.0024, -event.movementY * 0.0024);
+    };
+    document.addEventListener('pointerlockchange', onPointerLockChange);
+    document.addEventListener('mousemove', onMouseMove);
+    return () => {
+      document.removeEventListener('pointerlockchange', onPointerLockChange);
+      document.removeEventListener('mousemove', onMouseMove);
+    };
   }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas === null) return undefined;
     const generation = generationRef.current.begin();
-    let stateTimer = 0;
+    let stopPublisher: (() => void) | null = null;
     let lastStatsUpdate = 0;
     let localApproach: VoxelApproach | null = null;
-    setIssue(null);
+    setRendererIssue(null);
     setStatus('loading');
     setStats(defaultStats(approachId, scene));
     approachRef.current?.dispose();
@@ -114,10 +171,10 @@ export default function App() {
     void APPROACHES[approachId].factory({
       canvas,
       scene,
-      initialStyle: styleRef.current,
+      initialSettings: settingsRef.current,
       onError(error) {
         if (!generationRef.current.isCurrent(generation)) return;
-        setIssue(error.message);
+        setRendererIssue(error.message);
         setStatus('failed');
       },
     }).then((created) => {
@@ -130,109 +187,116 @@ export default function App() {
       setStats(created.stats());
       setStatus('running');
       const start = performance.now();
+      let previousFrameTime = start;
       const publishState = (): void => {
         if (!generationRef.current.isCurrent(generation)) return;
         const width = Math.max(1, canvas.clientWidth);
         const height = Math.max(1, canvas.clientHeight);
         const time = performance.now();
-        created.frame((time - start) / 1000, cameraRef.current.snapshot(width / height), styleRef.current);
+        const deltaSeconds = Math.min(0.1, Math.max(0, (time - previousFrameTime) / 1000));
+        previousFrameTime = time;
+        cameraRef.current.move(inputRef.current.movement(), deltaSeconds);
+        created.frame(
+          (time - start) / 1000,
+          cameraRef.current.snapshot(width / height),
+          settingsRef.current,
+        );
         if (time - lastStatsUpdate > 180) {
           setStats(created.stats());
           lastStatsUpdate = time;
         }
       };
-      publishState();
-      stateTimer = window.setInterval(publishState, 32);
+      stopPublisher = startStudioPublisher(window, publishState);
     }).catch((error: unknown) => {
       if (!generationRef.current.isCurrent(generation)) return;
-      setIssue(diagnostic(error));
+      setRendererIssue(diagnostic(error));
       setStatus('failed');
     });
 
     return () => {
       generationRef.current.cancel();
-      window.clearInterval(stateTimer);
+      stopPublisher?.();
       if (approachRef.current === localApproach) approachRef.current = null;
       localApproach?.dispose();
     };
-  }, [approachId, scene]);
+  }, [approachId, rendererGeneration, scene]);
 
-  const loadFile = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
-    const file = event.target.files?.[0];
-    event.target.value = '';
-    if (file === undefined) return;
-    setIssue(null);
-    try {
-      const started = performance.now();
-      const document = parseVox(await file.arrayBuffer());
-      const parseMilliseconds = performance.now() - started;
-      setVoxDocument(document);
-      setSourceName(file.name);
-      setScene(normalizeVoxModel(document, 0, file.name, parseMilliseconds));
-      cameraRef.current = new OrbitCamera();
-    } catch (error) {
-      setIssue(diagnostic(error));
-      setStatus('failed');
+  const addFiles = async (files: readonly File[]): Promise<void> => {
+    if (files.length === 0) return;
+    setImportIssue(null);
+    const additions: CatalogEntry[] = [];
+    const failures: string[] = [];
+    for (const file of files) {
+      try {
+        const started = performance.now();
+        const document = parseVox(await file.arrayBuffer());
+        const parseMilliseconds = performance.now() - started;
+        for (let modelIndex = 0; modelIndex < document.models.length; modelIndex += 1) {
+          const subject = normalizeVoxModel(
+            document,
+            modelIndex,
+            `${file.name} · model ${modelIndex + 1}`,
+            parseMilliseconds,
+          );
+          additions.push(Object.freeze({
+            id: `file:${file.name}:${file.lastModified}:${modelIndex}:${subject.fingerprint}`,
+            label: subject.name,
+            source: `${file.name} · local browser session`,
+            subject,
+          }));
+        }
+      } catch (error) {
+        failures.push(`${file.name}: ${diagnostic(error)}`);
+      }
+    }
+    if (additions.length > 0) {
+      setCatalog((current) => Object.freeze([...current, ...additions]));
+      dispatchStudio({ type: 'select-model', modelId: additions[0]!.id });
+      cameraRef.current = new FlyCamera();
+    }
+    if (failures.length > 0) {
+      setImportIssue(`Rejected model data — ${failures.join(' · ')}`);
     }
   };
 
-  const loadFixture = async (): Promise<void> => {
-    setIssue(null);
-    try {
-      const started = performance.now();
-      const response = await fetch('./models/golden-hour-valley-atelier.vox');
-      if (!response.ok) throw new Error(`Fixture request failed with HTTP ${response.status}.`);
-      const document = parseVox(await response.arrayBuffer());
-      const parseMilliseconds = performance.now() - started;
-      setVoxDocument(document);
-      setSourceName('golden-hour-valley-atelier.vox');
-      setScene(normalizeVoxModel(document, 0, 'Golden Hour Valley Atelier · .vox', parseMilliseconds));
-      cameraRef.current = new OrbitCamera();
-    } catch (error) {
-      setIssue(diagnostic(error));
-      setStatus('failed');
-    }
+  const loadFiles = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
+    const files = [...(event.target.files ?? [])];
+    event.target.value = '';
+    await addFiles(files);
   };
 
   const chooseModel = (event: ChangeEvent<HTMLSelectElement>): void => {
-    if (voxDocument === null) return;
-    const modelIndex = Number(event.target.value);
-    setScene(normalizeVoxModel(voxDocument, modelIndex, sourceName, scene.receipt.parseMilliseconds));
-    cameraRef.current = new OrbitCamera();
+    dispatchStudio({ type: 'select-model', modelId: event.target.value });
+    cameraRef.current = new FlyCamera();
   };
 
-  const useBuiltIn = (): void => {
-    setVoxDocument(null);
-    setSourceName('Built-in evidence scene');
-    setScene(builtInScene);
-    setIssue(null);
-    cameraRef.current = new OrbitCamera();
+  const chooseEnvironment = (event: ChangeEvent<HTMLSelectElement>): void => {
+    dispatchStudio({
+      type: 'select-environment',
+      environmentId: event.target.value as EnvironmentId,
+    });
+    cameraRef.current = new FlyCamera();
   };
 
-  const beginOrbit = (event: PointerEvent<HTMLCanvasElement>): void => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    pointerRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  const dropFiles = (event: DragEvent<HTMLElement>): void => {
+    event.preventDefault();
+    void addFiles([...event.dataTransfer.files]);
   };
 
-  const continueOrbit = (event: PointerEvent<HTMLCanvasElement>): void => {
-    const previous = pointerRef.current;
-    if (previous?.id !== event.pointerId) return;
-    const deltaX = event.clientX - previous.x;
-    const deltaY = event.clientY - previous.y;
-    cameraRef.current.orbit(-deltaX * 0.008, -deltaY * 0.008);
-    pointerRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  const updateSettings = (next: RenderSettings): void => {
+    dispatchStudio({ type: 'update-settings', settings: normalizeRenderSettings(next) });
   };
 
-  const finishOrbit = (event: PointerEvent<HTMLCanvasElement>): void => {
-    if (pointerRef.current?.id !== event.pointerId) return;
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-    pointerRef.current = null;
+  const beginMouseLook = (): void => {
+    const canvas = canvasRef.current;
+    if (canvas === null || document.pointerLockElement === canvas) return;
+    void canvas.requestPointerLock().catch((error: unknown) => {
+      setInteractionIssue(`Mouse-look unavailable — ${diagnostic(error)}`);
+    });
   };
 
   const approach = APPROACHES[approachId];
-  const warning = scene.receipt.warnings[0];
+  const warning = scene.receipt.warnings.find((message) => !message.startsWith('Studio composition'));
   return (
     <main className="lab-shell">
       <header className="titlebar">
@@ -248,14 +312,16 @@ export default function App() {
       </header>
 
       <section className="workspace">
-        <section className="stage" aria-label={`${approach.label} render stage`}>
+        <section
+          className="stage"
+          aria-label={`${approach.label} render stage`}
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={dropFiles}
+        >
           <canvas
             ref={canvasRef}
             aria-label="Interactive voxel rendering"
-            onPointerDown={beginOrbit}
-            onPointerMove={continueOrbit}
-            onPointerUp={finishOrbit}
-            onPointerCancel={finishOrbit}
+            onClick={beginMouseLook}
           />
           <div className="stage-heading">
             <span>{approach.eyebrow}</span>
@@ -265,7 +331,7 @@ export default function App() {
           {status !== 'running' && (
             <div className={`stage-message ${status === 'failed' ? 'stage-error' : ''}`} role="status">
               <span>{status === 'failed' ? 'Renderer stopped' : 'Compiling evidence'}</span>
-              <strong>{issue ?? 'Acquiring a WebGPU adapter and uploading immutable scene data.'}</strong>
+              <strong>{rendererIssue ?? 'Acquiring a WebGPU adapter and uploading immutable scene data.'}</strong>
             </div>
           )}
           <nav className="approach-tabs" aria-label="Rendering implementation">
@@ -274,7 +340,7 @@ export default function App() {
                 aria-pressed={approachId === id}
                 className={approachId === id ? 'selected' : ''}
                 key={id}
-                onClick={() => setApproachId(id)}
+                onClick={() => dispatchStudio({ type: 'select-approach', approachId: id })}
                 type="button"
               >
                 <span>{item.eyebrow}</span>
@@ -282,7 +348,11 @@ export default function App() {
               </button>
             ))}
           </nav>
-          <div className="stage-hint">Drag to orbit · wheel to move</div>
+          <div className={`stage-hint ${mouseLook ? 'active' : ''}`}>
+            {interactionIssue ?? (mouseLook
+              ? 'Mouse-look active · WASD move · Space/Shift rise/fall · Esc release'
+              : 'Click stage for mouse-look · WASD move')}
+          </div>
         </section>
 
         <aside className="inspector" aria-label="Renderer inspector">
@@ -300,47 +370,179 @@ export default function App() {
             <div className="segmented">
               {(['physical', 'graphic'] as const).map((option) => (
                 <button
-                  aria-pressed={style === option}
-                  className={style === option ? 'selected' : ''}
+                  aria-pressed={settings.style === option}
+                  className={settings.style === option ? 'selected' : ''}
                   key={option}
-                  onClick={() => setStyle(option)}
+                  onClick={() => updateSettings({ ...settings, style: option })}
                   type="button"
                 >{option === 'physical' ? 'Photorealistic' : 'Stylized'}</button>
               ))}
             </div>
+            <label className="toggle-control">
+              <span>Final color grade</span>
+              <input
+                checked={settings.finalColorGrade}
+                onChange={(event) => updateSettings({
+                  ...settings,
+                  finalColorGrade: event.target.checked,
+                })}
+                type="checkbox"
+              />
+            </label>
+          </section>
+
+          <section className="inspector-section control-stack">
+            <div className="section-row">
+              <span className="section-label">Camera & focus</span>
+              <button
+                className="quiet-button"
+                onClick={() => updateSettings({
+                  ...settings,
+                  depthOfField: DEFAULT_RENDER_SETTINGS.depthOfField,
+                })}
+                type="button"
+              >Reset focus</button>
+            </div>
+            <label className="toggle-control">
+              <span>Depth of field</span>
+              <input
+                checked={settings.depthOfField.enabled}
+                onChange={(event) => updateSettings({
+                  ...settings,
+                  depthOfField: { ...settings.depthOfField, enabled: event.target.checked },
+                })}
+                type="checkbox"
+              />
+            </label>
+            <label className="range-control">
+              <span>Focus distance <output>{settings.depthOfField.focusDistance.toFixed(0)}</output></span>
+              <input
+                max="360"
+                min="1"
+                onChange={(event) => updateSettings({
+                  ...settings,
+                  depthOfField: {
+                    ...settings.depthOfField,
+                    focusDistance: Number(event.target.value),
+                  },
+                })}
+                step="1"
+                type="range"
+                value={settings.depthOfField.focusDistance}
+              />
+            </label>
+            <label className="range-control">
+              <span>Aperture <output>{settings.depthOfField.aperture.toFixed(2)}</output></span>
+              <input
+                max="2.5"
+                min="0"
+                onChange={(event) => updateSettings({
+                  ...settings,
+                  depthOfField: {
+                    ...settings.depthOfField,
+                    aperture: Number(event.target.value),
+                  },
+                })}
+                step="0.05"
+                type="range"
+                value={settings.depthOfField.aperture}
+              />
+            </label>
+          </section>
+
+          <section className="inspector-section control-stack">
+            <span className="section-label">Lighting</span>
+            <label className="range-control">
+              <span>Time of day <output>{settings.lighting.timeOfDay.toFixed(2)}h</output></span>
+              <input
+                max="23.75"
+                min="0"
+                onChange={(event) => updateSettings({
+                  ...settings,
+                  lighting: { ...settings.lighting, timeOfDay: Number(event.target.value) },
+                })}
+                step="0.25"
+                type="range"
+                value={settings.lighting.timeOfDay}
+              />
+            </label>
+            <label className="toggle-control">
+              <span>Moon</span>
+              <input
+                checked={settings.lighting.moonEnabled}
+                onChange={(event) => updateSettings({
+                  ...settings,
+                  lighting: { ...settings.lighting, moonEnabled: event.target.checked },
+                })}
+                type="checkbox"
+              />
+            </label>
+            <label className="range-control">
+              <span>Exposure <output>{settings.exposure.toFixed(2)}</output></span>
+              <input
+                max="3"
+                min="0.25"
+                onChange={(event) => updateSettings({ ...settings, exposure: Number(event.target.value) })}
+                step="0.05"
+                type="range"
+                value={settings.exposure}
+              />
+            </label>
+            <label className="range-control">
+              <span>Surface variation <output>{settings.materialVariation.toFixed(2)}</output></span>
+              <input
+                max="1"
+                min="0"
+                onChange={(event) => updateSettings({
+                  ...settings,
+                  materialVariation: Number(event.target.value),
+                })}
+                step="0.05"
+                type="range"
+                value={settings.materialVariation}
+              />
+            </label>
+            <button
+              className="fixture-button"
+              onClick={() => dispatchStudio({ type: 'reload-renderer' })}
+              type="button"
+            >Reload renderer</button>
           </section>
 
           <section className="inspector-section source-section">
-            <span className="section-label">Scene source</span>
-            <strong>{scene.name}</strong>
-            <span className="source-meta">{scene.receipt.source === 'built-in' ? 'Original deterministic fixture' : sourceName}</span>
+            <span className="section-label">Model & environment</span>
+            <strong>{selectedEntry.label}</strong>
+            <span className="source-meta">{selectedEntry.source}</span>
+            <label className="model-select">
+              Model catalog
+              <select onChange={chooseModel} value={selectedEntry.id}>
+                {catalog.map((entry) => (
+                  <option key={entry.id} value={entry.id}>{entry.label}</option>
+                ))}
+              </select>
+            </label>
+            <label className="model-select">
+              Environment
+              <select onChange={chooseEnvironment} value={environmentId}>
+                {ENVIRONMENT_PRESETS.map((preset) => (
+                  <option key={preset.id} value={preset.id}>{preset.label}</option>
+                ))}
+              </select>
+            </label>
             <div className="source-actions">
               <label className="file-button">
-                <input accept=".vox" onChange={(event) => void loadFile(event)} type="file" />
-                Load .vox
+                <input
+                  accept=".vox"
+                  multiple
+                  onChange={(event) => void loadFiles(event)}
+                  type="file"
+                />
+                Add .vox files
               </label>
-              {scene.receipt.source !== 'built-in' && (
-                <button className="quiet-button" onClick={useBuiltIn} type="button">Use built-in</button>
-              )}
             </div>
-            {scene.receipt.source === 'built-in' && (
-              <button className="fixture-button" onClick={() => void loadFixture()} type="button">
-                Reopen this scene through the .vox parser
-              </button>
-            )}
-            {voxDocument !== null && voxDocument.models.length > 1 && (
-              <label className="model-select">
-                Model
-                <select onChange={chooseModel} value={scene.receipt.selectedModel}>
-                  {voxDocument.models.map((model, index) => (
-                    <option key={`${model.size.join('-')}-${index}`} value={index}>
-                      {index + 1} · {model.size.join(' × ')} · {model.voxels.length} voxels
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )}
+            <span className="source-meta">Drop one or more `.vox` files on the stage to keep them in this browser session.</span>
             {warning !== undefined && <p className="warning">{warning}</p>}
+            {importIssue !== null && <p className="warning">{importIssue}</p>}
           </section>
 
           <section className="inspector-section measurements">
@@ -360,7 +562,7 @@ export default function App() {
 
           <section className="inspector-section support-note">
             <span className="section-label">Import boundary</span>
-            <p>Validated MagicaVoxel v150 base models. Scene graphs and animation are diagnosed, not silently claimed. Raster glass is tinted/specular; the path tracer adds bounded reflections. Full refraction is out of scope.</p>
+            <p>Validated MagicaVoxel v150 base models. Scene graphs and animation are diagnosed, not silently claimed. Raster water/glass use an alpha pass; dense DDA adds bounded straight-through transmission. Refractive ray bending is out of scope.</p>
           </section>
         </aside>
       </section>

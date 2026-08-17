@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { raytraceTestScene } from './test-scene.ts';
 import {
   createDenseVoxelStorage,
+  densePaletteIndex,
   denseVoxelIndex,
   RAYTRACE_MAX_DIMENSION,
   RAYTRACE_MAX_TRAVERSAL_STEPS,
@@ -20,13 +21,13 @@ describe('createDenseVoxelStorage', () => {
 
     expect(volume.dimensions).toEqual([2, 2, 2]);
     expect(volume.origin).toEqual([-1, -2, -3]);
-    expect(volume.vec4Elements).toBe(8);
+    expect(volume.vec4Elements).toBe(2);
     expect(volume.occupiedVoxels).toBe(2);
-    expect(volume.volumeData.length).toBe(8 * 4);
-    expect([...volume.volumeData.slice(denseVoxelIndex([2, 2, 2], 0, 0, 0) * 4, 4)])
-      .toEqual([1, 1, 0, 0]);
-    const lastOffset = denseVoxelIndex([2, 2, 2], 1, 1, 1) * 4;
-    expect([...volume.volumeData.slice(lastOffset, lastOffset + 4)]).toEqual([2, 1, 0, 0]);
+    expect(volume.volumeData.length).toBe(2 * 4);
+    expect([...volume.volumeData]).toEqual([1, 0, 0, 0, 0, 0, 0, 2]);
+    expect(densePaletteIndex(volume, 0, 0, 0)).toBe(1);
+    expect(densePaletteIndex(volume, 1, 1, 1)).toBe(2);
+    expect(densePaletteIndex(volume, -1, 0, 0)).toBe(0);
     const expectedColor = [
       scene.materials[1]?.linear[0],
       scene.materials[1]?.linear[1],
@@ -40,7 +41,7 @@ describe('createDenseVoxelStorage', () => {
       scene.materials[2]?.roughness,
       scene.materials[2]?.metallic,
       scene.materials[2]?.glass,
-      0,
+      scene.materials[2]?.water,
     ];
     [...volume.materialSurface.slice(8, 12)].forEach((value, index) => {
       expect(value).toBeCloseTo(expectedSurface[index] ?? Number.NaN);
@@ -82,9 +83,12 @@ describe('createDenseVoxelStorage', () => {
       { x: 0, y: 0, z: 0, paletteIndex: 0 },
     ]))).toThrow(/palette/i);
 
-    expect(RAYTRACE_MAX_VOLUME_BYTES).toBe(64 * 1024 * 1024);
-    expect(RAYTRACE_MAX_TRAVERSAL_STEPS).toBe(515);
-    expect(() => createDenseVoxelStorage(raytraceTestScene([256, 1, 256], [])))
+    expect(RAYTRACE_MAX_VOLUME_BYTES).toBe(128 * 1024 * 1024);
+    expect(RAYTRACE_MAX_DIMENSION).toBe(384);
+    expect(RAYTRACE_MAX_TRAVERSAL_STEPS).toBe(899);
+    expect(() => createDenseVoxelStorage(raytraceTestScene([384, 128, 384], []), {
+      maxTraversalSteps: RAYTRACE_MAX_TRAVERSAL_STEPS - 1,
+    }))
       .toThrow(/traversal steps/i);
   });
 });

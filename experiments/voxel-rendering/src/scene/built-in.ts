@@ -102,7 +102,7 @@ const SOURCE_MATERIALS = new Map<number, Readonly<Record<string, string>>>([
   [MATERIAL.flower, Object.freeze({ _type: '_diffuse', _rough: '0.76' })],
   [MATERIAL.paintedBlue, Object.freeze({ _type: '_metal', _weight: '0.18', _rough: '0.46' })],
   [MATERIAL.iron, Object.freeze({ _type: '_metal', _weight: '0.72', _rough: '0.3' })],
-  [MATERIAL.water, Object.freeze({ _type: '_glass', _weight: '0.94', _rough: '0.05' })],
+  [MATERIAL.water, Object.freeze({ _type: '_glass', _weight: '0.94', _rough: '0.05', _antiky_water: '1' })],
   [MATERIAL.gravel, Object.freeze({ _type: '_diffuse', _rough: '0.98' })],
   [MATERIAL.paper, Object.freeze({ _type: '_diffuse', _rough: '0.66' })],
   [MATERIAL.blossom, Object.freeze({ _type: '_diffuse', _rough: '0.8' })],
@@ -117,9 +117,12 @@ const SOURCE_MATERIALS = new Map<number, Readonly<Record<string, string>>>([
   [MATERIAL.sandstone, Object.freeze({ _type: '_diffuse', _rough: '0.78' })],
   [MATERIAL.path, Object.freeze({ _type: '_diffuse', _rough: '0.96' })],
   [MATERIAL.curtain, Object.freeze({ _type: '_diffuse', _rough: '0.82' })],
-  [MATERIAL.waterHighlight, Object.freeze({ _type: '_glass', _weight: '0.98', _rough: '0.025' })],
+  [MATERIAL.waterHighlight, Object.freeze({ _type: '_glass', _weight: '0.98', _rough: '0.025', _antiky_water: '1' })],
   [MATERIAL.ceramic, Object.freeze({ _type: '_diffuse', _rough: '0.38' })],
 ]);
+
+export const STUDIO_MATERIAL_IDS = MATERIAL;
+export const STUDIO_MATERIALS = materialTableFromPalette(PALETTE, SOURCE_MATERIALS);
 
 function fingerprint(cells: readonly VoxelCell[]): string {
   let value = 0x811c9dc5;
@@ -666,7 +669,7 @@ export function createBuiltInScene(): VoxelScene {
     dimensions: DIMENSIONS,
     origin: ORIGIN,
     cells: frozenCells,
-    materials: materialTableFromPalette(PALETTE, SOURCE_MATERIALS),
+    materials: STUDIO_MATERIALS,
     bounds: Object.freeze({
       min: ORIGIN,
       max: [

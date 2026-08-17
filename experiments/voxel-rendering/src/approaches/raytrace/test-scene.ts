@@ -10,6 +10,7 @@ function material(index: number): VoxelMaterial {
     metallic: index === 2 ? 0.8 : 0,
     emission: index === 3 ? 4 : 0,
     glass: 0,
+    water: 0,
     sourceType: '_diffuse',
   });
 }

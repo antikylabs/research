@@ -28,9 +28,10 @@ export type GreedyMesh = Readonly<{
   positions: Float32Array<ArrayBuffer>;
   normals: Float32Array<ArrayBuffer>;
   colors: Float32Array<ArrayBuffer>;
-  /** Perceptual roughness and metallic weight. */
+  /** Perceptual roughness, metallic weight, glass weight, and normalized palette index. */
   materials: Float32Array<ArrayBuffer>;
   emissive: Float32Array<ArrayBuffer>;
+  water: Float32Array<ArrayBuffer>;
   /** Local visibility in the 0..1 range. */
   ao: Float32Array<ArrayBuffer>;
   indices: Uint32Array<ArrayBuffer>;
@@ -52,6 +53,8 @@ type FaceBucket = Readonly<{
   plane: number;
   faces: Map<string, FaceCell>;
 }>;
+
+export type MeshMaterialPass = 'all' | 'opaque' | 'transmissive';
 
 const AXES = [0, 1, 2] as const;
 // Chosen so u × v points along the positive normal for every axis.
@@ -149,6 +152,7 @@ function createVoxelMap(scene: VoxelScene): Map<string, VoxelCell> {
 function buildBuckets(
   scene: VoxelScene,
   voxels: ReadonlyMap<string, VoxelCell>,
+  pass: MeshMaterialPass,
 ): { buckets: FaceBucket[]; exposedUnitFaces: number } {
   const byKey = new Map<string, FaceBucket>();
   let exposedUnitFaces = 0;
@@ -162,9 +166,16 @@ function buildBuckets(
   for (const cell of orderedCells) {
     const coordinate: MutablePoint = [cell.x, cell.y, cell.z];
     const material = scene.materials[cell.paletteIndex]!;
+    const transmissive = material.glass > 0.5;
+    if (pass === 'opaque' && transmissive) continue;
+    if (pass === 'transmissive' && !transmissive) continue;
     for (const axis of AXES) {
       for (const sign of [-1, 1] as const) {
-        if (occupied(voxels, moved(coordinate, axis, sign))) continue;
+        const neighbor = voxels.get(voxelKey(...moved(coordinate, axis, sign)));
+        if (pass === 'all' && neighbor !== undefined) continue;
+        if (pass === 'opaque' && neighbor !== undefined
+          && scene.materials[neighbor.paletteIndex]!.glass <= 0.5) continue;
+        if (pass === 'transmissive' && neighbor?.paletteIndex === cell.paletteIndex) continue;
         exposedUnitFaces += 1;
         const plane = coordinate[axis] + (sign > 0 ? 1 : 0);
         const key = `${axis}:${sign}:${plane}`;
@@ -219,14 +230,18 @@ function meshFingerprint(buffers: readonly ArrayBufferView[]): string {
   return hash.toString(16).padStart(8, '0');
 }
 
-export function compileGreedyMesh(scene: VoxelScene): GreedyMesh {
+export function compileGreedyMesh(
+  scene: VoxelScene,
+  pass: MeshMaterialPass = 'all',
+): GreedyMesh {
   const voxels = createVoxelMap(scene);
-  const { buckets, exposedUnitFaces } = buildBuckets(scene, voxels);
+  const { buckets, exposedUnitFaces } = buildBuckets(scene, voxels, pass);
   const positions: number[] = [];
   const normals: number[] = [];
   const colors: number[] = [];
   const materialValues: number[] = [];
   const emissive: number[] = [];
+  const water: number[] = [];
   const aoValues: number[] = [];
   const indices: number[] = [];
 
@@ -268,8 +283,14 @@ export function compileGreedyMesh(scene: VoxelScene): GreedyMesh {
       normal[bucket.axis] = bucket.sign;
       normals.push(normal[0], normal[1], normal[2]);
       colors.push(...face.material.linear);
-      materialValues.push(face.material.roughness, face.material.metallic);
+      materialValues.push(
+        face.material.roughness,
+        face.material.metallic,
+        face.material.glass,
+        face.material.paletteIndex / 255,
+      );
       emissive.push(face.material.emission);
+      water.push(face.material.water);
       aoValues.push(windingAo[orderIndex]!);
     }
     indices.push(...chooseQuadIndices(windingAo, firstVertex));
@@ -310,6 +331,7 @@ export function compileGreedyMesh(scene: VoxelScene): GreedyMesh {
   const colorBuffer = new Float32Array(colors);
   const materialBuffer = new Float32Array(materialValues);
   const emissiveBuffer = new Float32Array(emissive);
+  const waterBuffer = new Float32Array(water);
   const aoBuffer = new Float32Array(aoValues);
   const indexBuffer = new Uint32Array(indices);
   const buffers = [
@@ -318,6 +340,7 @@ export function compileGreedyMesh(scene: VoxelScene): GreedyMesh {
     colorBuffer,
     materialBuffer,
     emissiveBuffer,
+    waterBuffer,
     aoBuffer,
     indexBuffer,
   ] as const;
@@ -355,6 +378,7 @@ export function compileGreedyMesh(scene: VoxelScene): GreedyMesh {
     colors: colorBuffer,
     materials: materialBuffer,
     emissive: emissiveBuffer,
+    water: waterBuffer,
     ao: aoBuffer,
     indices: indexBuffer,
     bounds: Object.freeze({ min, max }),

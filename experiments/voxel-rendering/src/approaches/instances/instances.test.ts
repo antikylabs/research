@@ -21,6 +21,7 @@ function material(paletteIndex: number): VoxelMaterial {
     metallic: value * 0.8,
     emission: value * 0.4,
     glass: value * 0.25,
+    water: 0,
     sourceType: 'test',
   });
 }
@@ -177,12 +178,14 @@ test('all instance attributes agree and preserve palette/material values', () =>
   assert.equal(built.faceCodes.length, count);
   assert.equal(built.colorRoughness.length, count * 4);
   assert.equal(built.materialPalette.length, count * 4);
+  assert.equal(built.water.length, count);
   assert.equal(built.cornerAo.length, count * 4);
   assert.equal(built.receipt.instanceBytes,
     built.positions.byteLength
       + built.faceCodes.byteLength
       + built.colorRoughness.byteLength
       + built.materialPalette.byteLength
+      + built.water.byteLength
       + built.cornerAo.byteLength);
 
   const expected = MATERIALS[64]!;
@@ -214,7 +217,27 @@ test('canonical cell and face order makes arrays and receipts deterministic', ()
   assert.deepEqual(forward.faceCodes, reversed.faceCodes);
   assert.deepEqual(forward.colorRoughness, reversed.colorRoughness);
   assert.deepEqual(forward.materialPalette, reversed.materialPalette);
+  assert.deepEqual(forward.water, reversed.water);
   assert.deepEqual(forward.cornerAo, reversed.cornerAo);
+});
+
+test('opaque and transmissive passes preserve their shared material boundary', () => {
+  const materials = [...MATERIALS];
+  materials[17] = Object.freeze({ ...materials[17]!, glass: 0.94, water: 1 });
+  const fixture = Object.freeze({
+    ...scene([
+      { x: 1, y: 1, z: 1, paletteIndex: 3 },
+      { x: 2, y: 1, z: 1, paletteIndex: 17 },
+    ]),
+    materials: Object.freeze(materials),
+  });
+
+  const opaque = buildFaceInstances(fixture, 'opaque');
+  const transmissive = buildFaceInstances(fixture, 'transmissive');
+  assert.equal(opaque.receipt.exposedFaces, 6);
+  assert.equal(transmissive.receipt.exposedFaces, 6);
+  assert.deepEqual(new Set(opaque.water), new Set([0]));
+  assert.deepEqual(new Set(transmissive.water), new Set([1]));
 });
 
 test('an empty scene builds a valid zero-draw receipt', () => {
@@ -224,6 +247,7 @@ test('an empty scene builds a valid zero-draw receipt', () => {
   assert.equal(built.receipt.instanceBytes, 0);
   assert.equal(built.receipt.oneTimeBytes, SHARED_FACE_QUAD.byteLength);
   assert.equal(built.positions.length, 0);
+  assert.equal(built.water.length, 0);
   assert.match(built.receipt.fingerprint, /^[0-9a-f]{8}$/);
 });
 
@@ -235,11 +259,16 @@ test('the generated shader keeps shared vertices separate from per-face instance
   );
   assert.deepEqual(
     attributes.filter(({ divisor }) => divisor === 1).map(({ name }) => name),
-    ['iPosition', 'iFace', 'iColorRoughness', 'iMaterialPalette', 'iAo'],
+    ['iPosition', 'iFace', 'iColorRoughness', 'iMaterialPalette', 'iWater', 'iAo'],
   );
   assert.match(voxelInstancesShader.wgslSrc, /fn toonShade/);
   assert.match(voxelInstancesShader.wgslSrc, /fn specGGX/);
   assert.match(voxelInstancesShader.wgslSrc, /bm_u\.uStylized/);
+  assert.match(voxelInstancesShader.wgslSrc, /bm_u\.uTransparentPass/);
+  assert.match(voxelInstancesShader.wgslSrc, /bm_in\.vWater/);
+  assert.match(voxelInstancesShader.wgslSrc, /waterOpticalDepth/);
+  assert.match(voxelInstancesShader.wgslSrc, /roughnessBand/);
+  assert.match(voxelInstancesShader.wgslSrc, /metallic \*/);
   assert.match(voxelInstancesShader.wgslSrc, /textureSample\(uShadowMap/);
 });
 

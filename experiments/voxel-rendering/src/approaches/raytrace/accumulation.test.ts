@@ -12,6 +12,7 @@ const initial: RaytraceSampleDefinition = Object.freeze({
   cameraRevision: 1,
   viewportWidth: 1280,
   viewportHeight: 720,
+  cameraSampleKey: 'focus-a',
   materialLightKey: 'sun-a',
   integratorKey: 'bounces-2',
   presentationKey: 'physical',
@@ -38,6 +39,7 @@ describe('raytrace reset classification', () => {
   it.each([
     ['scene', { sceneFingerprint: 'scene-b' }],
     ['camera', { cameraRevision: 2 }],
+    ['camera', { cameraSampleKey: 'focus-b' }],
     ['viewport', { viewportWidth: 640 }],
     ['viewport', { viewportHeight: 360 }],
     ['material-light', { materialLightKey: 'sun-b' }],

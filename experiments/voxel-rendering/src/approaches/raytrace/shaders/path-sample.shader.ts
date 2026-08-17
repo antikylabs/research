@@ -13,6 +13,7 @@ import {
   reflect,
   shader,
   sin,
+  smoothstep,
   sqrt,
   step,
   storageRead,
@@ -87,12 +88,65 @@ function surfaceNormal(normal: Vec3, direction: Vec3): Vec3 {
   return mix(fallback, normal, valid);
 }
 
-function skyRadiance(direction: Vec3, skyColor: Vec3, sunDirection: Vec3, sunColor: Vec3): Vec3 {
-  const height = clamp(direction.y * 2 + 0.18, 0, 1);
-  const sky = mix(vec3(0.32, 0.075, 0.035), skyColor, height);
-  const sun = pow(max(dot(direction, sunDirection), 0), 384);
-  const halo = pow(max(dot(direction, sunDirection), 0), 32);
-  return sky.add(sunColor.scale(sun * 3 + halo * 0.08));
+function cloudDensity(direction: Vec3): number {
+  const broad = sin(dot(direction, vec3(12.7, 3.1, 8.9)) * 2.15);
+  const crossing = sin(dot(direction, vec3(-7.3, 5.7, 15.1)) * 3.4);
+  const wisps = sin(dot(direction, vec3(23.9, -4.1, 17.7)) * 4.8);
+  const structure = broad * 0.55 + crossing * 0.3 + wisps * 0.15;
+  return smoothstep(0.2, 0.78, structure) * smoothstep(-0.08, 0.34, direction.y);
+}
+
+function starField(direction: Vec3, daylight: number): number {
+  const cell = vec2(
+    floor(direction.x * 311 + direction.y * 137),
+    floor(direction.z * 311 - direction.y * 89),
+  );
+  const seed = hash21(cell);
+  const visibleSky = smoothstep(-0.05, 0.42, direction.y);
+  return step(0.994, seed) * visibleSky * clamp(1 - daylight * 2.5, 0, 1);
+}
+
+function skyRadiance(
+  direction: Vec3,
+  skyColor: Vec3,
+  fogColor: Vec3,
+  sunDirection: Vec3,
+  sunColor: Vec3,
+  sunIntensity: number,
+  moonDirection: Vec3,
+  moonColor: Vec3,
+  moonIntensity: number,
+  stylized: number,
+): Vec3 {
+  const daylight = clamp(sunIntensity / 5.2, 0, 1);
+  const elevation = clamp(direction.y * 1.7 + 0.16, 0, 1);
+  const physical = mix(
+    mix(fogColor.scale(0.7), skyColor.scale(0.42), daylight * 0.35),
+    skyColor.scale(0.5),
+    pow(elevation, 0.62),
+  );
+  const graphic = mix(
+    mix(fogColor, vec3(0.25, 0.075, 0.16), 0.38),
+    mix(skyColor, vec3(0.018, 0.055, 0.09), 0.42),
+    smoothstep(0.02, 0.88, elevation),
+  );
+  const sunAlignment = max(dot(direction, sunDirection), 0);
+  const moonAlignment = max(dot(direction, moonDirection), 0);
+  const sun = pow(sunAlignment, mix(900, 520, stylized));
+  const halo = pow(sunAlignment, mix(18, 28, stylized));
+  const moon = pow(moonAlignment, mix(1250, 720, stylized));
+  const moonHalo = pow(moonAlignment, 42);
+  const clouds = cloudDensity(direction);
+  const cloudShade = mix(fogColor.scale(0.82), vec3(0.9, 0.94, 1), 0.38 + daylight * 0.48);
+  const cloudLight = pow(sunAlignment, 7) * daylight;
+  const cloudOpacity = clouds * mix(0.26, 0.38, stylized) * (0.28 + daylight * 0.72);
+  const stars = starField(direction, daylight);
+  return mix(mix(physical, graphic, stylized), cloudShade.add(
+    sunColor.scale(cloudLight * 0.2),
+  ), cloudOpacity)
+    .add(vec3(0.72, 0.82, 1).scale(stars * mix(0.8, 1.35, stylized)))
+    .add(sunColor.scale((sun * 2.6 + halo * 0.075) * sunIntensity))
+    .add(moonColor.scale((moon * 2 + moonHalo * 0.055) * moonIntensity));
 }
 
 function bounceDirection(
@@ -127,8 +181,8 @@ function bounceDirection(
  * One stochastic sample of a bounded dense-grid path tracer.
  *
  * BroMetal storage values cannot be passed into shader helpers, so each traversal is deliberately
- * visible here: primary, direct-light shadow, first secondary, and second secondary. All four use
- * the same tie-safe, fixed-limit DDA shape and stop doing work once their active flag is cleared.
+ * visible here: primary, direct-light shadow, transmission, first secondary, and second secondary.
+ * All five use a fixed upper bound and stop doing work once their active flag is cleared.
  */
 export default shader({
   attributes: { aPosition: 'vec3' },
@@ -147,7 +201,14 @@ export default shader({
     uVolumeDimensions: 'vec3',
     uSunDirection: 'vec3',
     uSunColor: 'vec3',
+    uSunIntensity: 'float',
+    uMoonDirection: 'vec3',
+    uMoonColor: 'vec3',
+    uMoonIntensity: 'float',
     uSkyColor: 'vec3',
+    uFogColor: 'vec3',
+    uStylized: 'float',
+    uMaterialVariation: 'float',
     uTraversalCap: 'float',
     uSeed: 'float',
   },
@@ -180,7 +241,14 @@ export default shader({
       uVolumeDimensions,
       uSunDirection,
       uSunColor,
+      uSunIntensity,
+      uMoonDirection,
+      uMoonColor,
+      uMoonIntensity,
       uSkyColor,
+      uFogColor,
+      uStylized,
+      uMaterialVariation,
       uTraversalCap,
       uSeed,
       uVolume,
@@ -189,8 +257,8 @@ export default shader({
     },
     { vUv },
   ) {
-    // Matches RAYTRACE_MAX_TRAVERSAL_STEPS for the bounded 160 × 96 × 256 evidence grid.
-    const maximumTraversalSteps = 515;
+    // Matches RAYTRACE_MAX_TRAVERSAL_STEPS for the 384 × 128 × 384 studio world.
+    const maximumTraversalSteps = 899;
     const pixel = vec2(floor(vUv.x * uResolution.x), floor(vUv.y * uResolution.y));
     const jitterX = hash21(pixel.add(vec2(uSampleCount * 0.75487766, uSeed * 0.13))) - 0.5;
     const jitterY = hash21(pixel.add(vec2(uSeed * 0.37, uSampleCount * 0.56984029 + 19.1))) - 0.5;
@@ -245,9 +313,15 @@ export default shader({
         const index0 = cellX0
           + cellY0 * uVolumeDimensions.x
           + cellZ0 * uVolumeDimensions.x * uVolumeDimensions.y;
-        const voxel0 = storageRead(uVolume, index0);
-        if (voxel0.x > 0.5) {
-          material0 = voxel0.x;
+        const packedIndex0 = floor(index0 * 0.25);
+        const lane0 = index0 - packedIndex0 * 4;
+        const packedVoxel0 = storageRead(uVolume, packedIndex0);
+        let voxel0 = packedVoxel0.x;
+        if (lane0 > 0.5) voxel0 = packedVoxel0.y;
+        if (lane0 > 1.5) voxel0 = packedVoxel0.z;
+        if (lane0 > 2.5) voxel0 = packedVoxel0.w;
+        if (voxel0 > 0.5) {
+          material0 = voxel0;
           hit0 = 1;
           active0 = 0;
         } else {
@@ -283,18 +357,32 @@ export default shader({
       }
     }
 
-    const shadingNormal0 = surfaceNormal(normal0, rayDirection0);
+    const baseShadingNormal0 = surfaceNormal(normal0, rayDirection0);
     const materialColor0 = storageRead(uMaterialColor, material0);
     const materialSurface0 = storageRead(uMaterialSurface, material0);
     const hitPoint0 = rayOrigin0.add(rayDirection0.scale(distance0));
     const safeHitPoint0 = mix(rayOrigin0, hitPoint0, hit0);
-    const directNdl = max(dot(shadingNormal0, uSunDirection), 0);
+    const water0 = materialSurface0.w;
+    const waterUpFace0 = step(0.5, abs(baseShadingNormal0.y));
+    const waterRipple0 = vec3(
+      sin(hitPoint0.x * 0.42 + hitPoint0.z * 0.17) * 0.1,
+      0,
+      cos(hitPoint0.z * 0.38 - hitPoint0.x * 0.13) * 0.1,
+    );
+    const shadingNormal0 = normalize(baseShadingNormal0.add(
+      waterRipple0.scale(water0 * waterUpFace0),
+    ));
+    const useSun = step(0.001, uSunIntensity);
+    const primaryLightDirection = normalize(mix(uMoonDirection, uSunDirection, useSun));
+    const primaryLightColor = uSunColor.scale(uSunIntensity)
+      .add(uMoonColor.scale(uMoonIntensity));
+    const directNdl = max(dot(shadingNormal0, primaryLightDirection), 0);
 
     // Direct-light shadow traversal.
     const rayOriginS = safeHitPoint0.add(shadingNormal0.scale(0.002));
     const shadowNoiseX = hash21(pixel.add(vec2(uSampleCount * 4.13 + 3.9, uSeed * 1.7))) - 0.5;
     const shadowNoiseY = hash21(pixel.add(vec2(uSeed * 2.3 + 21.7, uSampleCount * 3.47))) - 0.5;
-    const rayDirectionS = normalize(uSunDirection
+    const rayDirectionS = normalize(primaryLightDirection
       .add(uCameraRight.scale(shadowNoiseX * 0.035))
       .add(uCameraUp.scale(shadowNoiseY * 0.035)));
     const intervalS = volumeInterval(rayOriginS, rayDirectionS, volumeLow, volumeHigh);
@@ -322,8 +410,15 @@ export default shader({
         const indexS = cellXS
           + cellYS * uVolumeDimensions.x
           + cellZS * uVolumeDimensions.x * uVolumeDimensions.y;
-        const voxelS = storageRead(uVolume, indexS);
-        if (voxelS.x > 0.5) {
+        const packedIndexS = floor(indexS * 0.25);
+        const laneS = indexS - packedIndexS * 4;
+        const packedVoxelS = storageRead(uVolume, packedIndexS);
+        let voxelS = packedVoxelS.x;
+        if (laneS > 0.5) voxelS = packedVoxelS.y;
+        if (laneS > 1.5) voxelS = packedVoxelS.z;
+        if (laneS > 2.5) voxelS = packedVoxelS.w;
+        const shadowSurface = storageRead(uMaterialSurface, voxelS);
+        if (voxelS > 0.5 && shadowSurface.z < 0.5) {
           shadowHit = 1;
           activeS = 0;
         } else {
@@ -354,10 +449,122 @@ export default shader({
 
     const visibility = 1 - shadowHit;
     const glass0 = materialSurface0.z;
-    const diffuse0 = materialColor0.xyz
-      .mul(uSkyColor.scale(0.12).add(uSunColor.scale(directNdl * visibility)))
+
+    // Continue through transmissive voxels to the first different solid or the sky. This is a
+    // separate bounded DDA, so water and glass reveal actual scene geometry instead of faking
+    // translucency with an opaque surface.
+    const rayOriginT = safeHitPoint0.add(rayDirection0.scale(0.002));
+    const intervalT = volumeInterval(rayOriginT, rayDirection0, volumeLow, volumeHigh);
+    const startT = max(intervalT.x, 0);
+    const startPointT = rayOriginT.add(rayDirection0.scale(startT + 0.002));
+    let cellXT = floor(clamp(startPointT.x - volumeLow.x, 0, uVolumeDimensions.x - 1));
+    let cellYT = floor(clamp(startPointT.y - volumeLow.y, 0, uVolumeDimensions.y - 1));
+    let cellZT = floor(clamp(startPointT.z - volumeLow.z, 0, uVolumeDimensions.z - 1));
+    const safeXT = safeComponent(rayDirection0.x);
+    const safeYT = safeComponent(rayDirection0.y);
+    const safeZT = safeComponent(rayDirection0.z);
+    const stepXT = mix(-1, 1, step(0, rayDirection0.x));
+    const stepYT = mix(-1, 1, step(0, rayDirection0.y));
+    const stepZT = mix(-1, 1, step(0, rayDirection0.z));
+    const deltaXT = abs(1 / safeXT);
+    const deltaYT = abs(1 / safeYT);
+    const deltaZT = abs(1 / safeZT);
+    let maxXT = (volumeLow.x + cellXT + step(0, stepXT) - rayOriginT.x) / safeXT;
+    let maxYT = (volumeLow.y + cellYT + step(0, stepYT) - rayOriginT.y) / safeYT;
+    let maxZT = (volumeLow.z + cellZT + step(0, stepZT) - rayOriginT.z) / safeZT;
+    let transmissionDistance = startT;
+    let transmissionMaterial = 0;
+    let transmissionFound = 0;
+    let activeT = hit0 * step(0.5, glass0) * step(startT, intervalT.y) * step(0, intervalT.y);
+    for (let i = 0; i < maximumTraversalSteps && activeT > 0.5 && i < uTraversalCap; i = i + 1) {
+      if (activeT > 0.5 && i < uTraversalCap) {
+        const indexT = cellXT
+          + cellYT * uVolumeDimensions.x
+          + cellZT * uVolumeDimensions.x * uVolumeDimensions.y;
+        const packedIndexT = floor(indexT * 0.25);
+        const laneT = indexT - packedIndexT * 4;
+        const packedVoxelT = storageRead(uVolume, packedIndexT);
+        let voxelT = packedVoxelT.x;
+        if (laneT > 0.5) voxelT = packedVoxelT.y;
+        if (laneT > 1.5) voxelT = packedVoxelT.z;
+        if (laneT > 2.5) voxelT = packedVoxelT.w;
+        if (voxelT > 0.5 && abs(voxelT - material0) > 0.5) {
+          transmissionMaterial = voxelT;
+          transmissionFound = 1;
+          activeT = 0;
+        } else {
+          const nextT = min(min(maxXT, maxYT), maxZT);
+          if (nextT > intervalT.y) {
+            transmissionDistance = intervalT.y;
+            activeT = 0;
+          } else {
+            if (maxXT <= nextT + 0.00001) {
+              cellXT = cellXT + stepXT;
+              maxXT = maxXT + deltaXT;
+            }
+            if (maxYT <= nextT + 0.00001) {
+              cellYT = cellYT + stepYT;
+              maxYT = maxYT + deltaYT;
+            }
+            if (maxZT <= nextT + 0.00001) {
+              cellZT = cellZT + stepZT;
+              maxZT = maxZT + deltaZT;
+            }
+            transmissionDistance = nextT;
+            if (cellXT < 0 || cellYT < 0 || cellZT < 0
+              || cellXT >= uVolumeDimensions.x
+              || cellYT >= uVolumeDimensions.y
+              || cellZT >= uVolumeDimensions.z) activeT = 0;
+          }
+        }
+      }
+    }
+    const transmissionColor = storageRead(uMaterialColor, transmissionMaterial).xyz;
+    const transmissionSky = skyRadiance(
+      rayDirection0,
+      uSkyColor,
+      uFogColor,
+      uSunDirection,
+      uSunColor,
+      uSunIntensity,
+      uMoonDirection,
+      uMoonColor,
+      uMoonIntensity,
+      uStylized,
+    );
+    const behindColor = mix(transmissionSky, transmissionColor, transmissionFound);
+    const glassAttenuation = pow(0.985, max(transmissionDistance, 0));
+    const waterAttenuation = pow(0.91, max(transmissionDistance, 0));
+    const waterTint = mix(vec3(0.025, 0.18, 0.24), materialColor0.xyz, 0.42);
+    const transmitted0 = mix(
+      behindColor.scale(glassAttenuation),
+      behindColor.mul(waterTint).scale(1.35 * waterAttenuation),
+      water0,
+    );
+    const paletteFamily0 = floor(material0 / 24) / 11;
+    const breakup0 = sin(dot(hitPoint0, vec3(0.73, 1.19, 0.41)) + material0 * 0.37);
+    const variedColor0 = materialColor0.xyz.scale(1 + breakup0 * uMaterialVariation * 0.12);
+    const graphicColor0 = mix(
+      variedColor0,
+      variedColor0.scale(0.78).add(mix(
+        vec3(0.04, 0.24, 0.5),
+        vec3(0.7, 0.08, 0.28),
+        paletteFamily0,
+      ).scale(0.28)),
+      uStylized,
+    );
+    const roughnessBand0 = floor(materialSurface0.x * 3 + 0.5) / 3;
+    const stylizedMaterialColor0 = graphicColor0
+      .scale(1 - roughnessBand0 * 0.12 * uStylized)
+      .add(vec3(1, 0.42, 0.08).scale(materialSurface0.y * 0.18 * uStylized))
+      .add(vec3(0.1, 0.64, 0.78).scale(glass0 * 0.16 * uStylized))
+      .add(vec3(0.02, 0.32, 0.46).scale(water0 * 0.18 * uStylized));
+    const stylizedNdl = floor(directNdl * 4 + 0.999) / 4;
+    const shapedNdl = mix(directNdl, stylizedNdl, uStylized);
+    const diffuse0 = stylizedMaterialColor0
+      .mul(uSkyColor.scale(0.12).add(primaryLightColor.scale(shapedNdl * visibility)))
       .scale(1 - glass0 * 0.68);
-    const reflectedSun0 = reflect(uSunDirection.scale(-1), shadingNormal0);
+    const reflectedSun0 = reflect(primaryLightDirection.scale(-1), shadingNormal0);
     const specular0 = pow(max(dot(reflectedSun0, rayDirection0.scale(-1)), 0),
       6 + (1 - materialSurface0.x) * 90)
       * (0.04 + materialSurface0.y * 0.75 + glass0 * 1.15)
@@ -365,15 +572,33 @@ export default shader({
     const environmentReflection0 = skyRadiance(
       reflect(rayDirection0, shadingNormal0),
       uSkyColor,
+      uFogColor,
       uSunDirection,
       uSunColor,
+      uSunIntensity,
+      uMoonDirection,
+      uMoonColor,
+      uMoonIntensity,
+      uStylized,
     ).scale(glass0 * 0.82 + materialSurface0.y * 0.2);
-    let radiance = skyRadiance(rayDirection0, uSkyColor, uSunDirection, uSunColor)
+    let radiance = skyRadiance(
+      rayDirection0,
+      uSkyColor,
+      uFogColor,
+      uSunDirection,
+      uSunColor,
+      uSunIntensity,
+      uMoonDirection,
+      uMoonColor,
+      uMoonIntensity,
+      uStylized,
+    )
       .scale(1 - hit0)
-      .add(materialColor0.xyz.scale(materialColor0.w * hit0))
+      .add(stylizedMaterialColor0.scale(materialColor0.w * hit0))
       .add(diffuse0.scale(hit0))
-      .add(uSunColor.scale(specular0 * hit0))
-      .add(environmentReflection0.scale(hit0));
+      .add(primaryLightColor.scale(specular0 * hit0))
+      .add(environmentReflection0.scale(hit0))
+      .add(transmitted0.scale(hit0 * glass0 * (0.78 - water0 * 0.12)));
 
     const random1 = vec2(
       hash21(pixel.add(vec2(uSampleCount * 1.73 + 7.1, uSeed + 3.7))),
@@ -418,9 +643,15 @@ export default shader({
         const index1 = cellX1
           + cellY1 * uVolumeDimensions.x
           + cellZ1 * uVolumeDimensions.x * uVolumeDimensions.y;
-        const voxel1 = storageRead(uVolume, index1);
-        if (voxel1.x > 0.5) {
-          material1 = voxel1.x;
+        const packedIndex1 = floor(index1 * 0.25);
+        const lane1 = index1 - packedIndex1 * 4;
+        const packedVoxel1 = storageRead(uVolume, packedIndex1);
+        let voxel1 = packedVoxel1.x;
+        if (lane1 > 0.5) voxel1 = packedVoxel1.y;
+        if (lane1 > 1.5) voxel1 = packedVoxel1.z;
+        if (lane1 > 2.5) voxel1 = packedVoxel1.w;
+        if (voxel1 > 0.5) {
+          material1 = voxel1;
           hit1 = 1;
           active1 = 0;
         } else {
@@ -468,7 +699,18 @@ export default shader({
       .add(materialColor1.xyz.mul(uSkyColor).scale(max(dot(shadingNormal1, vec3(0, 1, 0)), 0) * 0.18));
     radiance = radiance.add(
       throughput0.mul(
-        skyRadiance(rayDirection1, uSkyColor, uSunDirection, uSunColor).scale(1 - hit1)
+        skyRadiance(
+          rayDirection1,
+          uSkyColor,
+          uFogColor,
+          uSunDirection,
+          uSunColor,
+          uSunIntensity,
+          uMoonDirection,
+          uMoonColor,
+          uMoonIntensity,
+          uStylized,
+        ).scale(1 - hit1)
           .add(bounceLight1.scale(hit1)),
       ).scale(hit0),
     );
@@ -516,9 +758,15 @@ export default shader({
         const index2 = cellX2
           + cellY2 * uVolumeDimensions.x
           + cellZ2 * uVolumeDimensions.x * uVolumeDimensions.y;
-        const voxel2 = storageRead(uVolume, index2);
-        if (voxel2.x > 0.5) {
-          material2 = voxel2.x;
+        const packedIndex2 = floor(index2 * 0.25);
+        const lane2 = index2 - packedIndex2 * 4;
+        const packedVoxel2 = storageRead(uVolume, packedIndex2);
+        let voxel2 = packedVoxel2.x;
+        if (lane2 > 0.5) voxel2 = packedVoxel2.y;
+        if (lane2 > 1.5) voxel2 = packedVoxel2.z;
+        if (lane2 > 2.5) voxel2 = packedVoxel2.w;
+        if (voxel2 > 0.5) {
+          material2 = voxel2;
           hit2 = 1;
           active2 = 0;
         } else {
@@ -563,10 +811,36 @@ export default shader({
       .add(materialColor2.xyz.mul(uSkyColor).scale(max(dot(shadingNormal2, vec3(0, 1, 0)), 0) * 0.12));
     radiance = radiance.add(
       throughput0.mul(throughput1).mul(
-        skyRadiance(rayDirection2, uSkyColor, uSunDirection, uSunColor).scale(1 - hit2)
+        skyRadiance(
+          rayDirection2,
+          uSkyColor,
+          uFogColor,
+          uSunDirection,
+          uSunColor,
+          uSunIntensity,
+          uMoonDirection,
+          uMoonColor,
+          uMoonIntensity,
+          uStylized,
+        ).scale(1 - hit2)
           .add(bounceLight2.scale(hit2)),
       ).scale(hit0 * hit1),
     );
+
+    const primarySky = skyRadiance(
+      rayDirection0,
+      uSkyColor,
+      uFogColor,
+      uSunDirection,
+      uSunColor,
+      uSunIntensity,
+      uMoonDirection,
+      uMoonColor,
+      uMoonIntensity,
+      uStylized,
+    );
+    const atmosphere = smoothstep(105, 360, distance0) * hit0 * 0.48;
+    radiance = mix(radiance, primarySky, atmosphere);
 
     const previous = texture(uPrevious, vUv);
     const nextCount = uSampleCount + 1;

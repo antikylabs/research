@@ -1,9 +1,12 @@
 import type { Vec3Tuple, VoxelMaterial, VoxelScene } from '../../scene/types.ts';
 
-export const RAYTRACE_MAX_DIMENSION = 256;
+export const RAYTRACE_MAX_DIMENSION = 384;
 export const RAYTRACE_VEC4_BYTES = 16;
-export const RAYTRACE_MAX_VOLUME_BYTES = 64 * 1024 * 1024;
-export const RAYTRACE_MAX_TRAVERSAL_STEPS = 515;
+export const RAYTRACE_VOXELS_PER_VEC4 = 4;
+/** Four palette indices per vec4 keep the complete 384 × 128 × 384 studio volume below 128 MiB. */
+export const RAYTRACE_MAX_VOLUME_BYTES = 128 * 1024 * 1024;
+/** 384 + 128 + 384 + 3: worst-case conservative DDA traversal for the studio world. */
+export const RAYTRACE_MAX_TRAVERSAL_STEPS = 899;
 
 export type DenseVoxelStorage = Readonly<{
   dimensions: Vec3Tuple;
@@ -49,7 +52,7 @@ function checkedMaterial(material: VoxelMaterial, index: number): readonly [numb
     clamp01(finite(material.roughness, `material ${index} roughness`)),
     clamp01(finite(material.metallic, `material ${index} metallic`)),
     clamp01(finite(material.glass, `material ${index} glass`)),
-    0,
+    clamp01(finite(material.water, `material ${index} water`)),
   ];
 }
 
@@ -67,8 +70,8 @@ export function densePaletteIndex(volume: DenseVoxelStorage, x: number, y: numbe
     || x >= volume.dimensions[0]
     || y >= volume.dimensions[1]
     || z >= volume.dimensions[2]) return 0;
-  const offset = denseVoxelIndex(volume.dimensions, x, y, z) * 4;
-  return Math.round(volume.volumeData[offset] ?? 0);
+  const index = denseVoxelIndex(volume.dimensions, x, y, z);
+  return Math.round(volume.volumeData[index] ?? 0);
 }
 
 export function createDenseVoxelStorage(
@@ -93,10 +96,11 @@ export function createDenseVoxelStorage(
   }) as unknown as Vec3Tuple;
 
   scene.origin.forEach((value, axis) => finite(value, `origin ${axis}`));
-  const vec4Elements = dimensions[0] * dimensions[1] * dimensions[2];
-  if (!Number.isSafeInteger(vec4Elements)) {
+  const voxelElements = dimensions[0] * dimensions[1] * dimensions[2];
+  if (!Number.isSafeInteger(voxelElements)) {
     throw new Error('Raytrace dense volume element count overflowed a safe integer.');
   }
+  const vec4Elements = Math.ceil(voxelElements / RAYTRACE_VOXELS_PER_VEC4);
   const volumeByteLength = vec4Elements * RAYTRACE_VEC4_BYTES;
   if (!Number.isSafeInteger(volumeByteLength) || volumeByteLength > maxBytes) {
     throw new Error(`Raytrace dense volume needs ${volumeByteLength} bytes, above the ${maxBytes}-byte cap.`);
@@ -138,9 +142,7 @@ export function createDenseVoxelStorage(
       throw new Error(`Raytrace dense volume contains duplicate cell (${cell.x}, ${cell.y}, ${cell.z}).`);
     }
     occupied.add(index);
-    const offset = index * 4;
-    volumeData[offset] = cell.paletteIndex;
-    volumeData[offset + 1] = 1;
+    volumeData[index] = cell.paletteIndex;
   }
 
   return Object.freeze({

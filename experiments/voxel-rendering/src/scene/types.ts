@@ -10,6 +10,8 @@ export type VoxelMaterial = Readonly<{
   metallic: number;
   emission: number;
   glass: number;
+  /** Water is transmissive like glass but uses a rippled, depth-tinted optical response. */
+  water: number;
   sourceType: string;
 }>;
 
@@ -55,4 +57,3 @@ export function voxelWorldCenter(scene: VoxelScene, cell: VoxelCell): Vec3Tuple 
     scene.origin[2] + cell.z + 0.5,
   ];
 }
-

@@ -11,13 +11,16 @@ import {
 } from 'brometal';
 
 import type { CameraSnapshot } from '../../camera/types.ts';
-import { cameraFocusDistance } from '../../render/cinematic.ts';
+import { createLightingState } from '../../render/lighting.ts';
 import type {
   ApproachFactory,
-  PresentationStyle,
   RenderStats,
   VoxelApproach,
 } from '../../render/types.ts';
+import {
+  renderSettingsKey,
+  type RenderSettings,
+} from '../../studio/settings.ts';
 import {
   RaytraceResetTracker,
   type RaytraceSampleDefinition,
@@ -27,14 +30,10 @@ import presentationShader from './shaders/presentation.shader.gen.ts';
 import { createDenseVoxelStorage } from './volume.ts';
 
 const CLEAR_COLOR = Object.freeze([0.008, 0.012, 0.025, 1] as const);
-const SUN_DIRECTION = Object.freeze([-0.57, 0.63, 0.53] as const);
-const SUN_COLOR = Object.freeze([4.8, 2.15, 0.9] as const);
-const SKY_COLOR = Object.freeze([0.035, 0.08, 0.18] as const);
 const MAX_SAMPLES = 512;
-const RAYS_PER_PIXEL_SAMPLE = 4;
+const RAYS_PER_PIXEL_SAMPLE = 5;
 const RGBA16F_BYTES_PER_PIXEL = 8;
-const MATERIAL_LIGHT_KEY = 'golden-hour-sun--0.57-0.63-0.53-v3';
-const INTEGRATOR_KEY = 'dense-dda-two-secondary-soft-shadow-thin-lens-v3';
+const INTEGRATOR_KEY = 'dense-dda-transmission-two-secondary-soft-shadow-thin-lens-v5';
 
 type PathProgram = BroMetalProgram<
   (typeof pathSampleShader)['attributes'],
@@ -98,18 +97,21 @@ function createAccumulationTargets(
 function makeDefinition(
   sceneFingerprint: string,
   camera: CameraSnapshot,
-  style: PresentationStyle,
+  settings: RenderSettings,
   width: number,
   height: number,
 ): RaytraceSampleDefinition {
+  const settingsKeys = renderSettingsKey(settings);
+  const lighting = createLightingState(settings.lighting.timeOfDay, settings.lighting.moonEnabled);
   return Object.freeze({
     sceneFingerprint,
     cameraRevision: camera.revision,
     viewportWidth: width,
     viewportHeight: height,
-    materialLightKey: MATERIAL_LIGHT_KEY,
+    cameraSampleKey: settingsKeys.camera,
+    materialLightKey: `${lighting.key}:${settingsKeys.materialLight}`,
     integratorKey: INTEGRATOR_KEY,
-    presentationKey: style,
+    presentationKey: settingsKeys.presentation,
   });
 }
 
@@ -152,12 +154,12 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
     pathProgram.uniforms.uMaterialSurface.set(materialSurfaceBuffer);
     pathProgram.uniforms.uVolumeOrigin.set(dense.origin);
     pathProgram.uniforms.uVolumeDimensions.set(dense.dimensions);
-    pathProgram.uniforms.uSunDirection.set(SUN_DIRECTION);
-    pathProgram.uniforms.uSunColor.set(SUN_COLOR);
-    pathProgram.uniforms.uSkyColor.set(SKY_COLOR);
     pathProgram.uniforms.uTraversalCap.set(dense.traversalCap);
-    presentationProgram.uniforms.uExposure.set(1.12);
-    presentationProgram.uniforms.uGraphic.set(options.initialStyle === 'graphic' ? 1 : 0);
+    presentationProgram.uniforms.uExposure.set(options.initialSettings.exposure);
+    presentationProgram.uniforms.uGraphic.set(options.initialSettings.style === 'graphic' ? 1 : 0);
+    presentationProgram.uniforms.uFinalColorGrade.set(
+      Number(options.initialSettings.finalColorGrade),
+    );
 
     const ownedRenderer = renderer;
     const ownedPathProgram = pathProgram;
@@ -169,7 +171,7 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
     let disposed = false;
     let runtimeFailed = false;
     let currentCamera: CameraSnapshot | null = null;
-    let currentStyle: PresentationStyle = options.initialStyle;
+    let currentSettings: RenderSettings = options.initialSettings;
     let currentElapsedSeconds = 0;
     let tracker: RaytraceResetTracker | null = null;
     let lastDrawCalls = 0;
@@ -202,7 +204,7 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
       const definition = makeDefinition(
         options.scene.fingerprint,
         currentCamera,
-        currentStyle,
+        currentSettings,
         width,
         height,
       );
@@ -211,6 +213,10 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
 
       let sampled = false;
       if (tracker.sampleCount < MAX_SAMPLES) {
+        const lighting = createLightingState(
+          currentSettings.lighting.timeOfDay,
+          currentSettings.lighting.moonEnabled,
+        );
         ownedPathProgram.uniforms.uPrevious.set(currentTargets.read.texture);
         ownedPathProgram.uniforms.uResolution.set([width, height]);
         ownedPathProgram.uniforms.uSampleCount.set(tracker.sampleCount);
@@ -219,8 +225,20 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
         ownedPathProgram.uniforms.uCameraRight.set(currentCamera.right);
         ownedPathProgram.uniforms.uCameraUp.set(currentCamera.up);
         ownedPathProgram.uniforms.uTanHalfFov.set(Math.tan(currentCamera.verticalFovRadians * 0.5));
-        ownedPathProgram.uniforms.uFocalDistance.set(cameraFocusDistance(currentCamera));
-        ownedPathProgram.uniforms.uAperture.set(1.2);
+        ownedPathProgram.uniforms.uFocalDistance.set(currentSettings.depthOfField.focusDistance);
+        ownedPathProgram.uniforms.uAperture.set(
+          currentSettings.depthOfField.enabled ? currentSettings.depthOfField.aperture : 0,
+        );
+        ownedPathProgram.uniforms.uSunDirection.set(lighting.sunDirection);
+        ownedPathProgram.uniforms.uSunColor.set(lighting.sunColor);
+        ownedPathProgram.uniforms.uSunIntensity.set(lighting.sunIntensity);
+        ownedPathProgram.uniforms.uMoonDirection.set(lighting.moonDirection);
+        ownedPathProgram.uniforms.uMoonColor.set(lighting.moonColor);
+        ownedPathProgram.uniforms.uMoonIntensity.set(lighting.moonIntensity);
+        ownedPathProgram.uniforms.uSkyColor.set(lighting.skyColor);
+        ownedPathProgram.uniforms.uFogColor.set(lighting.fogColor);
+        ownedPathProgram.uniforms.uStylized.set(currentSettings.style === 'graphic' ? 1 : 0);
+        ownedPathProgram.uniforms.uMaterialVariation.set(currentSettings.materialVariation);
         ownedPathProgram.uniforms.uSeed.set(
           currentElapsedSeconds + tracker.generation * 101.317 + tracker.sampleCount * 0.618,
         );
@@ -234,7 +252,11 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
 
       ownedPresentationProgram.uniforms.uAccumulation.set(currentTargets.read.texture);
       ownedPresentationProgram.uniforms.uResolution.set([width, height]);
-      ownedPresentationProgram.uniforms.uGraphic.set(currentStyle === 'graphic' ? 1 : 0);
+      ownedPresentationProgram.uniforms.uExposure.set(currentSettings.exposure);
+      ownedPresentationProgram.uniforms.uGraphic.set(currentSettings.style === 'graphic' ? 1 : 0);
+      ownedPresentationProgram.uniforms.uFinalColorGrade.set(
+        Number(currentSettings.finalColorGrade),
+      );
       ownedPresentationProgram.draw();
       lastDrawCalls = sampled ? 2 : 1;
       lastRayBudget = sampled ? width * height * RAYS_PER_PIXEL_SAMPLE : 0;
@@ -270,16 +292,16 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
         uploadBytesPerFrame: lastUploadBytes,
         sampleCount,
         resetReason,
-        detail: `${dense.dimensions.join(' × ')} dense grid · ${dense.volumeByteLength.toLocaleString()} B volume · 2 × RGBA16F running mean · ≤ ${maxRayBudget.toLocaleString()} rays/sample (${RAYS_PER_PIXEL_SAMPLE}/pixel) · ${dense.traversalCap}-step cap · ${currentStyle} presentation · ${sampleCount}/${MAX_SAMPLES} samples`,
+        detail: `${dense.dimensions.join(' × ')} dense grid · ${dense.volumeByteLength.toLocaleString()} B volume · 2 × RGBA16F running mean · ≤ ${maxRayBudget.toLocaleString()} rays/sample (${RAYS_PER_PIXEL_SAMPLE}/pixel) · ${dense.traversalCap}-step cap · ${currentSettings.style} materials · ${currentSettings.lighting.timeOfDay.toFixed(2)}h · ${sampleCount}/${MAX_SAMPLES} samples`,
       });
     };
 
     return Object.freeze({
-      frame(elapsedSeconds, camera, style): void {
+      frame(elapsedSeconds, camera, settings): void {
         if (disposed || runtimeFailed) return;
         currentElapsedSeconds = elapsedSeconds;
         currentCamera = camera;
-        currentStyle = style;
+        currentSettings = settings;
       },
       stats,
       dispose(): void {

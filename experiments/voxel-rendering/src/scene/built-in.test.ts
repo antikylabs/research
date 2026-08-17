@@ -1,9 +1,25 @@
 import { describe, expect, it } from 'vitest';
 
-import { createBuiltInScene } from './built-in.ts';
+import { createBuiltInScene, STUDIO_MATERIAL_IDS, STUDIO_MATERIALS } from './built-in.ts';
 import { voxelKey } from './types.ts';
 
 describe('createBuiltInScene', () => {
+  it('defines distinct physical inputs for every required material class', () => {
+    const material = (name: keyof typeof STUDIO_MATERIAL_IDS) => (
+      STUDIO_MATERIALS[STUDIO_MATERIAL_IDS[name]]!
+    );
+
+    expect(material('timber')).toMatchObject({ metallic: 0, glass: 0, water: 0 });
+    expect(material('soil').roughness).toBeGreaterThan(0.9);
+    expect(material('copper').metallic).toBeGreaterThan(0.8);
+    expect(material('glass')).toMatchObject({ water: 0 });
+    expect(material('glass').glass).toBeGreaterThan(0.8);
+    expect(material('amberLight').emission).toBeGreaterThan(5);
+    expect(material('leaf').roughness).toBeGreaterThan(0.8);
+    expect(material('water').water).toBeGreaterThan(0.9);
+    expect(material('water').glass).toBeGreaterThan(0.9);
+  });
+
   it('builds the deterministic high-resolution valley scene', () => {
     const first = createBuiltInScene();
     const second = createBuiltInScene();
