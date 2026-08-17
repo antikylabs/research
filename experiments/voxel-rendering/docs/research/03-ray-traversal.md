@@ -376,7 +376,7 @@ and discrete GPU classes where available. WebGPU-.vox's README
 512 samples in about five seconds on one laptop RTX 2060. That is a discovery signal, not an Antiky
 budget or an independently reproduced benchmark.
 
-## Antiky and Studio integration seams
+## Antiky and Studio integration boundaries
 
 **Established:** Current Studio owns panel placement and the iframe lifetime. The CLI game host owns
 the canvas, raw input, backing-size updates, visibility, RAF, final-canvas capture, and game-instance
@@ -391,7 +391,7 @@ makes `BroMetalRenderDriver` the default Framework path and permits a game modul
 directly only when the driver cannot do the work. That direct module owns all its BroMetal resources
 and receives none of the driver features.
 
-**Inferred experiment seam:**
+**Inferred experiment boundary:**
 
 - package the proof as an `.antiky` project with the same Vite library output and `StudioGameEntry`
   shape as `packages/demos/brometal/*`;
@@ -405,7 +405,7 @@ and receives none of the driver features.
   and
 - make asynchronous parse/upload replacement transactional and generation-fenced.
 
-**Inferred future merge seam:** A reusable Studio viewport should expose canvas mount/size,
+**Inferred future merge boundary:** A reusable Studio viewport should expose canvas mount/size,
 scheduling, input, capture, structured diagnostics, and lifecycle—not voxel parsing, path tracer
 controls, or raw WebGPU/BroMetal objects. If the renderer becomes an Antiky product feature, add
 general capabilities to `BroMetalRenderDriver` (3D typed volume, target format, explicit-level

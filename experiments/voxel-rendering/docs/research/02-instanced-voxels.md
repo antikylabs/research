@@ -37,7 +37,7 @@ progressive convergence are different work.
 
 **Established:** The objective requires browser WebGPU, shaders authored through BroMetal, `.vox`
 or standard-model input, accessible shader source, and notes that preserve future Antiky
-CLI/Framework/Studio seams. Rendering is in scope; voxel creation and editing are not. See
+CLI/Framework/Studio boundaries. Rendering is in scope; voxel creation and editing are not. See
 `research/experiments/voxel-rendering/docs/goal.md` and `docs/thoughts/idea.md`.
 
 **Established:** The current Studio does not own the live game's canvas or GPU objects.
@@ -457,7 +457,7 @@ Capture the same deterministic cameras in cube and quad modes. Compare appearanc
 counts and timing. The BroMetal “125,000 cubes in one draw” example proves API shape, not a frame
 budget on Antiky's supported devices.
 
-## Antiky integration seams
+## Antiky integration boundaries
 
 ### Experiment lane
 
@@ -513,7 +513,7 @@ research rather than anticipating its unresolved app and shared-device contracts
 | Face winding error | Back-face culling makes one or more directions disappear | Six isolated colored-face fixture and camera orbit |
 | Float-only instance records grow too large | BroMetal cannot upload packed palette/face/AO bytes | Start with 20-byte face record, track bytes, use lookup textures |
 | Too many BroMetal attributes | Every attribute is a vertex buffer; default WebGPU guarantee is eight | Keep face/material records small; assert compiled layout |
-| Shadow program duplicates instance buffers | High-level programs do not share attribute buffers | Measure memory; defer shadow or justify a deeper BroMetal seam |
+| Shadow program duplicates instance buffers | High-level programs do not share attribute buffers | Measure memory; defer shadow or justify a general BroMetal buffer-sharing API |
 | Transparent voxels sort incorrectly | Blend is pipeline-level and alpha draw is not order independent | Opaque approximation first; separate documented glass experiment |
 | Device loss yields permanent blank output | BroMetal reports loss but does not recreate resources | Visible terminal state now; later host-driven full renderer rebuild |
 | Asset change wins after unmount/project switch | Async fetch/parse/upload can publish stale work | Abort/generation fence at every boundary |

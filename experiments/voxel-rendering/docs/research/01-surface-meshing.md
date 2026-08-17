@@ -134,7 +134,7 @@ Voxel corner AO reads the two side neighbors and the diagonal neighbor. If both 
 the corner is maximally occluded; otherwise the three occupancies select one of four levels. Faces
 may merge only when their corner AO agrees along the merged region. The triangle diagonal should be
 flipped when opposite-corner sums demand it, otherwise interpolation creates a visible directional
-seam. See
+artifact. See
 [Ambient occlusion for Minecraft-like worlds](https://0fps.net/2013/07/03/ambient-occlusion-for-minecraft-like-worlds/).
 
 **Risk found in current code:** Town's `cellSignature()` includes material values and color but not
@@ -267,7 +267,7 @@ Keep static mesh buffers immutable after upload. The current Antiky frame contra
 `indices` fields are for rebuilt geometry and would re-upload them on submission, which is the wrong
 steady-state path for an imported static scene.
 
-## Antiky and Studio integration seams
+## Antiky and Studio integration boundaries
 
 **Established architecture:** BroMetal stays inside `BroMetalRenderDriver`; framework/Studio data
 uses Antiky IDs, pipeline keys, asset descriptions, and typed updates rather than renderer or GPU
@@ -275,12 +275,12 @@ objects. Direct BroMetal use by a game module is allowed only as an exception wh
 needed feature. See accepted
 [ADR 0021](https://github.com/antikylabs/site/blob/main/docs/adr/framework/0021-brometal-render-driver-ownership_H.md).
 
-**Experiment seam:** use a pure BroMetal game module first, matching the existing demo contract. That
+**Experiment boundary:** use a pure BroMetal game module first, matching the existing demo contract. That
 keeps this comparison focused and avoids declaring a permanent `.vox` asset API before results exist.
 The experiment owns parsing, normalized CPU scene data, mesh compilation, renderer children, and
 disposal. The CLI host owns canvas sizing, RAF, input, visibility, and capture.
 
-**Future framework seam:** preserve `.vox` as source/interchange, then compile deterministic runtime
+**Future framework boundary:** preserve `.vox` as source/interchange, then compile deterministic runtime
 artifacts: normalized scene records, unique model meshes/chunks, palette/material table, instances,
 source hash, importer/compiler version, settings, warnings, and output hashes. This matches the current
 architecture direction but remains an open decision, not an accepted voxel contract. See
@@ -294,7 +294,7 @@ draw range, or way to bind several unique static meshes to one material pipeline
 integration should add the smallest generic geometry capability proven by this experiment; it should
 not expose BroMetal programs/buffers or create a voxel-specific renderer abstraction.
 
-**Studio seam:** Studio currently hosts the running game in a sandboxed iframe and does not own its
+**Studio boundary:** Studio currently hosts the running game in a sandboxed iframe and does not own its
 canvas, renderer, device, or render loop. The experiment should therefore look like the existing
 Antiky evidence stage: one dominant media surface, restrained near-black chrome, visible loading/
 ready/running/error state, compact mono measurements, explicit file attribution, and controls that
@@ -311,7 +311,7 @@ See the current [Studio design](https://github.com/antikylabs/site/blob/main/pac
 | Scene graph partly ignored | valid files look plausibly but materially wrong | Fixture rotations, nested transforms, repeated shapes, hidden layers, multiple roots, and frame records; name every deliberate unsupported semantic. |
 | Material semantic overclaim | “PBR” output does not reflect the source | Preserve raw `MATL`, version the mapping, show source and interpreted values, and label glass/GI approximations. |
 | Over-greedy merge | AO/color/material discontinuities disappear | Full face signature, AO-aware fixtures, deterministic mesh fingerprint, and a reference culled mesh image. |
-| Fixed quad diagonal | diagonal AO seam | Choose diagonal from opposite-corner AO sums and test an intentionally non-coplanar AO quad. |
+| Fixed quad diagonal | diagonal AO artifact | Choose diagonal from opposite-corner AO sums and test an intentionally non-coplanar AO quad. |
 | Huge monolithic buffers | slow import, weak culling, allocation failure | Bound sizes, report bytes, and compare whole-model with measured chunk candidates. |
 | Per-frame static mesh upload | CPU/queue bandwidth and frame spikes | One-time immutable upload; zero steady-state geometry bytes. |
 | Transparent voxels | sorting artifacts and false refraction claims | Separate pass, explicit approximation, and fixtures viewed from several angles. |

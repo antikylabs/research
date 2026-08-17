@@ -4,12 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run shaders && vite --host 127.0.0.1 --port 4178",
-    "build": "npm run shaders:prod && tsc --noEmit && vite build",
+    "fixture": "node --experimental-strip-types --experimental-transform-types scripts/write-built-in-vox.ts",
+    "measure": "node --experimental-strip-types --experimental-transform-types scripts/measure-scene.ts",
+    "dev": "npm run fixture && npm run shaders && vite --host 127.0.0.1 --port 4178",
+    "build": "npm run fixture && npm run shaders:prod && tsc --noEmit && vite build",
     "shaders": "brometal dev --once",
     "shaders:watch": "brometal dev",
     "shaders:prod": "brometal prod",
-    "test": "npm run shaders:prod && vitest run",
+    "test": "npm run fixture && npm run shaders:prod && vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -30,4 +32,3 @@
     "vitest": "4.1.10"
   }
 }
-

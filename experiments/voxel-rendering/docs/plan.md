@@ -21,7 +21,7 @@ The research exposed choices that the informal goal did not settle. The experime
 bounded answers:
 
 - **Current product, not stale stack:** match the present Antiky Studio Vite/React/Tauri visual
-  system and lifecycle seams. Do not create a Next.js-specific integration because Studio is no
+  system and lifecycle boundaries. Do not create a Next.js-specific integration because Studio is no
   longer a Next.js app.
 - **Input promise:** support validated `VOX ` version 150 base-model data (`SIZE`, `XYZI`, `RGBA`,
   `PACK`) plus preserved `MATL` dictionaries. Load any model in a multi-model file, with the first
@@ -66,7 +66,10 @@ Every renderer implements the same lifecycle:
 - invalidate only the state its algorithm needs; and
 - dispose all programs, buffers, textures, targets, listeners, and the renderer.
 
-The app owns one animation loop and one orbit camera. Switching renderer or scene disposes the old
+The official BroMetal 0.18 package owns the one render animation loop; the app publishes the latest
+camera/style state to it. Antiky's installed copy adds `renderer.present()` through a local patch,
+which is the future host-owned frame API but is intentionally not duplicated in this independent
+research package. The app owns one orbit camera. Switching renderer or scene disposes the old
 pipeline before publishing the replacement. Async construction is generation-fenced so stale work
 cannot replace a newer selection.
 

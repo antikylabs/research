@@ -90,6 +90,7 @@ describe('parseVox', () => {
 
     expect(document.declaredModelCount).toBe(2);
     expect(document.models).toHaveLength(2);
+    expect(document.palette).toHaveLength(256);
     expect(document.palette[1]).toEqual([255, 255, 255, 255]);
   });
 
@@ -115,4 +116,3 @@ describe('parseVox', () => {
     expect(scene.receipt).toMatchObject({ source: 'vox', parseMilliseconds: 1.25, voxelCount: 2 });
   });
 });
-
