@@ -87,7 +87,7 @@ http://127.0.0.1:4173/representative/?card=cold-start-and-artifacts
 ```
 
 The current checked-in exports are in `output/social/`; the print-verified PDF
-is `output/pdf/renderer-benchmark-report.pdf`.
+is [`report/renderer-benchmark-report.pdf`](../../report/renderer-benchmark-report.pdf).
 
 Near the top of the representative report, the library-size reference keeps
 three different costs separate:
