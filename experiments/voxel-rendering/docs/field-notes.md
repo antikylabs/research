@@ -7,9 +7,28 @@ credible stylized fallback. Dense DDA path tracing proves a different lighting d
 current cost and BroMetal integration make it research work rather than the default renderer.
 
 These conclusions are based on source review, deterministic CPU receipts, compiled shaders, tests,
-type checking, and a production build. They are not based on live GPU timings or visual inspection;
-the execution environment exposed no browser session. The [execution summary](./summary.md) records
-that missing evidence.
+type checking, production builds, an Antiky managed capture, and a live Chromium/WebGPU inspection.
+They are not based on GPU frame-time benchmarks. The [execution summary](./summary.md) and [visual
+evidence index](./evidence/README.md) record the exact environment and artifacts.
+
+## What the live pass changed
+
+All six renderer/presentation combinations produced distinct images at the same 1280 × 720 camera.
+The greedy physical image was the cleanest controlled result: large merged surfaces, corner AO,
+palette identity, and emissive fixtures remained readable. Its graphic presentation shifted toward
+cooler light bands without changing the geometry. Face instances made the original voxel stepping
+more explicit; its graphic presentation produced the strongest palette-led, poster-like result.
+
+The dense tracer reached 256 running-mean samples. Bright sky, emissive fixtures, and warm secondary
+contribution around the open interior proved that the traversal was doing more than a primary-ray
+palette lookup. It also showed the ceiling clearly: enclosed faces are too dark, emissive-adjacent
+regions retain noise, and the graphic environment bands dominate the silhouette. This is a useful
+indirect-light reference, not a hyperrealistic renderer or a real-time performance claim.
+
+Live interaction found one issue that automated tests had missed. React's passive wheel listener
+reported an error when the camera tried to cancel page scrolling. A native `{ passive: false }`
+listener and cleanup regression test fixed it. The final standalone pass exercised orbit, zoom,
+renderer and presentation switching, and a real local `.vox` upload with no console errors.
 
 ## The same scene produces three different workloads
 

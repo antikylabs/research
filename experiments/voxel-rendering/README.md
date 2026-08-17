@@ -4,9 +4,10 @@ This browser study renders one voxel scene through three different BroMetal/WebG
 it to compare AO-aware greedy meshing, exposed-face instancing, and progressive dense-grid ray
 traversal against the same camera, materials, and source data.
 
-The implementation is ready for local evaluation. Automated checks pass, but live GPU appearance
-has not been certified because the execution environment had no available browser session. See the
-[execution summary](./docs/summary.md) for the one remaining action.
+The implementation and live comparison are complete. Chromium 151 rendered every pipeline and
+presentation on an Apple `metal-3` WebGPU adapter; the checked-in [visual evidence](./docs/evidence/README.md)
+uses one scene, camera, viewport, and DPR. The [execution summary](./docs/summary.md) records the
+managed Antiky capture and interactive verification.
 
 ## Run the study
 
@@ -28,6 +29,26 @@ greedy mesh pipeline.
 
 The inspector reports submitted geometry or ray budgets, draw calls, payload bytes, sample count,
 and the deterministic build receipt. Import, device, and shader errors appear over the stage.
+
+## Run through Antiky CLI and inspection MCP
+
+From the sibling `antiky` repository, launch the game-module build through the supported host:
+
+```sh
+npm run antiky -- dev --project ../research/experiments/voxel-rendering/voxel-rendering.antiky
+```
+
+The project uses game port 4178 and inspection port 4179. The renderer and presentation can be
+selected in the hosted URL, for example:
+
+```text
+http://127.0.0.1:4178/?approach=raytrace&style=graphic
+```
+
+Valid `approach` values are `mesh`, `instances`, and `raytrace`; valid `style` values are `physical`
+and `graphic`. The Antiky entry reports draw calls, upload bytes, scene facts, and path sample counts
+to the inspection runtime. Run `npm run antiky:build` in this directory to verify the game module
+without starting a development session.
 
 ## Supported `.vox` data
 
@@ -74,6 +95,7 @@ Do not edit `*.shader.gen.ts` files directly. Run `npm run shaders` after changi
 - [Implementation plan and completion definition](./docs/plan.md)
 - [Comparison field notes](./docs/field-notes.md)
 - [Execution summary](./docs/summary.md)
+- [Live visual evidence](./docs/evidence/README.md)
 - [Surface-meshing research](./docs/research/01-surface-meshing.md)
 - [Instanced-voxel research](./docs/research/02-instanced-voxels.md)
 - [Ray-traversal research](./docs/research/03-ray-traversal.md)

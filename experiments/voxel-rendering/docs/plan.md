@@ -2,6 +2,9 @@
 
 Plan date: 2026-08-16
 
+Completion date: 2026-08-16. All five packets and the completion definition were verified; see the
+[execution summary](./summary.md) and [live visual evidence](./evidence/README.md).
+
 ## Outcome
 
 Build one browser WebGPU study that loads a bounded MagicaVoxel `.vox` model and renders the same
