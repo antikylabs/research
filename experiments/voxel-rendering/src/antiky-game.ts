@@ -2,11 +2,18 @@ import { createInstancesApproach } from './approaches/instances/index.ts';
 import { createMeshApproach } from './approaches/mesh/index.ts';
 import { createRaytraceApproach } from './approaches/raytrace/index.ts';
 import { OrbitCamera } from './camera/orbit-camera.ts';
+import {
+  applyVoxelCaptureFixture,
+  type VoxelCaptureFixtureRequest,
+  type VoxelCaptureFixtureResult,
+  type VoxelCapturePresentation,
+} from './capture-fixture.ts';
 import type {
   ApproachFactory,
   ApproachId,
   PresentationStyle,
   RenderStats,
+  VoxelApproach,
 } from './render/types.ts';
 import { createBuiltInScene } from './scene/built-in.ts';
 
@@ -23,6 +30,11 @@ type AntikyHostContext = Readonly<{
 }>;
 
 type AntikyGameInstance = Readonly<{
+  inspection: Readonly<{
+    applyCaptureFixture(
+      request: VoxelCaptureFixtureRequest,
+    ): VoxelCaptureFixtureResult | Promise<VoxelCaptureFixtureResult>;
+  }>;
   frame(platformTimeSeconds: number): void;
   dispose(): void;
 }>;
@@ -31,10 +43,7 @@ type AntikyGameEntry = (
   context: AntikyHostContext,
 ) => AntikyGameInstance | Promise<AntikyGameInstance>;
 
-export type AntikyPresentation = Readonly<{
-  approach: ApproachId;
-  style: PresentationStyle;
-}>;
+export type AntikyPresentation = VoxelCapturePresentation;
 
 const FACTORIES: Readonly<Record<ApproachId, ApproachFactory>> = Object.freeze({
   mesh: createMeshApproach,
@@ -66,24 +75,47 @@ function measurements(stats: RenderStats, presentation: AntikyPresentation): Ant
 
 /** Antiky CLI/Studio game-module entry for managed WebGPU inspection and canvas capture. */
 const mountVoxelStudy: AntikyGameEntry = async ({ canvas, report }) => {
-  const presentation = selectAntikyPresentation(window.location.search);
+  let presentation = selectAntikyPresentation(window.location.search);
   const scene = createBuiltInScene();
   const camera = new OrbitCamera();
   let pendingError: Error | null = null;
-  const approach = await FACTORIES[presentation.approach]({
-    canvas,
-    scene,
-    initialStyle: presentation.style,
-    onError(error) {
-      pendingError = error;
-    },
-  });
+  let disposed = false;
+  const createApproach = (selected: AntikyPresentation) => FACTORIES[selected.approach]({
+      canvas,
+      scene,
+      initialStyle: selected.style,
+      onError(error) {
+        pendingError = error;
+      },
+    });
+  let approach: VoxelApproach | null = await createApproach(presentation);
   let framesSinceReport = 0;
   report(measurements(approach.stats(), presentation));
 
   return Object.freeze({
+    inspection: Object.freeze({
+      async applyCaptureFixture(request: VoxelCaptureFixtureRequest): Promise<VoxelCaptureFixtureResult> {
+        const applied = applyVoxelCaptureFixture(presentation, request);
+        const approachChanged = applied.presentation.approach !== presentation.approach;
+        presentation = applied.presentation;
+        if (approachChanged) {
+          const previous = approach;
+          if (previous === null) throw new Error('Voxel-rendering renderer replacement is already active.');
+          approach = null;
+          previous.dispose();
+          pendingError = null;
+          if (disposed) throw new Error('Voxel-rendering game is disposed.');
+          approach = await createApproach(presentation);
+        }
+        const activeApproach = approach;
+        if (activeApproach === null) throw new Error('Voxel-rendering renderer replacement failed.');
+        report(measurements(activeApproach.stats(), presentation));
+        return applied.result;
+      },
+    }),
     frame(platformTimeSeconds: number): void {
       if (pendingError !== null) throw pendingError;
+      if (disposed || approach === null) return;
       const width = Math.max(1, canvas.width || canvas.clientWidth);
       const height = Math.max(1, canvas.height || canvas.clientHeight);
       approach.frame(
@@ -98,7 +130,9 @@ const mountVoxelStudy: AntikyGameEntry = async ({ canvas, report }) => {
       }
     },
     dispose(): void {
-      approach.dispose();
+      if (disposed) return;
+      disposed = true;
+      approach?.dispose();
     },
   });
 };

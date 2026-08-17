@@ -5,6 +5,7 @@ import {
   createDenseVoxelStorage,
   denseVoxelIndex,
   RAYTRACE_MAX_DIMENSION,
+  RAYTRACE_MAX_TRAVERSAL_STEPS,
   RAYTRACE_MAX_VOLUME_BYTES,
 } from './volume.ts';
 
@@ -62,7 +63,7 @@ describe('createDenseVoxelStorage', () => {
     expect(() => createDenseVoxelStorage(raytraceTestScene(
       [RAYTRACE_MAX_DIMENSION + 1, 1, 1],
       [],
-    ))).toThrow(/dimension.*64/i);
+    ))).toThrow(new RegExp(`dimension.*${RAYTRACE_MAX_DIMENSION}`, 'i'));
 
     expect(() => createDenseVoxelStorage(raytraceTestScene([4, 4, 4], []), {
       maxBytes: 16,
@@ -81,6 +82,9 @@ describe('createDenseVoxelStorage', () => {
       { x: 0, y: 0, z: 0, paletteIndex: 0 },
     ]))).toThrow(/palette/i);
 
-    expect(RAYTRACE_MAX_VOLUME_BYTES).toBe(64 * 64 * 64 * 16);
+    expect(RAYTRACE_MAX_VOLUME_BYTES).toBe(64 * 1024 * 1024);
+    expect(RAYTRACE_MAX_TRAVERSAL_STEPS).toBe(515);
+    expect(() => createDenseVoxelStorage(raytraceTestScene([256, 1, 256], [])))
+      .toThrow(/traversal steps/i);
   });
 });

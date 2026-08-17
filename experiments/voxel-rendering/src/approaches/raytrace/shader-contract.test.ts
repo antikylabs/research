@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { RAYTRACE_MAX_TRAVERSAL_STEPS } from './volume.ts';
 import pathSampleShader from './shaders/path-sample.shader.gen.ts';
 import presentationShader from './shaders/presentation.shader.gen.ts';
 
@@ -16,6 +17,9 @@ describe('raytrace generated shader contracts', () => {
     expect(pathSampleShader.wgslSrc).toContain('var<storage, read> uMaterialColor');
     expect(pathSampleShader.wgslSrc).toContain('var<storage, read> uMaterialSurface');
     expect(pathSampleShader.wgslSrc.match(/for \(/g)?.length).toBeGreaterThanOrEqual(4);
+    expect(pathSampleShader.wgslSrc).toContain(
+      `let maximumTraversalSteps = ${RAYTRACE_MAX_TRAVERSAL_STEPS}.0;`,
+    );
     expect(pathSampleShader.wgslSrc).toContain('uSampleCount');
   });
 

@@ -10,11 +10,12 @@ import {
   pow,
   shader,
   step,
+  texture,
+  vec2,
   vec3,
   vec4,
   type Vec3,
 } from 'brometal';
-import { tonemapACES } from 'brometal/shader-functions';
 
 function fresnelSchlick(cosTheta: number, f0: Vec3): Vec3 {
   const grazing = pow(1 - clamp(cosTheta, 0, 1), 5);
@@ -35,39 +36,13 @@ function geometrySchlickGgx(ndot: number, roughness: number): number {
   return ndot / max(ndot * (1 - k) + k, 0.0001);
 }
 
-function geometrySmith(
-  normal: Vec3,
-  view: Vec3,
-  light: Vec3,
-  roughness: number,
-): number {
+function geometrySmith(normal: Vec3, view: Vec3, light: Vec3, roughness: number): number {
   const ndotv = max(dot(normal, view), 0);
   const ndotl = max(dot(normal, light), 0);
   return geometrySchlickGgx(ndotv, roughness) * geometrySchlickGgx(ndotl, roughness);
 }
 
-function channelToDisplay(channel: number): number {
-  const safe = max(channel, 0);
-  const low = safe * 12.92;
-  const high = pow(safe, 0.4166666666666667) * 1.055 - 0.055;
-  return mix(low, high, step(0.0031308, safe));
-}
-
-function encodeSrgb(color: Vec3): Vec3 {
-  return vec3(
-    channelToDisplay(color.x),
-    channelToDisplay(color.y),
-    channelToDisplay(color.z),
-  );
-}
-
-/**
- * One-pass physical surface control for the greedy mesh.
- *
- * Source colors arrive in linear light. `uSunDirection` points from the
- * surface toward the sun. All lighting and fog remain linear until exposure,
- * ACES, and the final sRGB output transform at the bottom of the fragment.
- */
+/** Linear-HDR greedy surface pass with a light-space depth mode and soft shadow lookup. */
 export default shader({
   attributes: {
     aPosition: 'vec3',
@@ -79,7 +54,9 @@ export default shader({
   },
   uniforms: {
     uViewProjection: 'mat4',
+    uLightViewProjection: 'mat4',
     uCameraPosition: 'vec3',
+    uCameraForward: 'vec3',
     uSunDirection: 'vec3',
     uSunColor: 'vec3',
     uSunIntensity: 'float',
@@ -88,9 +65,11 @@ export default shader({
     uAmbientIntensity: 'float',
     uFogColor: 'vec3',
     uFogDensity: 'float',
-    uExposure: 'float',
-    /** Zero is physical; one adds the deliberately graphic presentation. */
-    uGraphic: 'float',
+    uShadowMap: 'sampler2D',
+    uShadowTexel: 'vec2',
+    uShadowPass: 'float',
+    /** Zero is photorealistic; one adds the deliberately stylized presentation. */
+    uStylized: 'float',
   },
   varyings: {
     vWorld: 'vec3',
@@ -99,11 +78,12 @@ export default shader({
     vMaterial: 'vec2',
     vEmissive: 'float',
     vAo: 'float',
+    vLightClip: 'vec4',
   },
 
   vertex(
     { aPosition, aNormal, aColor, aMaterial, aEmissive, aAo },
-    { uViewProjection },
+    { uViewProjection, uLightViewProjection, uShadowPass },
     varying,
   ) {
     varying.vWorld = aPosition;
@@ -112,12 +92,16 @@ export default shader({
     varying.vMaterial = aMaterial;
     varying.vEmissive = aEmissive;
     varying.vAo = aAo;
-    return uViewProjection.mul(vec4(aPosition, 1));
+    const world = vec4(aPosition, 1);
+    const lightClip = uLightViewProjection.mul(world);
+    varying.vLightClip = lightClip;
+    return mix(uViewProjection.mul(world), lightClip, step(0.5, uShadowPass));
   },
 
   fragment(
     {
       uCameraPosition,
+      uCameraForward,
       uSunDirection,
       uSunColor,
       uSunIntensity,
@@ -126,10 +110,12 @@ export default shader({
       uAmbientIntensity,
       uFogColor,
       uFogDensity,
-      uExposure,
-      uGraphic,
+      uShadowMap,
+      uShadowTexel,
+      uShadowPass,
+      uStylized,
     },
-    { vWorld, vNormal, vColor, vMaterial, vEmissive, vAo },
+    { vWorld, vNormal, vColor, vMaterial, vEmissive, vAo, vLightClip },
   ) {
     const normal = normalize(vNormal);
     const view = normalize(uCameraPosition.sub(vWorld));
@@ -140,8 +126,6 @@ export default shader({
     const roughness = clamp(vMaterial.x, 0.08, 1);
     const metallic = clamp(vMaterial.y, 0, 1);
 
-    // Cook-Torrance GGX. Fresnel also removes the reflected energy from the
-    // diffuse lobe, and metals carry no diffuse lobe at all.
     const dielectricF0 = vec3(0.04, 0.04, 0.04);
     const f0 = mix(dielectricF0, vColor, metallic);
     const fresnel = fresnelSchlick(max(dot(halfway, view), 0), f0);
@@ -152,45 +136,51 @@ export default shader({
     );
     const diffuseWeight = vec3(1, 1, 1).sub(fresnel).scale(1 - metallic);
     const diffuse = diffuseWeight.mul(vColor).scale(1 / 3.14159265);
-    const sunRadiance = uSunColor.scale(uSunIntensity);
-    const direct = diffuse.add(specular).mul(sunRadiance).scale(ndotl);
 
-    // This is an explicit environment approximation, not image-based lighting:
-    // diffuse hemisphere irradiance plus a restrained sky-tinted F0 response.
-    const hemisphere = mix(
-      uGroundColor,
-      uSkyColor,
-      normal.y * 0.5 + 0.5,
-    );
-    const localVisibility = mix(0.28, 1, clamp(vAo, 0, 1));
+    const lightNdc = vLightClip.xyz.scale(1 / max(vLightClip.w, 0.0001));
+    const shadowUv = vec2(lightNdc.x * 0.5 + 0.5, 0.5 - lightNdc.y * 0.5);
+    const compareDepth = lightNdc.z - (0.0007 + (1 - ndotl) * 0.0024);
+    let shadow = step(compareDepth, texture(uShadowMap, shadowUv).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.add(vec2(uShadowTexel.x, 0))).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.sub(vec2(uShadowTexel.x, 0))).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.add(vec2(0, uShadowTexel.y))).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.sub(vec2(0, uShadowTexel.y))).x);
+    shadow = shadow / 5;
+    if (shadowUv.x < 0 || shadowUv.x > 1 || shadowUv.y < 0 || shadowUv.y > 1) shadow = 1;
+
+    const sunRadiance = uSunColor.scale(uSunIntensity);
+    const direct = diffuse.add(specular)
+      .mul(sunRadiance)
+      .scale(ndotl * mix(0.14, 1, shadow));
+    const hemisphere = mix(uGroundColor, uSkyColor, normal.y * 0.5 + 0.5);
+    const localVisibility = mix(0.22, 1, clamp(vAo, 0, 1));
     const ambientDiffuse = vColor
       .mul(hemisphere)
       .scale((1 - metallic) * uAmbientIntensity);
     const ambientSpecular = f0
       .mul(uSkyColor)
-      .scale(uAmbientIntensity * (1 - roughness) * 0.32);
+      .scale(uAmbientIntensity * (1 - roughness) * 0.38);
     const emitted = vColor.scale(max(vEmissive, 0));
     const physical = direct
       .add(ambientDiffuse.add(ambientSpecular).scale(localVisibility))
       .add(emitted);
 
-    // The geometry representation remains unchanged in Graphic mode. The
-    // presentation adds readable bands and a cool rim while retaining the
-    // physical path as the style-zero endpoint.
     const band = floor(ndotl * 4 + 0.999) / 4;
     const rim = pow(1 - ndotv, 3);
+    const graphicVisibility = mix(0.55, 1, clamp(vAo, 0, 1));
     const graphic = vColor
-      .mul(mix(uGroundColor, uSkyColor, normal.y * 0.5 + 0.5))
-      .scale(0.34 + band * 1.15)
-      .add(uSkyColor.scale(rim * 0.42))
-      .add(emitted.scale(1.25))
-      .scale(localVisibility);
-    const lit = mix(physical, graphic, clamp(uGraphic, 0, 1));
+      .scale((0.5 + band * 1.2) * mix(0.5, 1, shadow) * graphicVisibility)
+      .add(mix(vec3(0.16, 0.045, 0.18), vec3(0.06, 0.3, 0.48), normal.y * 0.5 + 0.5).scale(0.2))
+      .add(vec3(0.08, 0.44, 0.78).scale(rim * 0.42))
+      .add(emitted.scale(1.35));
+    const lit = mix(physical, graphic, clamp(uStylized, 0, 1));
 
     const distanceToCamera = length(uCameraPosition.sub(vWorld));
     const fog = 1 - exp(-uFogDensity * distanceToCamera);
-    const atmospheric = mix(lit, uFogColor, clamp(fog, 0, 0.94));
-    const display = encodeSrgb(tonemapACES(atmospheric.scale(uExposure)));
-    return vec4(display, 1);
+    const atmospheric = mix(lit, uFogColor, clamp(fog, 0, 0.88));
+    const focalDepth = max(dot(vWorld.sub(uCameraPosition), uCameraForward), 0.001);
+    const mainOutput = vec4(atmospheric, focalDepth);
+    const lightDepth = clamp(vLightClip.z / max(vLightClip.w, 0.0001), 0, 1);
+    return mix(mainOutput, vec4(lightDepth, lightDepth, lightDepth, 1), step(0.5, uShadowPass));
   },
 });

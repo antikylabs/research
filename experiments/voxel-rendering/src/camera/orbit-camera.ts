@@ -55,13 +55,13 @@ export class OrbitCamera {
 
   constructor(options: OrbitCameraOptions = {}) {
     this.initial = Object.freeze({
-      target: options.target ?? ([0, 3, 0] as const),
-      distance: options.distance ?? 46,
-      minDistance: options.minDistance ?? 6,
-      maxDistance: options.maxDistance ?? 120,
-      yaw: options.yaw ?? 0.72,
-      pitch: options.pitch ?? 0.42,
-      verticalFovRadians: options.verticalFovRadians ?? Math.PI / 4,
+      target: options.target ?? ([0, 23, 18] as const),
+      distance: options.distance ?? 118,
+      minDistance: options.minDistance ?? 35,
+      maxDistance: options.maxDistance ?? 360,
+      yaw: options.yaw ?? 0.42,
+      pitch: options.pitch ?? 0.14,
+      verticalFovRadians: options.verticalFovRadians ?? Math.PI / 3.3,
     });
     this.distanceValue = clamp(this.initial.distance, this.initial.minDistance, this.initial.maxDistance);
     this.yawValue = this.initial.yaw;
@@ -121,7 +121,7 @@ export class OrbitCamera {
       -dot(right, position), -dot(up, position), dot(forward, position), 1,
     ];
     const near = 0.1;
-    const far = 300;
+    const far = 600;
     const f = 1 / Math.tan(this.initial.verticalFovRadians / 2);
     const projection = [
       f / Math.max(aspect, 0.01), 0, 0, 0,

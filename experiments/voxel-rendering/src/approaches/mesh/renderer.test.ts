@@ -6,12 +6,14 @@ import type { Vec3Tuple, VoxelMaterial, VoxelScene } from '../../scene/types.ts'
 const brometal = vi.hoisted(() => ({
   createProgram: vi.fn(),
   createRenderer: vi.fn(),
+  createRenderTarget: vi.fn(),
 }));
 
 vi.mock('brometal', async (importOriginal) => ({
   ...await importOriginal<typeof import('brometal')>(),
   createProgram: brometal.createProgram,
   createRenderer: brometal.createRenderer,
+  createRenderTarget: brometal.createRenderTarget,
 }));
 
 import { createMeshApproach } from './renderer.ts';
@@ -35,8 +37,8 @@ function material(paletteIndex: number): VoxelMaterial {
 function scene(empty = false): VoxelScene {
   const materials = Array.from({ length: 256 }, (_, index) => material(index));
   const cells = empty ? [] : [{ x: 0, y: 0, z: 0, paletteIndex: 4 }];
-  const dimensions: Vec3Tuple = empty ? [0, 0, 0] : [1, 1, 1];
-  const maximum: Vec3Tuple = empty ? [0, 0, 0] : [1, 1, 1];
+  const dimensions: Vec3Tuple = [1, 1, 1];
+  const maximum: Vec3Tuple = [1, 1, 1];
   return Object.freeze({
     name: empty ? 'empty' : 'single voxel',
     dimensions,
@@ -76,7 +78,7 @@ const camera: CameraSnapshot = Object.freeze({
 function createDoubles() {
   let loopCallback: (() => void) | null = null;
   const stopLoop = vi.fn();
-  const attributes = {
+  const surfaceAttributes = {
     aPosition: { set: set() },
     aNormal: { set: set() },
     aColor: { set: set() },
@@ -84,9 +86,11 @@ function createDoubles() {
     aEmissive: { set: set() },
     aAo: { set: set() },
   };
-  const uniforms = {
+  const surfaceUniforms = {
     uViewProjection: { set: set() },
+    uLightViewProjection: { set: set() },
     uCameraPosition: { set: set() },
+    uCameraForward: { set: set() },
     uSunDirection: { set: set() },
     uSunColor: { set: set() },
     uSunIntensity: { set: set() },
@@ -95,35 +99,78 @@ function createDoubles() {
     uAmbientIntensity: { set: set() },
     uFogColor: { set: set() },
     uFogDensity: { set: set() },
-    uExposure: { set: set() },
-    uGraphic: { set: set() },
+    uShadowMap: { set: set() },
+    uShadowTexel: { set: set() },
+    uShadowPass: { set: set() },
+    uStylized: { set: set() },
   };
-  const program = {
-    attributes,
+  const surfaceProgram = {
+    attributes: surfaceAttributes,
     instanceAttributes: {},
-    uniforms,
+    uniforms: surfaceUniforms,
     setIndices: vi.fn(),
     draw: vi.fn(),
     dispatch: vi.fn(),
     dispose: vi.fn(),
   };
+  const presentationAttributes = { aPosition: { set: set() } };
+  const presentationUniforms = {
+    uScene: { set: set() },
+    uResolution: { set: set() },
+    uFocusDistance: { set: set() },
+    uFocusRange: { set: set() },
+    uAperture: { set: set() },
+    uExposure: { set: set() },
+    uStylized: { set: set() },
+  };
+  const presentationProgram = {
+    attributes: presentationAttributes,
+    instanceAttributes: {},
+    uniforms: presentationUniforms,
+    setIndices: vi.fn(),
+    draw: vi.fn(),
+    dispatch: vi.fn(),
+    dispose: vi.fn(),
+  };
+  const targets: Array<{
+    width: number;
+    height: number;
+    texture: object;
+    dispose: ReturnType<typeof vi.fn>;
+  }> = [];
   const renderer = {
     backend: 'webgpu',
-    canvas: {} as HTMLCanvasElement,
+    canvas: { width: 1280, height: 720 } as HTMLCanvasElement,
     aspect: 1,
     loop: vi.fn((draw: () => void) => {
       loopCallback = draw;
       return stopLoop;
     }),
-    drawTo: vi.fn(),
+    drawTo: vi.fn((_target, draw: () => void) => draw()),
     destroy: vi.fn(),
   };
   brometal.createRenderer.mockResolvedValue(renderer);
-  brometal.createProgram.mockReturnValue(program);
+  brometal.createProgram
+    .mockReturnValueOnce(surfaceProgram)
+    .mockReturnValueOnce(presentationProgram);
+  brometal.createRenderTarget.mockImplementation((_renderer, options) => {
+    const target = {
+      width: options.width,
+      height: options.height,
+      texture: Object.freeze({ width: options.width, height: options.height }),
+      dispose: vi.fn(),
+    };
+    targets.push(target);
+    return target;
+  });
   return {
-    attributes,
-    uniforms,
-    program,
+    surfaceAttributes,
+    surfaceUniforms,
+    surfaceProgram,
+    presentationAttributes,
+    presentationUniforms,
+    presentationProgram,
+    targets,
     renderer,
     stopLoop,
     drawFrame(): void {
@@ -145,39 +192,44 @@ describe('greedy mesh BroMetal factory', () => {
       onError: vi.fn(),
     });
 
-    expect(doubles.attributes.aPosition.set).toHaveBeenCalledTimes(1);
-    expect(doubles.attributes.aNormal.set).toHaveBeenCalledTimes(1);
-    expect(doubles.attributes.aColor.set).toHaveBeenCalledTimes(1);
-    expect(doubles.attributes.aMaterial.set).toHaveBeenCalledTimes(1);
-    expect(doubles.attributes.aEmissive.set).toHaveBeenCalledTimes(1);
-    expect(doubles.attributes.aAo.set).toHaveBeenCalledTimes(1);
-    expect(doubles.program.setIndices).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceAttributes.aPosition.set).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceAttributes.aNormal.set).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceAttributes.aColor.set).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceAttributes.aMaterial.set).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceAttributes.aEmissive.set).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceAttributes.aAo.set).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceProgram.setIndices).toHaveBeenCalledTimes(1);
+    expect(doubles.presentationAttributes.aPosition.set).toHaveBeenCalledTimes(1);
+    expect(doubles.presentationProgram.setIndices).toHaveBeenCalledTimes(1);
 
     approach.frame(1, camera, 'physical');
     doubles.drawFrame();
     approach.frame(2, camera, 'graphic');
     doubles.drawFrame();
 
-    for (const attribute of Object.values(doubles.attributes)) {
+    for (const attribute of Object.values(doubles.surfaceAttributes)) {
       expect(attribute.set).toHaveBeenCalledTimes(1);
     }
-    expect(doubles.program.setIndices).toHaveBeenCalledTimes(1);
-    expect(doubles.uniforms.uViewProjection.set).toHaveBeenCalledTimes(2);
-    expect(doubles.uniforms.uCameraPosition.set).toHaveBeenCalledTimes(2);
-    expect(doubles.uniforms.uGraphic.set).toHaveBeenLastCalledWith(1);
-    expect(doubles.program.draw).toHaveBeenCalledTimes(2);
+    expect(doubles.surfaceProgram.setIndices).toHaveBeenCalledTimes(1);
+    expect(doubles.surfaceUniforms.uViewProjection.set).toHaveBeenCalledTimes(2);
+    expect(doubles.surfaceUniforms.uCameraPosition.set).toHaveBeenCalledTimes(2);
+    expect(doubles.surfaceUniforms.uCameraForward.set).toHaveBeenCalledTimes(2);
+    expect(doubles.surfaceUniforms.uStylized.set).toHaveBeenLastCalledWith(1);
+    expect(doubles.surfaceProgram.draw).toHaveBeenCalledTimes(3);
+    expect(doubles.presentationProgram.draw).toHaveBeenCalledTimes(2);
+    expect(doubles.renderer.drawTo).toHaveBeenCalledTimes(3);
 
     expect(approach.stats()).toMatchObject({
       approach: 'mesh',
-      implementation: 'AO-aware greedy surface mesh',
+      implementation: 'shadowed AO greedy mesh + cinematic HDR',
       voxels: 1,
       primitives: 12,
-      drawCalls: 1,
-      uploadBytesPerFrame: 176,
+      drawCalls: 2,
+      uploadBytesPerFrame: 288,
     });
     expect(approach.stats().oneTimeBytes).toBeGreaterThan(0);
-    expect(approach.stats().detail).toMatch(/0 B\/frame geometry/);
-    expect(approach.stats().detail).toMatch(/graphic lighting/);
+    expect(approach.stats().detail).toMatch(/soft sun shadow/);
+    expect(approach.stats().detail).toMatch(/graphic grade/);
   });
 
   it('does not upload or draw nonexistent geometry for an empty scene', async () => {
@@ -189,19 +241,20 @@ describe('greedy mesh BroMetal factory', () => {
       onError: vi.fn(),
     });
 
-    for (const attribute of Object.values(doubles.attributes)) {
+    for (const attribute of Object.values(doubles.surfaceAttributes)) {
       expect(attribute.set).not.toHaveBeenCalled();
     }
-    expect(doubles.program.setIndices).not.toHaveBeenCalled();
+    expect(doubles.surfaceProgram.setIndices).not.toHaveBeenCalled();
     approach.frame(0, camera, 'physical');
     doubles.drawFrame();
-    expect(doubles.program.draw).not.toHaveBeenCalled();
+    expect(doubles.surfaceProgram.draw).not.toHaveBeenCalled();
+    expect(doubles.presentationProgram.draw).toHaveBeenCalledOnce();
     expect(approach.stats()).toMatchObject({
       primitives: 0,
-      drawCalls: 0,
-      oneTimeBytes: 0,
-      uploadBytesPerFrame: 0,
+      drawCalls: 1,
+      uploadBytesPerFrame: 288,
     });
+    expect(approach.stats().oneTimeBytes).toBeGreaterThan(0);
   });
 
   it('forwards asynchronous GPU faults and disposes resources exactly once', async () => {
@@ -222,13 +275,17 @@ describe('greedy mesh BroMetal factory', () => {
     approach.frame(3, camera, 'graphic');
     doubles.drawFrame();
     expect(doubles.stopLoop).toHaveBeenCalledOnce();
-    expect(doubles.program.dispose).toHaveBeenCalledOnce();
+    expect(doubles.surfaceProgram.dispose).toHaveBeenCalledOnce();
+    expect(doubles.presentationProgram.dispose).toHaveBeenCalledOnce();
+    expect(doubles.targets).toHaveLength(1);
+    for (const target of doubles.targets) expect(target.dispose).toHaveBeenCalledOnce();
     expect(doubles.renderer.destroy).toHaveBeenCalledOnce();
-    expect(doubles.program.draw).not.toHaveBeenCalled();
+    expect(doubles.surfaceProgram.draw).not.toHaveBeenCalled();
   });
 
   it('destroys a renderer when program construction fails', async () => {
     const doubles = createDoubles();
+    brometal.createProgram.mockReset();
     brometal.createProgram.mockImplementation(() => {
       throw new Error('pipeline rejected');
     });

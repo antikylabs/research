@@ -1,31 +1,47 @@
 import {
+  createPlane,
   createProgram,
   createRenderer,
+  createRenderTarget,
   type BroMetalProgram,
   type Renderer,
+  type RenderTarget,
 } from 'brometal';
 
+import type { CameraSnapshot } from '../../camera/types.ts';
+import {
+  cameraFocusDistance,
+  createSunViewProjection,
+} from '../../render/cinematic.ts';
+import cinematicPresentShader from '../../render/cinematic-present.shader.gen.ts';
 import type {
   ApproachFactory,
   PresentationStyle,
   RenderStats,
   VoxelApproach,
 } from '../../render/types.ts';
-import type { CameraSnapshot } from '../../camera/types.ts';
 import { buildFaceInstances, SHARED_FACE_QUAD } from './surface.ts';
 import voxelInstancesShader from './voxel-instances.shader.gen.ts';
 
-const SUN_DIRECTION = Object.freeze([0.46, 0.82, 0.34] as const);
-const SUN_COLOR = Object.freeze([2.1, 1.62, 0.98] as const);
-const SKY_COLOR = Object.freeze([0.2, 0.34, 0.66] as const);
-const GROUND_COLOR = Object.freeze([0.075, 0.045, 0.07] as const);
-const FOG_COLOR = Object.freeze([0.025, 0.06, 0.13] as const);
-const CLEAR_COLOR = Object.freeze([0.012, 0.016, 0.03, 1] as const);
+const SUN_DIRECTION = Object.freeze([-0.57, 0.63, 0.53] as const);
+const SUN_COLOR = Object.freeze([4.8, 2.2, 0.95] as const);
+const SKY_COLOR = Object.freeze([0.075, 0.17, 0.31] as const);
+const GROUND_COLOR = Object.freeze([0.13, 0.055, 0.026] as const);
+const FOG_COLOR = Object.freeze([0.17, 0.07, 0.055] as const);
+const CLEAR_COLOR = Object.freeze([0, 0, 0, 1] as const);
+const SHADOW_SIZE = 1536;
+const TARGET_BYTES_PER_PIXEL = 12;
 
 type InstanceProgram = BroMetalProgram<
   (typeof voxelInstancesShader)['attributes'],
   (typeof voxelInstancesShader)['instanceAttributes'],
   (typeof voxelInstancesShader)['uniforms']
+>;
+
+type PresentationProgram = BroMetalProgram<
+  (typeof cinematicPresentShader)['attributes'],
+  (typeof cinematicPresentShader)['instanceAttributes'],
+  (typeof cinematicPresentShader)['uniforms']
 >;
 
 function asError(error: unknown): Error {
@@ -51,35 +67,49 @@ function uploadImmutableInstances(program: InstanceProgram, scene: Parameters<ty
   return build;
 }
 
-/**
- * Exposed-face raster approach. `frame` publishes the host's latest snapshot to BroMetal's public
- * render loop; this owns one renderer, one program, immutable buffers, and deterministic teardown.
- */
+/** Exposed-face raster approach with a static sun shadow and cinematic HDR presentation pass. */
 export const createInstancesApproach: ApproachFactory = async (options): Promise<VoxelApproach> => {
   let renderer: Renderer | null = null;
-  let program: InstanceProgram | null = null;
+  let surfaceProgram: InstanceProgram | null = null;
+  let presentationProgram: PresentationProgram | null = null;
+  let shadowTarget: RenderTarget | null = null;
+  let sceneTarget: RenderTarget | null = null;
+  let stopLoop: (() => void) | null = null;
   try {
     renderer = await createRenderer(options.canvas, {
+      antialias: false,
       clearColor: CLEAR_COLOR,
       cull: 'back',
       onError: (error) => options.onError(asError(error)),
     });
-    program = createProgram(renderer, voxelInstancesShader);
-    const build = uploadImmutableInstances(program, options.scene);
+    surfaceProgram = createProgram(renderer, voxelInstancesShader);
+    presentationProgram = createProgram(renderer, cinematicPresentShader);
+    shadowTarget = createRenderTarget(renderer, { width: SHADOW_SIZE, height: SHADOW_SIZE, depth: true });
+    const build = uploadImmutableInstances(surfaceProgram, options.scene);
+    const fullscreen = createPlane({ width: 2, height: 2 });
+    presentationProgram.attributes.aPosition.set(fullscreen.positions);
+    presentationProgram.setIndices(fullscreen.indices);
+
     const diagonal = sceneDiagonal(options.scene.dimensions);
-    program.uniforms.uSunDirection.set(SUN_DIRECTION);
-    program.uniforms.uSunColor.set(SUN_COLOR);
-    program.uniforms.uSkyColor.set(SKY_COLOR);
-    program.uniforms.uGroundColor.set(GROUND_COLOR);
-    program.uniforms.uFogColor.set(FOG_COLOR);
-    program.uniforms.uFogNear.set(diagonal * 1.25);
-    program.uniforms.uFogFar.set(diagonal * 3.5);
+    surfaceProgram.uniforms.uLightViewProjection.set(createSunViewProjection(options.scene, SUN_DIRECTION));
+    surfaceProgram.uniforms.uSunDirection.set(SUN_DIRECTION);
+    surfaceProgram.uniforms.uSunColor.set(SUN_COLOR);
+    surfaceProgram.uniforms.uSkyColor.set(SKY_COLOR);
+    surfaceProgram.uniforms.uGroundColor.set(GROUND_COLOR);
+    surfaceProgram.uniforms.uFogColor.set(FOG_COLOR);
+    surfaceProgram.uniforms.uFogNear.set(diagonal * 0.9);
+    surfaceProgram.uniforms.uFogFar.set(diagonal * 2.2);
+    surfaceProgram.uniforms.uShadowTexel.set([1 / SHADOW_SIZE, 1 / SHADOW_SIZE]);
 
     const ownedRenderer = renderer;
-    const ownedProgram = program;
-    const drawCalls = build.receipt.exposedFaces === 0 ? 0 : 1;
-    const uniformBytesPerDraw = voxelInstancesShader.layout.uniformBlockSize;
+    const ownedSurface = surfaceProgram;
+    const ownedPresentation = presentationProgram;
+    const ownedShadow = shadowTarget;
+    const hasGeometry = build.receipt.exposedFaces > 0;
+    const uniformBytesPerFrame = voxelInstancesShader.layout.uniformBlockSize
+      + cinematicPresentShader.layout.uniformBlockSize;
     let disposed = false;
+    let shadowReady = false;
     let currentStyle: PresentationStyle = options.initialStyle;
     let pendingFrame: Readonly<{
       elapsedSeconds: number;
@@ -87,27 +117,70 @@ export const createInstancesApproach: ApproachFactory = async (options): Promise
       style: PresentationStyle;
     }> | null = null;
 
-    const stopLoop = ownedRenderer.loop(() => {
+    const ensureSceneTarget = (): RenderTarget => {
+      const width = Math.max(1, ownedRenderer.canvas.width);
+      const height = Math.max(1, ownedRenderer.canvas.height);
+      if (sceneTarget !== null && sceneTarget.width === width && sceneTarget.height === height) {
+        return sceneTarget;
+      }
+      const replacement = createRenderTarget(ownedRenderer, { width, height, depth: true });
+      sceneTarget?.dispose();
+      sceneTarget = replacement;
+      return replacement;
+    };
+
+    stopLoop = ownedRenderer.loop(() => {
       if (disposed || pendingFrame === null) return;
       const { elapsedSeconds, camera, style } = pendingFrame;
-      if (drawCalls === 0) return;
-      ownedProgram.uniforms.uViewProjection.set(camera.viewProjection);
-      ownedProgram.uniforms.uViewPosition.set(camera.position);
-      ownedProgram.uniforms.uStyle.set(style === 'graphic' ? 1 : 0);
-      ownedProgram.uniforms.uTime.set(elapsedSeconds);
-      ownedProgram.draw();
+      const target = ensureSceneTarget();
+      if (hasGeometry && !shadowReady) {
+        ownedSurface.uniforms.uShadowMap.set(target.texture);
+        ownedSurface.uniforms.uShadowPass.set(1);
+        ownedRenderer.drawTo(
+          ownedShadow,
+          () => ownedSurface.draw(),
+          { clear: [1, 1, 1, 1] },
+        );
+        shadowReady = true;
+      }
+      if (hasGeometry) {
+        ownedSurface.uniforms.uViewProjection.set(camera.viewProjection);
+        ownedSurface.uniforms.uViewPosition.set(camera.position);
+        ownedSurface.uniforms.uViewForward.set(camera.forward);
+        ownedSurface.uniforms.uShadowMap.set(ownedShadow.texture);
+        ownedSurface.uniforms.uShadowPass.set(0);
+        ownedSurface.uniforms.uStylized.set(style === 'graphic' ? 1 : 0);
+        ownedSurface.uniforms.uTime.set(elapsedSeconds);
+        ownedRenderer.drawTo(target, () => ownedSurface.draw(), { clear: [0, 0, 0, 0] });
+      } else {
+        ownedRenderer.drawTo(target, () => {}, { clear: [0, 0, 0, 0] });
+      }
+      ownedPresentation.uniforms.uScene.set(target.texture);
+      ownedPresentation.uniforms.uResolution.set([target.width, target.height]);
+      ownedPresentation.uniforms.uFocusDistance.set(cameraFocusDistance(camera));
+      ownedPresentation.uniforms.uFocusRange.set(style === 'graphic' ? 15 : 14);
+      ownedPresentation.uniforms.uAperture.set(style === 'graphic' ? 0.55 : 0.8);
+      ownedPresentation.uniforms.uExposure.set(style === 'graphic' ? 1.12 : 1.15);
+      ownedPresentation.uniforms.uStylized.set(style === 'graphic' ? 1 : 0);
+      ownedPresentation.draw();
     });
+    const ownedStopLoop = stopLoop;
 
-    const stats = (): RenderStats => Object.freeze({
-      approach: 'instances',
-      implementation: 'exposed-face quad instances',
-      voxels: build.receipt.voxelCount,
-      primitives: build.receipt.triangles,
-      drawCalls,
-      oneTimeBytes: build.receipt.oneTimeBytes,
-      uploadBytesPerFrame: drawCalls * uniformBytesPerDraw,
-      detail: `${build.receipt.exposedFaces.toLocaleString()} exposed faces · ${build.receipt.culledFaces.toLocaleString()} internal faces removed · ${currentStyle} lighting · receipt ${build.receipt.fingerprint}`,
-    });
+    const stats = (): RenderStats => {
+      const targetBytes = (sceneTarget?.width ?? 0) * (sceneTarget?.height ?? 0) * TARGET_BYTES_PER_PIXEL;
+      return Object.freeze({
+        approach: 'instances',
+        implementation: 'shadowed face instances + cinematic HDR',
+        voxels: build.receipt.voxelCount,
+        primitives: build.receipt.triangles,
+        drawCalls: hasGeometry ? 2 : 1,
+        oneTimeBytes: build.receipt.oneTimeBytes
+          + targetBytes
+          + SHADOW_SIZE * SHADOW_SIZE * TARGET_BYTES_PER_PIXEL,
+        uploadBytesPerFrame: uniformBytesPerFrame,
+        detail: `${build.receipt.exposedFaces.toLocaleString()} exposed faces · ${build.receipt.culledFaces.toLocaleString()} internal faces removed · 1536² soft sun shadow · HDR bloom + depth of field · ${currentStyle} grade · receipt ${build.receipt.fingerprint}`,
+      });
+    };
 
     return Object.freeze({
       frame(elapsedSeconds, camera, style): void {
@@ -119,9 +192,12 @@ export const createInstancesApproach: ApproachFactory = async (options): Promise
       dispose(): void {
         if (disposed) return;
         disposed = true;
-        stopLoop();
+        stopLoop?.();
         try {
-          ownedProgram.dispose();
+          sceneTarget?.dispose();
+          ownedShadow.dispose();
+          ownedPresentation.dispose();
+          ownedSurface.dispose();
         } finally {
           ownedRenderer.destroy();
         }
@@ -129,7 +205,10 @@ export const createInstancesApproach: ApproachFactory = async (options): Promise
     });
   } catch (error) {
     try {
-      program?.dispose();
+      stopLoop?.();
+      shadowTarget?.dispose();
+      presentationProgram?.dispose();
+      surfaceProgram?.dispose();
     } finally {
       renderer?.destroy();
     }

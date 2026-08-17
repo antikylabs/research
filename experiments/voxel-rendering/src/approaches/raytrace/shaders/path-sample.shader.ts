@@ -88,10 +88,11 @@ function surfaceNormal(normal: Vec3, direction: Vec3): Vec3 {
 }
 
 function skyRadiance(direction: Vec3, skyColor: Vec3, sunDirection: Vec3, sunColor: Vec3): Vec3 {
-  const horizon = clamp(direction.y * 0.5 + 0.5, 0, 1);
-  const sky = mix(vec3(0.025, 0.035, 0.065), skyColor, horizon);
+  const height = clamp(direction.y * 2 + 0.18, 0, 1);
+  const sky = mix(vec3(0.32, 0.075, 0.035), skyColor, height);
   const sun = pow(max(dot(direction, sunDirection), 0), 384);
-  return sky.add(sunColor.scale(sun * 5));
+  const halo = pow(max(dot(direction, sunDirection), 0), 32);
+  return sky.add(sunColor.scale(sun * 3 + halo * 0.08));
 }
 
 function bounceDirection(
@@ -140,6 +141,8 @@ export default shader({
     uCameraRight: 'vec3',
     uCameraUp: 'vec3',
     uTanHalfFov: 'float',
+    uFocalDistance: 'float',
+    uAperture: 'float',
     uVolumeOrigin: 'vec3',
     uVolumeDimensions: 'vec3',
     uSunDirection: 'vec3',
@@ -171,6 +174,8 @@ export default shader({
       uCameraRight,
       uCameraUp,
       uTanHalfFov,
+      uFocalDistance,
+      uAperture,
       uVolumeOrigin,
       uVolumeDimensions,
       uSunDirection,
@@ -184,6 +189,8 @@ export default shader({
     },
     { vUv },
   ) {
+    // Matches RAYTRACE_MAX_TRAVERSAL_STEPS for the bounded 160 × 96 × 256 evidence grid.
+    const maximumTraversalSteps = 515;
     const pixel = vec2(floor(vUv.x * uResolution.x), floor(vUv.y * uResolution.y));
     const jitterX = hash21(pixel.add(vec2(uSampleCount * 0.75487766, uSeed * 0.13))) - 0.5;
     const jitterY = hash21(pixel.add(vec2(uSeed * 0.37, uSampleCount * 0.56984029 + 19.1))) - 0.5;
@@ -192,12 +199,20 @@ export default shader({
       (sampleUv.x * 2 - 1) * (uResolution.x / uResolution.y),
       1 - sampleUv.y * 2,
     );
-    const rayOrigin0 = uCameraPosition;
-    const rayDirection0 = normalize(
+    const pinholeDirection = normalize(
       uCameraForward
         .add(uCameraRight.scale(screen.x * uTanHalfFov))
         .add(uCameraUp.scale(screen.y * uTanHalfFov)),
     );
+    const lensAngle = hash21(pixel.add(vec2(uSampleCount * 2.31 + 17.4, uSeed * 0.71))) * 6.283185307;
+    const lensRadius = sqrt(hash21(pixel.add(vec2(uSeed * 0.43 + 9.2, uSampleCount * 1.19)))) * uAperture;
+    const lensOffset = uCameraRight.scale(cos(lensAngle) * lensRadius)
+      .add(uCameraUp.scale(sin(lensAngle) * lensRadius));
+    const focalPoint = uCameraPosition.add(pinholeDirection.scale(
+      uFocalDistance / max(dot(pinholeDirection, uCameraForward), 0.1),
+    ));
+    const rayOrigin0 = uCameraPosition.add(lensOffset);
+    const rayDirection0 = normalize(focalPoint.sub(rayOrigin0));
     const volumeLow = uVolumeOrigin;
     const volumeHigh = uVolumeOrigin.add(uVolumeDimensions);
 
@@ -225,7 +240,7 @@ export default shader({
     let material0 = 0;
     let hit0 = 0;
     let active0 = step(start0, interval0.y) * step(0, interval0.y);
-    for (let i = 0; i < 195; i = i + 1) {
+    for (let i = 0; i < maximumTraversalSteps && active0 > 0.5 && i < uTraversalCap; i = i + 1) {
       if (active0 > 0.5 && i < uTraversalCap) {
         const index0 = cellX0
           + cellY0 * uVolumeDimensions.x
@@ -277,7 +292,11 @@ export default shader({
 
     // Direct-light shadow traversal.
     const rayOriginS = safeHitPoint0.add(shadingNormal0.scale(0.002));
-    const rayDirectionS = uSunDirection;
+    const shadowNoiseX = hash21(pixel.add(vec2(uSampleCount * 4.13 + 3.9, uSeed * 1.7))) - 0.5;
+    const shadowNoiseY = hash21(pixel.add(vec2(uSeed * 2.3 + 21.7, uSampleCount * 3.47))) - 0.5;
+    const rayDirectionS = normalize(uSunDirection
+      .add(uCameraRight.scale(shadowNoiseX * 0.035))
+      .add(uCameraUp.scale(shadowNoiseY * 0.035)));
     const intervalS = volumeInterval(rayOriginS, rayDirectionS, volumeLow, volumeHigh);
     const startS = max(intervalS.x, 0);
     const startPointS = rayOriginS.add(rayDirectionS.scale(startS + 0.002));
@@ -298,7 +317,7 @@ export default shader({
     let maxZS = (volumeLow.z + cellZS + step(0, stepZS) - rayOriginS.z) / safeZS;
     let shadowHit = 0;
     let activeS = hit0 * step(0.00001, directNdl) * step(startS, intervalS.y) * step(0, intervalS.y);
-    for (let i = 0; i < 195; i = i + 1) {
+    for (let i = 0; i < maximumTraversalSteps && activeS > 0.5 && i < uTraversalCap; i = i + 1) {
       if (activeS > 0.5 && i < uTraversalCap) {
         const indexS = cellXS
           + cellYS * uVolumeDimensions.x
@@ -334,18 +353,27 @@ export default shader({
     }
 
     const visibility = 1 - shadowHit;
+    const glass0 = materialSurface0.z;
     const diffuse0 = materialColor0.xyz
-      .mul(uSkyColor.scale(0.12).add(uSunColor.scale(directNdl * visibility)));
+      .mul(uSkyColor.scale(0.12).add(uSunColor.scale(directNdl * visibility)))
+      .scale(1 - glass0 * 0.68);
     const reflectedSun0 = reflect(uSunDirection.scale(-1), shadingNormal0);
     const specular0 = pow(max(dot(reflectedSun0, rayDirection0.scale(-1)), 0),
       6 + (1 - materialSurface0.x) * 90)
-      * (0.04 + materialSurface0.y * 0.75 + materialSurface0.z * 0.6)
+      * (0.04 + materialSurface0.y * 0.75 + glass0 * 1.15)
       * visibility;
+    const environmentReflection0 = skyRadiance(
+      reflect(rayDirection0, shadingNormal0),
+      uSkyColor,
+      uSunDirection,
+      uSunColor,
+    ).scale(glass0 * 0.82 + materialSurface0.y * 0.2);
     let radiance = skyRadiance(rayDirection0, uSkyColor, uSunDirection, uSunColor)
       .scale(1 - hit0)
       .add(materialColor0.xyz.scale(materialColor0.w * hit0))
       .add(diffuse0.scale(hit0))
-      .add(uSunColor.scale(specular0 * hit0));
+      .add(uSunColor.scale(specular0 * hit0))
+      .add(environmentReflection0.scale(hit0));
 
     const random1 = vec2(
       hash21(pixel.add(vec2(uSampleCount * 1.73 + 7.1, uSeed + 3.7))),
@@ -385,7 +413,7 @@ export default shader({
     let material1 = 0;
     let hit1 = 0;
     let active1 = hit0 * step(start1, interval1.y) * step(0, interval1.y);
-    for (let i = 0; i < 195; i = i + 1) {
+    for (let i = 0; i < maximumTraversalSteps && active1 > 0.5 && i < uTraversalCap; i = i + 1) {
       if (active1 > 0.5 && i < uTraversalCap) {
         const index1 = cellX1
           + cellY1 * uVolumeDimensions.x
@@ -483,7 +511,7 @@ export default shader({
     let material2 = 0;
     let hit2 = 0;
     let active2 = hit0 * hit1 * step(start2, interval2.y) * step(0, interval2.y);
-    for (let i = 0; i < 195; i = i + 1) {
+    for (let i = 0; i < maximumTraversalSteps && active2 > 0.5 && i < uTraversalCap; i = i + 1) {
       if (active2 > 0.5 && i < uTraversalCap) {
         const index2 = cellX2
           + cellY2 * uVolumeDimensions.x

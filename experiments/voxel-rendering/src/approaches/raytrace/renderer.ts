@@ -11,6 +11,7 @@ import {
 } from 'brometal';
 
 import type { CameraSnapshot } from '../../camera/types.ts';
+import { cameraFocusDistance } from '../../render/cinematic.ts';
 import type {
   ApproachFactory,
   PresentationStyle,
@@ -26,14 +27,14 @@ import presentationShader from './shaders/presentation.shader.gen.ts';
 import { createDenseVoxelStorage } from './volume.ts';
 
 const CLEAR_COLOR = Object.freeze([0.008, 0.012, 0.025, 1] as const);
-const SUN_DIRECTION = Object.freeze([0.46, 0.82, 0.34] as const);
-const SUN_COLOR = Object.freeze([3.1, 2.38, 1.5] as const);
-const SKY_COLOR = Object.freeze([0.22, 0.4, 0.78] as const);
-const MAX_SAMPLES = 256;
+const SUN_DIRECTION = Object.freeze([-0.57, 0.63, 0.53] as const);
+const SUN_COLOR = Object.freeze([4.8, 2.15, 0.9] as const);
+const SKY_COLOR = Object.freeze([0.035, 0.08, 0.18] as const);
+const MAX_SAMPLES = 512;
 const RAYS_PER_PIXEL_SAMPLE = 4;
 const RGBA16F_BYTES_PER_PIXEL = 8;
-const MATERIAL_LIGHT_KEY = 'sun-0.46-0.82-0.34-sky-v1';
-const INTEGRATOR_KEY = 'dense-dda-running-mean-two-secondary-v1';
+const MATERIAL_LIGHT_KEY = 'golden-hour-sun--0.57-0.63-0.53-v3';
+const INTEGRATOR_KEY = 'dense-dda-two-secondary-soft-shadow-thin-lens-v3';
 
 type PathProgram = BroMetalProgram<
   (typeof pathSampleShader)['attributes'],
@@ -218,6 +219,8 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
         ownedPathProgram.uniforms.uCameraRight.set(currentCamera.right);
         ownedPathProgram.uniforms.uCameraUp.set(currentCamera.up);
         ownedPathProgram.uniforms.uTanHalfFov.set(Math.tan(currentCamera.verticalFovRadians * 0.5));
+        ownedPathProgram.uniforms.uFocalDistance.set(cameraFocusDistance(currentCamera));
+        ownedPathProgram.uniforms.uAperture.set(1.2);
         ownedPathProgram.uniforms.uSeed.set(
           currentElapsedSeconds + tracker.generation * 101.317 + tracker.sampleCount * 0.618,
         );
@@ -230,6 +233,7 @@ export const createRaytraceApproach: ApproachFactory = async (options): Promise<
       }
 
       ownedPresentationProgram.uniforms.uAccumulation.set(currentTargets.read.texture);
+      ownedPresentationProgram.uniforms.uResolution.set([width, height]);
       ownedPresentationProgram.uniforms.uGraphic.set(currentStyle === 'graphic' ? 1 : 0);
       ownedPresentationProgram.draw();
       lastDrawCalls = sampled ? 2 : 1;

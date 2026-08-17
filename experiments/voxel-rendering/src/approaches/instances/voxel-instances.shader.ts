@@ -9,26 +9,20 @@ import {
   sin,
   smoothstep,
   step,
+  texture,
+  vec2,
   vec3,
   vec4,
   shader,
 } from 'brometal';
 import {
   fresnel,
-  gammaCorrect,
   hemisphereLight,
   specGGX,
-  tonemapACES,
   toonShade,
 } from 'brometal/shader-functions';
 
-/**
- * One shared quad, instanced once per exposed voxel face.
- *
- * Face codes must stay aligned with surface.ts:
- *   0 +Z, 1 -Z, 2 +Y, 3 -Y, 4 +X, 5 -X.
- * Glass remains intentionally opaque in this experiment; iMaterialPalette.z only applies a tint.
- */
+/** One shared quad, instanced once per exposed voxel face with HDR shadowed lighting. */
 export default shader({
   attributes: {
     aPosition: 'vec3',
@@ -43,7 +37,9 @@ export default shader({
   },
   uniforms: {
     uViewProjection: 'mat4',
+    uLightViewProjection: 'mat4',
     uViewPosition: 'vec3',
+    uViewForward: 'vec3',
     uSunDirection: 'vec3',
     uSunColor: 'vec3',
     uSkyColor: 'vec3',
@@ -51,7 +47,10 @@ export default shader({
     uFogColor: 'vec3',
     uFogNear: 'float',
     uFogFar: 'float',
-    uStyle: 'float',
+    uShadowMap: 'sampler2D',
+    uShadowTexel: 'vec2',
+    uShadowPass: 'float',
+    uStylized: 'float',
     uTime: 'float',
   },
   varyings: {
@@ -64,11 +63,12 @@ export default shader({
     vGlass: 'float',
     vPalette: 'float',
     vAo: 'float',
+    vLightClip: 'vec4',
   },
 
   vertex(
     { aPosition, aCorner, iPosition, iFace, iColorRoughness, iMaterialPalette, iAo },
-    { uViewProjection },
+    { uViewProjection, uLightViewProjection, uShadowPass },
     v,
   ) {
     let local = vec3(aPosition.x, aPosition.y, 0.5);
@@ -100,6 +100,7 @@ export default shader({
     }
 
     const world = iPosition.add(local);
+    const lightClip = uLightViewProjection.mul(vec4(world, 1));
     v.vWorld = world;
     v.vNormal = normal;
     v.vColor = iColorRoughness.xyz;
@@ -109,12 +110,14 @@ export default shader({
     v.vGlass = iMaterialPalette.z;
     v.vPalette = iMaterialPalette.w;
     v.vAo = ao;
-    return uViewProjection.mul(vec4(world, 1));
+    v.vLightClip = lightClip;
+    return mix(uViewProjection.mul(vec4(world, 1)), lightClip, step(0.5, uShadowPass));
   },
 
   fragment(
     {
       uViewPosition,
+      uViewForward,
       uSunDirection,
       uSunColor,
       uSkyColor,
@@ -122,55 +125,69 @@ export default shader({
       uFogColor,
       uFogNear,
       uFogFar,
-      uStyle,
+      uShadowMap,
+      uShadowTexel,
+      uShadowPass,
+      uStylized,
       uTime,
     },
-    { vWorld, vNormal, vColor, vRoughness, vMetallic, vEmission, vGlass, vPalette, vAo },
+    { vWorld, vNormal, vColor, vRoughness, vMetallic, vEmission, vGlass, vPalette, vAo, vLightClip },
   ) {
     const normal = normalize(vNormal);
     const lightDirection = normalize(uSunDirection);
     const viewDirection = normalize(uViewPosition.sub(vWorld));
-    const ao = 0.36 + clamp(vAo, 0, 1) * 0.64;
+    const ao = 0.3 + clamp(vAo, 0, 1) * 0.7;
     const roughness = clamp(vRoughness, 0.08, 1);
     const metallic = clamp(vMetallic, 0, 1);
     const glass = clamp(vGlass, 0, 1);
-    const base = mix(vColor, vec3(0.19, 0.52, 0.72), glass * 0.34);
+    const base = mix(vColor, vec3(0.08, 0.38, 0.48), glass * 0.4);
     const ambient = hemisphereLight(normal, uSkyColor, uGroundColor);
     const diffuse = max(dot(normal, lightDirection), 0);
 
-    // Physical alternative: energy-aware metal/dielectric split with a GGX highlight.
+    const lightNdc = vLightClip.xyz.scale(1 / max(vLightClip.w, 0.0001));
+    const shadowUv = vec2(lightNdc.x * 0.5 + 0.5, 0.5 - lightNdc.y * 0.5);
+    const compareDepth = lightNdc.z - (0.0007 + (1 - diffuse) * 0.0024);
+    let shadow = step(compareDepth, texture(uShadowMap, shadowUv).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.add(vec2(uShadowTexel.x, 0))).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.sub(vec2(uShadowTexel.x, 0))).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.add(vec2(0, uShadowTexel.y))).x);
+    shadow = shadow + step(compareDepth, texture(uShadowMap, shadowUv.sub(vec2(0, uShadowTexel.y))).x);
+    shadow = shadow / 5;
+    if (shadowUv.x < 0 || shadowUv.x > 1 || shadowUv.y < 0 || shadowUv.y > 1) shadow = 1;
+
     const f0 = mix(vec3(0.04), base, metallic);
     const physicalDiffuse = base
-      .mul(ambient.scale(0.62).add(uSunColor.scale(diffuse)))
+      .mul(ambient.scale(0.58).add(uSunColor.scale(diffuse * mix(0.14, 1, shadow))))
       .scale((1 - metallic) * ao);
     const physicalSpecular = f0
       .mul(uSunColor)
-      .scale(specGGX(normal, lightDirection, viewDirection, roughness) * (0.45 + 0.55 * ao));
-    const physicalReflection = f0.mul(ambient).scale(0.13 + metallic * 0.22);
+      .scale(specGGX(normal, lightDirection, viewDirection, roughness) * shadow * (0.4 + 0.6 * ao));
+    const physicalReflection = f0.mul(ambient).scale(0.14 + metallic * 0.3 + glass * 0.42);
     let physical = physicalDiffuse.add(physicalSpecular).add(physicalReflection);
 
-    // Graphic alternative: stable bands, directional face shaping and a cool rim.
     const banded = toonShade(normal, lightDirection, 4);
     const upward = max(normal.y, 0);
     const downward = max(-normal.y, 0);
     const sideShape = 0.82 + upward * 0.18 - downward * 0.16 + abs(normal.x) * 0.035;
     const rim = fresnel(normal, viewDirection, 3);
-    const graphicLight = (0.34 + banded * 0.82) * ao * sideShape;
+    const graphicLight = (0.5 + banded * 1.2) * (0.55 + ao * 0.45)
+      * sideShape * mix(0.5, 1, shadow);
     let graphic = base.scale(graphicLight);
-    graphic = graphic.add(vec3(0.12, 0.42, 0.76).scale(rim * (0.12 + vPalette * 0.08)));
-    graphic = graphic.add(uSunColor.scale(step(0.72, diffuse) * 0.08));
+    graphic = graphic.add(vec3(0.08, 0.44, 0.78).scale(rim * (0.18 + vPalette * 0.1)));
+    graphic = graphic.add(vec3(0.95, 0.2, 0.38).scale(step(0.72, diffuse) * 0.09));
 
-    // Emissive palette entries stay legible in both styles and breathe subtly without moving geometry.
-    const emissionPulse = 0.94 + sin(uTime * 1.8 + vPalette * 31) * 0.06;
-    const emissive = base.scale(max(vEmission, 0) * emissionPulse * 2.1);
+    const emissionPulse = 0.96 + sin(uTime * 1.2 + vPalette * 31) * 0.04;
+    const emissive = base.scale(max(vEmission, 0) * emissionPulse * 2.15);
     physical = physical.add(emissive);
-    graphic = graphic.add(emissive.scale(1.2));
+    graphic = graphic.add(emissive.scale(1.18));
 
-    const graphicWeight = step(0.5, uStyle);
-    let color = mix(physical, graphic, graphicWeight);
+    let color = mix(physical, graphic, step(0.5, uStylized));
     const distanceToCamera = length(uViewPosition.sub(vWorld));
     const fog = smoothstep(uFogNear, uFogFar, distanceToCamera);
-    color = mix(color, uFogColor, fog * (0.58 + graphicWeight * 0.18));
-    return vec4(gammaCorrect(tonemapACES(color), 2.2), 1);
+    color = mix(color, uFogColor, fog * mix(0.52, 0.66, uStylized));
+    const focalDepth = max(dot(vWorld.sub(uViewPosition), uViewForward), 0.001);
+    const mainOutput = vec4(color, focalDepth);
+    const lightDepth = clamp(vLightClip.z / max(vLightClip.w, 0.0001), 0, 1);
+    return mix(mainOutput, vec4(lightDepth, lightDepth, lightDepth, 1), step(0.5, uShadowPass));
   },
 });

@@ -239,7 +239,8 @@ test('the generated shader keeps shared vertices separate from per-face instance
   );
   assert.match(voxelInstancesShader.wgslSrc, /fn toonShade/);
   assert.match(voxelInstancesShader.wgslSrc, /fn specGGX/);
-  assert.match(voxelInstancesShader.wgslSrc, /bm_u\.uStyle/);
+  assert.match(voxelInstancesShader.wgslSrc, /bm_u\.uStylized/);
+  assert.match(voxelInstancesShader.wgslSrc, /textureSample\(uShadowMap/);
 });
 
 test('the generated shader reconstructs all six face orientations and outward normals', () => {

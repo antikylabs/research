@@ -1,8 +1,9 @@
 import type { Vec3Tuple, VoxelMaterial, VoxelScene } from '../../scene/types.ts';
 
-export const RAYTRACE_MAX_DIMENSION = 64;
+export const RAYTRACE_MAX_DIMENSION = 256;
 export const RAYTRACE_VEC4_BYTES = 16;
-export const RAYTRACE_MAX_VOLUME_BYTES = RAYTRACE_MAX_DIMENSION ** 3 * RAYTRACE_VEC4_BYTES;
+export const RAYTRACE_MAX_VOLUME_BYTES = 64 * 1024 * 1024;
+export const RAYTRACE_MAX_TRAVERSAL_STEPS = 515;
 
 export type DenseVoxelStorage = Readonly<{
   dimensions: Vec3Tuple;
@@ -20,6 +21,7 @@ export type DenseVoxelStorage = Readonly<{
 export type DenseVoxelStorageLimits = Readonly<{
   maxDimension?: number;
   maxBytes?: number;
+  maxTraversalSteps?: number;
 }>;
 
 function positiveInteger(value: number, label: string): number {
@@ -78,6 +80,10 @@ export function createDenseVoxelStorage(
     'maximum dimension',
   );
   const maxBytes = positiveInteger(limits.maxBytes ?? RAYTRACE_MAX_VOLUME_BYTES, 'byte cap');
+  const maxTraversalSteps = positiveInteger(
+    limits.maxTraversalSteps ?? RAYTRACE_MAX_TRAVERSAL_STEPS,
+    'traversal-step cap',
+  );
   const dimensions = scene.dimensions.map((value, axis) => {
     const checked = positiveInteger(value, `dimension ${axis}`);
     if (checked > maxDimension) {
@@ -94,6 +100,12 @@ export function createDenseVoxelStorage(
   const volumeByteLength = vec4Elements * RAYTRACE_VEC4_BYTES;
   if (!Number.isSafeInteger(volumeByteLength) || volumeByteLength > maxBytes) {
     throw new Error(`Raytrace dense volume needs ${volumeByteLength} bytes, above the ${maxBytes}-byte cap.`);
+  }
+  const traversalCap = dimensions[0] + dimensions[1] + dimensions[2] + 3;
+  if (traversalCap > maxTraversalSteps) {
+    throw new Error(
+      `Raytrace dimensions need ${traversalCap} traversal steps, above the ${maxTraversalSteps}-step cap.`,
+    );
   }
 
   if (scene.materials.length !== 256) {
@@ -126,7 +138,9 @@ export function createDenseVoxelStorage(
       throw new Error(`Raytrace dense volume contains duplicate cell (${cell.x}, ${cell.y}, ${cell.z}).`);
     }
     occupied.add(index);
-    volumeData.set([cell.paletteIndex, 1, 0, 0], index * 4);
+    const offset = index * 4;
+    volumeData[offset] = cell.paletteIndex;
+    volumeData[offset + 1] = 1;
   }
 
   return Object.freeze({
@@ -139,6 +153,6 @@ export function createDenseVoxelStorage(
     occupiedVoxels: occupied.size,
     volumeByteLength,
     byteLength: volumeByteLength + materialColor.byteLength + materialSurface.byteLength,
-    traversalCap: dimensions[0] + dimensions[1] + dimensions[2] + 3,
+    traversalCap,
   });
 }

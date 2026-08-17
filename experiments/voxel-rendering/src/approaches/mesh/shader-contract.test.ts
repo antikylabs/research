@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import cinematicPresentShader from '../../render/cinematic-present.shader.gen.ts';
 import meshSurfaceShader from './mesh-surface.shader.gen.ts';
 
 describe('generated greedy-mesh surface shader contract', () => {
@@ -14,19 +15,24 @@ describe('generated greedy-mesh surface shader contract', () => {
     });
     expect(meshSurfaceShader.uniforms).toMatchObject({
       uViewProjection: 'mat4',
+      uLightViewProjection: 'mat4',
       uCameraPosition: 'vec3',
+      uCameraForward: 'vec3',
       uSunDirection: 'vec3',
       uSunColor: 'vec3',
       uSkyColor: 'vec3',
       uGroundColor: 'vec3',
       uFogColor: 'vec3',
-      uExposure: 'float',
-      uGraphic: 'float',
+      uShadowMap: 'sampler2D',
+      uShadowTexel: 'vec2',
+      uShadowPass: 'float',
+      uStylized: 'float',
     });
-    expect(meshSurfaceShader.layout.uniformBlockSize).toBe(176);
+    expect(meshSurfaceShader.layout.uniformBlockSize).toBe(256);
+    expect(cinematicPresentShader.layout.uniformBlockSize).toBe(32);
   });
 
-  it('retains energy conservation, AO, emissive, atmosphere, and display transforms in WGSL', () => {
+  it('retains energy conservation, AO, emissive, atmosphere, shadows, and HDR presentation', () => {
     const wgsl = meshSurfaceShader.wgslSrc;
     expect(wgsl).toContain('fn fresnelSchlick');
     expect(wgsl).toContain('fn distributionGgx');
@@ -35,7 +41,10 @@ describe('generated greedy-mesh surface shader contract', () => {
     expect(wgsl).toContain('bm_in.vColor * max(bm_in.vEmissive, 0.0)');
     expect(wgsl).toContain('clamp(bm_in.vAo, 0.0, 1.0)');
     expect(wgsl).toContain('exp(-bm_u.uFogDensity * distanceToCamera)');
-    expect(wgsl).toContain('tonemapACES(atmospheric * bm_u.uExposure)');
-    expect(wgsl).toContain('encodeSrgb');
+    expect(wgsl).toContain('textureSample(uShadowMap');
+    expect(wgsl).toContain('bm_u.uShadowPass');
+    expect(cinematicPresentShader.wgslSrc).toContain('tonemapACES(exposed)');
+    expect(cinematicPresentShader.wgslSrc).toContain('encodeSrgb');
+    expect(cinematicPresentShader.wgslSrc).toContain('bm_u.uFocusDistance');
   });
 });
