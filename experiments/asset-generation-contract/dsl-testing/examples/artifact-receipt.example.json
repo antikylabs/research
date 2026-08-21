@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0.0-draft",
+  "id": "artifact-receipt.prototype.tree.snow-pine.mature.seed-01847",
+  "requirementId": "artifact-requirement.prototype.tree.snow-pine.mature.voxel-model",
+  "status": "satisfied",
+  "source": {
+    "contractId": "antikylabs.scene.blue-winter-grove",
+    "contractRevision": 2,
+    "resolvedContractHash": "sha256:EXAMPLE_RESOLVED_CONTRACT_HASH",
+    "contractSliceHash": "sha256:EXAMPLE_PROTOTYPE_SLICE_HASH"
+  },
+  "producer": {
+    "kind": "agent",
+    "agent": "codex",
+    "model": "EXAMPLE_MODEL_ID",
+    "implementation": "antikylabs.synthesis.tree-geometry",
+    "implementationVersion": "0.1.0",
+    "workItemId": "work-item.prototype.tree.snow-pine.mature.voxel-model"
+  },
+  "artifacts": [
+    {
+      "role": "voxel-source",
+      "path": "generated/blue-winter-grove/assets/prototype.tree.snow-pine.mature/pine-01847/source.vox.json",
+      "sha256": "EXAMPLE_VOXEL_SOURCE_HASH",
+      "mediaType": "application/json"
+    },
+    {
+      "role": "asset-metrics",
+      "path": "generated/blue-winter-grove/assets/prototype.tree.snow-pine.mature/pine-01847/metrics.json",
+      "sha256": "EXAMPLE_METRICS_HASH",
+      "mediaType": "application/json"
+    },
+    {
+      "role": "acceptance-render",
+      "path": "generated/blue-winter-grove/assets/prototype.tree.snow-pine.mature/pine-01847/preview.png",
+      "sha256": "EXAMPLE_RENDER_HASH",
+      "mediaType": "image/png"
+    }
+  ],
+  "validation": {
+    "result": "pass",
+    "blockingFailures": 0,
+    "warnings": 2,
+    "reports": [
+      "generated/blue-winter-grove/assets/prototype.tree.snow-pine.mature/pine-01847/validation.json"
+    ],
+    "checks": [
+      {
+        "id": "tree.minimum-height",
+        "result": "pass",
+        "observed": 151
+      },
+      {
+        "id": "tree.negative-space",
+        "result": "pass",
+        "observed": 0.26
+      },
+      {
+        "id": "tree.forbidden-forms",
+        "result": "pass"
+      }
+    ]
+  },
+  "trace": {
+    "generatedFrom": [
+      "prototype.tree.snow-pine.mature"
+    ],
+    "producedBy": [
+      "system.synthesis.tree-geometry"
+    ],
+    "validates": [
+      "prototype.tree.snow-pine.mature"
+    ]
+  },
+  "notes": "All EXAMPLE_* values are placeholders illustrating the receipt shape."
+}
