@@ -1,0 +1,58 @@
+{
+  "name": "Quiet Canal Market",
+  "identity": "fantasy canal town inspired by layered JRPG towns",
+  "layout": {
+    "canals": "primary streets",
+    "bridges": "arched stone",
+    "districts": [
+      "market",
+      "residential",
+      "dock"
+    ]
+  },
+  "architecture": {
+    "facades": {
+      "depth": "required",
+      "flat_walls": "forbidden"
+    },
+    "materials": [
+      "stucco",
+      "brick",
+      "wood",
+      "stone"
+    ],
+    "micro": [
+      "window boxes",
+      "lanterns",
+      "cracked plaster",
+      "moss",
+      "trim"
+    ]
+  },
+  "ground": {
+    "cobblestone": {
+      "size_variation": [
+        2,
+        7
+      ],
+      "height_variation": true,
+      "cracks": true,
+      "moss": true,
+      "no_tiling": true
+    }
+  },
+  "props": [
+    "boats",
+    "crates",
+    "barrels",
+    "awnings",
+    "signs",
+    "plants"
+  ],
+  "validation": {
+    "shopfront_density": "high",
+    "empty_facades": "forbidden",
+    "minecraft_style": "forbidden",
+    "generic_german_cottage": "forbidden"
+  }
+}

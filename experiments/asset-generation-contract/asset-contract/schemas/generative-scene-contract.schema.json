@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://antikylabs.dev/schemas/generative-scene-contract.schema.json",
+  "title": "Antiky Generative Scene Contract",
+  "description": "Core container schema for an ECS-like descriptive scene contract. Component payloads are validated by the component catalog referenced by each component type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "contract",
+    "coordinateSystem",
+    "determinism",
+    "definitions",
+    "entityTree",
+    "entities",
+    "relationships",
+    "systems",
+    "validation",
+    "outputs"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "contract": { "$ref": "#/$defs/contractMetadata" },
+    "imports": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/import" },
+      "default": []
+    },
+    "coordinateSystem": { "$ref": "#/$defs/coordinateSystem" },
+    "determinism": { "$ref": "#/$defs/determinism" },
+    "qualityProfile": { "type": "object", "additionalProperties": true },
+    "definitions": { "$ref": "#/$defs/definitions" },
+    "entityTree": { "$ref": "#/$defs/treeNode" },
+    "entities": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/entity" }
+    },
+    "relationships": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relationship" }
+    },
+    "systems": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/system" }
+    },
+    "validation": { "$ref": "#/$defs/validation" },
+    "outputs": { "type": "object", "additionalProperties": true }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 3,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+    },
+    "contractMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "name", "revision", "intent", "status"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "generative-scene" },
+        "name": { "type": "string", "minLength": 1 },
+        "revision": { "type": "integer", "minimum": 1 },
+        "status": { "enum": ["draft", "candidate", "accepted", "deprecated"] },
+        "intent": { "type": "string", "minLength": 1 },
+        "nonGoals": { "type": "array", "items": { "type": "string" } },
+        "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "authoredFor": { "type": "string" },
+        "provenance": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "import": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "uri", "version"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "uri": { "type": "string" },
+        "version": { "type": "string" },
+        "integrity": { "type": "string" },
+        "optional": { "type": "boolean", "default": false }
+      }
+    },
+    "coordinateSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["handedness", "upAxis", "horizontalAxes", "worldUnit", "voxelSizeM"],
+      "properties": {
+        "handedness": { "enum": ["left", "right"] },
+        "upAxis": { "enum": ["x", "y", "z"] },
+        "horizontalAxes": {
+          "type": "array",
+          "prefixItems": [{ "type": "string" }, { "type": "string" }],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "worldUnit": { "const": "meter" },
+        "voxelSizeM": { "type": "number", "exclusiveMinimum": 0 },
+        "originMeaning": { "type": "string" }
+      }
+    },
+    "determinism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rootSeed", "streamPolicy", "stableInputs"],
+      "properties": {
+        "rootSeed": { "type": ["integer", "string"] },
+        "streamPolicy": { "type": "string" },
+        "stableInputs": { "type": "array", "items": { "type": "string" } },
+        "streams": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "definitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["palettes", "materials", "prototypes"],
+      "properties": {
+        "palettes": { "type": "object", "additionalProperties": { "type": "object" } },
+        "materials": { "type": "object", "additionalProperties": { "type": "object" } },
+        "prototypes": { "type": "object", "additionalProperties": { "$ref": "#/$defs/prototype" } },
+        "profiles": { "type": "object", "additionalProperties": { "type": "object" } }
+      }
+    },
+    "prototype": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "name", "components"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "prototype" },
+        "name": { "type": "string" },
+        "extends": { "$ref": "#/$defs/id" },
+        "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "components": { "$ref": "#/$defs/components" }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "name", "components"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": {
+          "enum": [
+            "scene",
+            "group",
+            "environment",
+            "terrain",
+            "region",
+            "population",
+            "composition-anchor",
+            "camera",
+            "validation-target",
+            "abstract"
+          ]
+        },
+        "name": { "type": "string" },
+        "parent": { "$ref": "#/$defs/id" },
+        "enabled": { "type": "boolean", "default": true },
+        "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "prototype": { "$ref": "#/$defs/id" },
+        "components": { "$ref": "#/$defs/components" }
+      }
+    },
+    "components": {
+      "type": "object",
+      "description": "Map of namespaced component type to schema-backed payload.",
+      "propertyNames": { "pattern": "^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)+$" },
+      "additionalProperties": { "type": "object" }
+    },
+    "treeNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity"],
+      "properties": {
+        "entity": { "$ref": "#/$defs/id" },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/treeNode" },
+          "default": []
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "source"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "type": { "$ref": "#/$defs/id" },
+        "source": { "$ref": "#/$defs/id" },
+        "target": { "$ref": "#/$defs/id" },
+        "targetSelector": { "type": "object", "additionalProperties": true },
+        "priority": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "required": { "type": "boolean", "default": false },
+        "rule": { "type": "object", "additionalProperties": true },
+        "description": { "type": "string" }
+      },
+      "oneOf": [
+        { "required": ["target"] },
+        { "required": ["targetSelector"] }
+      ]
+    },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "phase",
+        "implementation",
+        "implementationVersion",
+        "reads",
+        "writes",
+        "query",
+        "dependsOn"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "phase": {
+          "enum": [
+            "resolve",
+            "layout",
+            "terrain",
+            "population",
+            "synthesis",
+            "surface",
+            "detail",
+            "composition",
+            "render",
+            "validate",
+            "publish"
+          ]
+        },
+        "implementation": { "$ref": "#/$defs/id" },
+        "implementationVersion": { "type": "string" },
+        "reads": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "writes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "query": { "type": "object", "additionalProperties": true },
+        "dependsOn": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+        "randomStream": { "type": "string" },
+        "parameters": { "type": "object", "additionalProperties": true },
+        "invalidation": { "type": "object", "additionalProperties": true },
+        "produces": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["suites", "acceptanceViews", "promotionPolicy"],
+      "properties": {
+        "suites": { "type": "object", "additionalProperties": { "type": "object" } },
+        "acceptanceViews": { "type": "array", "items": { "type": "object" } },
+        "humanReview": { "type": "array", "items": { "type": "object" } },
+        "promotionPolicy": { "type": "object", "additionalProperties": true }
+      }
+    }
+  }
+}

@@ -1,0 +1,5038 @@
+{
+  "$schema": "./schemas/generative-scene-contract.schema.json",
+  "schemaVersion": "0.2.0",
+  "contract": {
+    "id": "antikylabs.scene.blue-winter-grove",
+    "kind": "generative-scene",
+    "name": "Blue Winter Grove",
+    "revision": 2,
+    "status": "draft",
+    "intent": "Define a reproducible, relationship-driven, high-density voxel winter grove that can be generated, rendered, measured, reviewed, and iteratively improved by humans and agents.",
+    "nonGoals": [
+      "runtime gameplay logic",
+      "combat or interaction systems",
+      "final renderer implementation details",
+      "hand placement of every generated asset instance",
+      "photorealism",
+      "a generic reusable forest biome before this vertical slice succeeds"
+    ],
+    "tags": [
+      "antiky",
+      "research-gem",
+      "voxel",
+      "winter",
+      "generative-contract",
+      "vertical-slice"
+    ],
+    "authoredFor": "Antiky generative world pipeline research gem",
+    "provenance": {
+      "contractLayer": "authoring-ir",
+      "sourceConversation": "Antiky image-to-contract and voxel generation design",
+      "expectedCompilerOutput": "fully-resolved canonical JSON IR with prototype inheritance removed",
+      "notes": "This file intentionally includes verbose descriptions and acceptance rationale so it can serve as both an executable example and a design reference."
+    }
+  },
+  "imports": [
+    {
+      "id": "antikylabs.core-component-catalog",
+      "uri": "./schemas/component-catalog.json",
+      "version": "0.1.0",
+      "optional": false
+    }
+  ],
+  "coordinateSystem": {
+    "handedness": "right",
+    "upAxis": "y",
+    "horizontalAxes": [
+      "x",
+      "z"
+    ],
+    "worldUnit": "meter",
+    "voxelSizeM": 0.1,
+    "originMeaning": "center of the primary scene bounds at terrain reference elevation"
+  },
+  "determinism": {
+    "rootSeed": "blue-winter-grove-v2-seed-1847",
+    "streamPolicy": "hash(rootSeed, contractId, entityId, systemId, purposeKey)",
+    "stableInputs": [
+      "schemaVersion",
+      "contract.id",
+      "contract.revision",
+      "entity.id",
+      "prototype.id",
+      "system.id",
+      "purposeKey"
+    ],
+    "streams": {
+      "layout": "layout/*",
+      "terrain": "terrain/*",
+      "population": "population/<population-id>",
+      "asset": "asset/<derived-instance-id>/<purpose-key>",
+      "surface": "surface/<derived-instance-id>/<purpose-key>",
+      "detail": "detail/<derived-instance-id>/<purpose-key>"
+    }
+  },
+  "qualityProfile": {
+    "presentation": {
+      "visualLanguage": "rich dense voxel diorama",
+      "cameraRead": "layered three-quarter scene with a clear focal tree and protected clearing",
+      "targetDistance": "beautiful at scene scale and credible in close asset crops",
+      "antiStyles": [
+        "Minecraft",
+        "toy block set",
+        "single-cone low-poly trees",
+        "flat palette swaps",
+        "uniform noise everywhere"
+      ]
+    },
+    "detailBudget": {
+      "macro": {
+        "priority": 1.0,
+        "targets": [
+          "terrain silhouette",
+          "clearing shape",
+          "canopy height rhythm",
+          "foreground-midground-background separation"
+        ]
+      },
+      "meso": {
+        "priority": 1.0,
+        "targets": [
+          "branch tiers",
+          "tree clusters",
+          "snow shelves",
+          "rock fractures",
+          "shrub lobes",
+          "snow drifts"
+        ]
+      },
+      "micro": {
+        "priority": 0.72,
+        "targets": [
+          "bark fissures",
+          "twig clusters",
+          "grass tips",
+          "lichen",
+          "contact snow compression",
+          "small broken branches"
+        ]
+      }
+    },
+    "densityTargets": {
+      "generatedTreeInstances": [
+        94,
+        164
+      ],
+      "generatedGroundDetailInstances": [
+        390,
+        829
+      ],
+      "uniqueTreeSilhouetteRatioMin": 0.9,
+      "visibleDetailClassesHeroViewMin": 8,
+      "visibleDetailClassesGroundViewMin": 12
+    },
+    "renderTargets": {
+      "heroResolutionPx": {
+        "width": 1920,
+        "height": 1080
+      },
+      "assetDetailResolutionPx": {
+        "width": 1600,
+        "height": 2000
+      },
+      "requiredPasses": [
+        "beauty",
+        "albedo",
+        "normal",
+        "depth",
+        "object-id",
+        "material-id",
+        "snow-coverage"
+      ]
+    }
+  },
+  "definitions": {
+    "palettes": {
+      "palette.winter-snow": {
+        "id": "palette.winter-snow",
+        "intent": "Cool snow ramp with enough value separation to preserve surface form under blue-hour light.",
+        "roles": {
+          "deepShadow": [
+            "#15243A",
+            "#1D3150"
+          ],
+          "ambientShadow": [
+            "#294567",
+            "#365A7C"
+          ],
+          "body": [
+            "#7898B6",
+            "#9DB5C9"
+          ],
+          "softHighlight": [
+            "#C7D5DF",
+            "#E1E8EB"
+          ],
+          "specularAccent": [
+            "#F3F7F8"
+          ]
+        },
+        "constraints": {
+          "pureWhiteCoverageMax": 0.015,
+          "minimumValueSteps": 6,
+          "shadowHueBias": "blue-cyan",
+          "forbidFlatSingleColorSnow": true
+        }
+      },
+      "palette.pine-bark": {
+        "id": "palette.pine-bark",
+        "roles": {
+          "crevice": [
+            "#1B1C24",
+            "#24232A"
+          ],
+          "body": [
+            "#3B342F",
+            "#50443A"
+          ],
+          "exposed": [
+            "#665649",
+            "#7A6755"
+          ],
+          "frosted": [
+            "#6C7882"
+          ]
+        },
+        "constraints": {
+          "minimumValueSteps": 5,
+          "warmth": "neutral-cool"
+        }
+      },
+      "palette.pine-foliage": {
+        "id": "palette.pine-foliage",
+        "roles": {
+          "deep": [
+            "#10292B",
+            "#173538"
+          ],
+          "body": [
+            "#214548",
+            "#2D5657"
+          ],
+          "lit": [
+            "#3E6665",
+            "#557878"
+          ],
+          "frosted": [
+            "#6D8588"
+          ]
+        },
+        "constraints": {
+          "saturation": "low",
+          "avoidBrightChristmasGreen": true,
+          "minimumValueSteps": 5
+        }
+      },
+      "palette.birch": {
+        "id": "palette.birch",
+        "roles": {
+          "mark": [
+            "#25272D",
+            "#353942"
+          ],
+          "body": [
+            "#7B858F",
+            "#9AA5AD"
+          ],
+          "lit": [
+            "#B9C2C8"
+          ],
+          "frosted": [
+            "#D1D9DD"
+          ]
+        }
+      },
+      "palette.winter-ground": {
+        "id": "palette.winter-ground",
+        "roles": {
+          "soil": [
+            "#24282A",
+            "#343737"
+          ],
+          "frozenGrass": [
+            "#4B5045",
+            "#666A57",
+            "#777762"
+          ],
+          "lichen": [
+            "#536360",
+            "#697873"
+          ],
+          "deadNeedles": [
+            "#4C4135",
+            "#625342"
+          ]
+        }
+      },
+      "palette.glacial-rock": {
+        "id": "palette.glacial-rock",
+        "roles": {
+          "crevice": [
+            "#252D36",
+            "#303B46"
+          ],
+          "body": [
+            "#485563",
+            "#5E6C78"
+          ],
+          "lit": [
+            "#73818B",
+            "#8A969E"
+          ],
+          "lichen": [
+            "#66756E"
+          ]
+        }
+      },
+      "palette.atmosphere-blue-hour": {
+        "id": "palette.atmosphere-blue-hour",
+        "roles": {
+          "zenith": [
+            "#233E61"
+          ],
+          "horizon": [
+            "#5F7F9D"
+          ],
+          "fogNear": [
+            "#6F8AA1"
+          ],
+          "fogFar": [
+            "#90A4B4"
+          ],
+          "optionalWarmFocalAccent": [
+            "#B98E64"
+          ]
+        },
+        "constraints": {
+          "warmAccentScreenCoverageMax": 0.015,
+          "dominantMood": "quiet, cold, blue, low-contrast distance"
+        }
+      }
+    },
+    "materials": {
+      "material.snow.fresh": {
+        "id": "material.snow.fresh",
+        "semanticRole": "fresh powder snow",
+        "palette": "palette.winter-snow",
+        "rendererHints": {
+          "roughness": [
+            0.72,
+            0.9
+          ],
+          "subsurface": [
+            0.02,
+            0.08
+          ],
+          "sparkleDensity": [
+            0.0,
+            0.015
+          ],
+          "normalBreakupScaleVoxels": [
+            2,
+            9
+          ]
+        },
+        "surfaceRules": {
+          "edgeShape": "rounded-irregular",
+          "microPitting": "subtle",
+          "forbidPerfectPlanarCaps": true
+        }
+      },
+      "material.snow.compacted": {
+        "id": "material.snow.compacted",
+        "semanticRole": "wind-packed or compressed snow",
+        "palette": "palette.winter-snow",
+        "rendererHints": {
+          "roughness": [
+            0.48,
+            0.7
+          ],
+          "valueOffset": -0.08,
+          "specular": [
+            0.18,
+            0.3
+          ]
+        }
+      },
+      "material.bark.pine": {
+        "id": "material.bark.pine",
+        "semanticRole": "dark cold pine bark",
+        "palette": "palette.pine-bark",
+        "rendererHints": {
+          "roughness": [
+            0.76,
+            0.95
+          ]
+        },
+        "surfaceRules": {
+          "fissureDirection": "mostly-vertical-with-branching",
+          "fissureDepthVoxels": [
+            1,
+            3
+          ],
+          "patchScaleVoxels": [
+            3,
+            14
+          ]
+        }
+      },
+      "material.foliage.conifer": {
+        "id": "material.foliage.conifer",
+        "semanticRole": "cold desaturated evergreen foliage",
+        "palette": "palette.pine-foliage",
+        "rendererHints": {
+          "roughness": [
+            0.55,
+            0.78
+          ]
+        },
+        "surfaceRules": {
+          "avoidSolidCanopyShell": true,
+          "valueVariationPerCluster": [
+            0.03,
+            0.12
+          ]
+        }
+      },
+      "material.bark.birch": {
+        "id": "material.bark.birch",
+        "semanticRole": "gray-white winter birch bark",
+        "palette": "palette.birch",
+        "surfaceRules": {
+          "horizontalMarkFrequencyPerMeter": [
+            2,
+            7
+          ],
+          "markCoverage": [
+            0.08,
+            0.22
+          ],
+          "avoidPureWhiteTrunk": true
+        }
+      },
+      "material.stone.glacial": {
+        "id": "material.stone.glacial",
+        "semanticRole": "weathered cold glacial stone",
+        "palette": "palette.glacial-rock",
+        "rendererHints": {
+          "roughness": [
+            0.68,
+            0.92
+          ]
+        },
+        "surfaceRules": {
+          "fractureScaleVoxels": [
+            4,
+            28
+          ],
+          "lichenCoverage": [
+            0.02,
+            0.16
+          ],
+          "edgeWear": "moderate"
+        }
+      },
+      "material.ground.frozen": {
+        "id": "material.ground.frozen",
+        "semanticRole": "frozen soil, needles, and sparse grass beneath snow",
+        "palette": "palette.winter-ground",
+        "surfaceRules": {
+          "patchScaleM": [
+            0.15,
+            1.6
+          ],
+          "avoidUniformNoise": true,
+          "preferContactDarkening": true
+        }
+      },
+      "material.deadwood": {
+        "id": "material.deadwood",
+        "semanticRole": "gray-brown winter deadwood",
+        "palette": "palette.pine-bark",
+        "surfaceRules": {
+          "barkLossCoverage": [
+            0.12,
+            0.55
+          ],
+          "brokenEndFiberDepthVoxels": [
+            2,
+            7
+          ],
+          "mossCoverage": [
+            0.0,
+            0.1
+          ]
+        }
+      }
+    },
+    "prototypes": {
+      "prototype.tree.conifer.base": {
+        "id": "prototype.tree.conifer.base",
+        "kind": "prototype",
+        "name": "Base Dense Voxel Conifer",
+        "tags": [
+          "asset",
+          "tree",
+          "conifer",
+          "voxel-diorama",
+          "abstract"
+        ],
+        "components": {
+          "description.intent": {
+            "summary": "Reusable conifer grammar with a readable tapered trunk, layered branch structure, internal negative space, and no solid cone or cube canopy.",
+            "visualRead": [
+              "natural irregular silhouette",
+              "visible branch architecture",
+              "dense but perforated foliage masses"
+            ]
+          },
+          "style.detailProfile": {
+            "macro": [
+              "tapered total silhouette",
+              "asymmetrical crown envelope",
+              "visible root flare"
+            ],
+            "meso": [
+              "distinct branch tiers",
+              "forking branch clusters",
+              "gaps that reveal trunk"
+            ],
+            "micro": [
+              "bark fissures",
+              "twig tips",
+              "small broken branches",
+              "localized frost"
+            ],
+            "targetVisibleDetailScales": 3
+          },
+          "material.assignment": {
+            "slots": {
+              "trunk": "material.bark.pine",
+              "branches": "material.bark.pine",
+              "foliage": "material.foliage.conifer",
+              "snow": "material.snow.fresh"
+            }
+          },
+          "surface.snowReceiver": {
+            "enabled": true,
+            "normalThresholdDegrees": 64,
+            "skyExposureWeight": 0.55,
+            "windExposureWeight": 0.28,
+            "occlusionWeight": 0.42,
+            "adhesion": {
+              "bark": 0.46,
+              "foliage": 0.78
+            },
+            "maxOverhangVoxels": 4,
+            "edgeErosion": [
+              0.08,
+              0.22
+            ],
+            "forbidUniformLayerThickness": true
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "single cone canopy",
+              "stacked identical discs",
+              "cube foliage blobs",
+              "perfect radial symmetry",
+              "uniform branch spacing",
+              "flat white snow plates",
+              "trunk with constant radius"
+            ]
+          }
+        }
+      },
+      "prototype.tree.snow-pine.mature": {
+        "id": "prototype.tree.snow-pine.mature",
+        "kind": "prototype",
+        "name": "Mature Snow-Laden Pine",
+        "tags": [
+          "asset",
+          "tree",
+          "conifer",
+          "mature",
+          "snow-receiver",
+          "hero-capable"
+        ],
+        "components": {
+          "core.bounds": {
+            "heightM": [
+              11.5,
+              17.5
+            ],
+            "crownRadiusM": [
+              2.7,
+              5.1
+            ],
+            "trunkRadiusAtBaseM": [
+              0.34,
+              0.68
+            ],
+            "rootFlareRadiusM": [
+              0.6,
+              1.25
+            ],
+            "minimumVoxelHeight": 115,
+            "preferredVoxelHeight": [
+              138,
+              180
+            ]
+          },
+          "geometry.treeGrammar": {
+            "trunk": {
+              "centerlineSegments": [
+                10,
+                18
+              ],
+              "leanDegrees": [
+                -9,
+                11
+              ],
+              "bendAmplitudeM": [
+                0.08,
+                0.38
+              ],
+              "bendFrequency": [
+                1.2,
+                3.8
+              ],
+              "taperCurve": "power",
+              "taperExponent": [
+                0.72,
+                1.08
+              ],
+              "topCrookProbability": 0.32,
+              "lightningScarProbability": 0.05,
+              "rootButtressCount": [
+                4,
+                9
+              ],
+              "rootExposureM": [
+                0.15,
+                1.2
+              ]
+            },
+            "branchTiers": {
+              "count": [
+                8,
+                14
+              ],
+              "verticalSpacingM": [
+                0.55,
+                1.45
+              ],
+              "primaryBranchesPerTier": [
+                3,
+                7
+              ],
+              "radialJitterDegrees": [
+                11,
+                37
+              ],
+              "droopDegreesByHeight": {
+                "lower": [
+                  12,
+                  34
+                ],
+                "middle": [
+                  4,
+                  22
+                ],
+                "upper": [
+                  -4,
+                  14
+                ]
+              },
+              "lengthRatioToCrownRadius": [
+                0.42,
+                1.0
+              ],
+              "forkDepth": [
+                2,
+                5
+              ],
+              "brokenPrimaryBranchCount": [
+                0,
+                4
+              ],
+              "bareLowerBranchRatio": [
+                0.08,
+                0.32
+              ]
+            },
+            "foliageVolumes": {
+              "construction": "branch-attached-lobed-clusters",
+              "lobesPerPrimaryBranch": [
+                3,
+                11
+              ],
+              "lobeRadiusM": [
+                0.18,
+                0.62
+              ],
+              "densityByHeight": {
+                "lower": [
+                  0.35,
+                  0.68
+                ],
+                "middle": [
+                  0.62,
+                  0.9
+                ],
+                "upper": [
+                  0.48,
+                  0.82
+                ]
+              },
+              "negativeSpaceRatio": [
+                0.18,
+                0.34
+              ],
+              "trunkVisibilityFromHeroView": [
+                0.22,
+                0.52
+              ],
+              "silhouetteRoughnessM": [
+                0.12,
+                0.5
+              ],
+              "forbidConvexHullFill": true
+            }
+          },
+          "variation.parameters": {
+            "scope": "per-instance",
+            "parameters": {
+              "ageClass": {
+                "distribution": "weighted-categorical",
+                "weights": {
+                  "mature": 0.72,
+                  "old": 0.28
+                }
+              },
+              "heightM": {
+                "distribution": "truncated-normal",
+                "mean": 14.5,
+                "stddev": 1.9,
+                "min": 11.5,
+                "max": 17.5
+              },
+              "crownAsymmetry": {
+                "distribution": "uniform",
+                "min": 0.12,
+                "max": 0.43
+              },
+              "snowLoad": {
+                "distribution": "truncated-normal",
+                "mean": 0.62,
+                "stddev": 0.16,
+                "min": 0.22,
+                "max": 0.92
+              },
+              "deadBranchRatio": {
+                "distribution": "uniform",
+                "min": 0.02,
+                "max": 0.16
+              }
+            }
+          },
+          "detail.attachments": {
+            "knotsPerMeter": [
+              0.4,
+              1.5
+            ],
+            "barkPatchScaleVoxels": [
+              3,
+              15
+            ],
+            "hangingTwigClusters": [
+              6,
+              24
+            ],
+            "smallSnowClumps": [
+              18,
+              65
+            ],
+            "lichenPatchProbability": 0.28,
+            "birdNestProbability": 0.015
+          },
+          "validation.metricTargets": {
+            "silhouetteConcavityCount": {
+              "min": 14
+            },
+            "visibleBranchForksFromHeroView": {
+              "min": 8
+            },
+            "negativeSpaceRatio": {
+              "min": 0.16,
+              "max": 0.38
+            },
+            "singleConeSimilarity": {
+              "max": 0.18
+            },
+            "trunkTaperRatioTopToBase": {
+              "max": 0.22
+            },
+            "snowCoverageUpwardFaces": {
+              "min": 0.42,
+              "max": 0.84
+            }
+          }
+        },
+        "extends": "prototype.tree.conifer.base"
+      },
+      "prototype.tree.snow-pine.young": {
+        "id": "prototype.tree.snow-pine.young",
+        "kind": "prototype",
+        "name": "Young Snow Pine",
+        "tags": [
+          "asset",
+          "tree",
+          "conifer",
+          "young",
+          "snow-receiver"
+        ],
+        "components": {
+          "core.bounds": {
+            "heightM": [
+              2.8,
+              7.8
+            ],
+            "crownRadiusM": [
+              0.8,
+              2.6
+            ],
+            "trunkRadiusAtBaseM": [
+              0.08,
+              0.28
+            ],
+            "minimumVoxelHeight": 38,
+            "preferredVoxelHeight": [
+              48,
+              96
+            ]
+          },
+          "geometry.treeGrammar": {
+            "trunk": {
+              "centerlineSegments": [
+                6,
+                12
+              ],
+              "leanDegrees": [
+                -13,
+                13
+              ],
+              "bendAmplitudeM": [
+                0.03,
+                0.22
+              ],
+              "taperExponent": [
+                0.75,
+                1.15
+              ]
+            },
+            "branchTiers": {
+              "count": [
+                5,
+                10
+              ],
+              "primaryBranchesPerTier": [
+                3,
+                6
+              ],
+              "radialJitterDegrees": [
+                15,
+                45
+              ],
+              "forkDepth": [
+                1,
+                4
+              ],
+              "lowerBranchRetention": [
+                0.62,
+                0.94
+              ]
+            },
+            "foliageVolumes": {
+              "construction": "branch-attached-lobed-clusters",
+              "negativeSpaceRatio": [
+                0.12,
+                0.26
+              ],
+              "crownAsymmetry": [
+                0.08,
+                0.3
+              ],
+              "forbidPerfectCone": true
+            }
+          },
+          "variation.parameters": {
+            "scope": "per-instance",
+            "parameters": {
+              "heightM": {
+                "distribution": "log-normal",
+                "median": 4.8,
+                "sigma": 0.28,
+                "min": 2.8,
+                "max": 7.8
+              },
+              "snowLoad": {
+                "distribution": "uniform",
+                "min": 0.25,
+                "max": 0.82
+              },
+              "crowdingLeanDegrees": {
+                "distribution": "uniform",
+                "min": -9,
+                "max": 9
+              }
+            }
+          },
+          "validation.metricTargets": {
+            "heightVariationCoefficient": {
+              "min": 0.2
+            },
+            "duplicateSilhouetteRate": {
+              "max": 0.08
+            },
+            "singleConeSimilarity": {
+              "max": 0.24
+            }
+          }
+        },
+        "extends": "prototype.tree.conifer.base"
+      },
+      "prototype.tree.birch.bare-winter": {
+        "id": "prototype.tree.birch.bare-winter",
+        "kind": "prototype",
+        "name": "Bare Winter Birch",
+        "tags": [
+          "asset",
+          "tree",
+          "deciduous",
+          "bare",
+          "snow-receiver"
+        ],
+        "components": {
+          "description.intent": {
+            "summary": "Slender pale deciduous tree used to break conifer masses with fine branching and strong vertical rhythm.",
+            "visualRead": [
+              "slender multi-stem silhouette",
+              "fine branch network",
+              "dark bark marks against pale trunk"
+            ]
+          },
+          "core.bounds": {
+            "heightM": [
+              7.0,
+              13.5
+            ],
+            "crownRadiusM": [
+              1.8,
+              4.2
+            ],
+            "trunkRadiusAtBaseM": [
+              0.14,
+              0.38
+            ],
+            "preferredVoxelHeight": [
+              90,
+              150
+            ]
+          },
+          "geometry.treeGrammar": {
+            "trunkCount": {
+              "distribution": "weighted-categorical",
+              "weights": {
+                "1": 0.55,
+                "2": 0.31,
+                "3": 0.14
+              }
+            },
+            "trunkLeanDegrees": [
+              -7,
+              9
+            ],
+            "primaryForkHeightRatio": [
+              0.28,
+              0.62
+            ],
+            "branchOrderDepth": [
+              4,
+              7
+            ],
+            "branchAngleDegrees": [
+              22,
+              68
+            ],
+            "fineTwigRetention": [
+              0.42,
+              0.78
+            ],
+            "crownAsymmetry": [
+              0.18,
+              0.46
+            ],
+            "brokenCrownProbability": 0.12
+          },
+          "material.assignment": {
+            "slots": {
+              "trunk": "material.bark.birch",
+              "branches": "material.bark.birch",
+              "snow": "material.snow.fresh"
+            }
+          },
+          "surface.snowReceiver": {
+            "enabled": true,
+            "normalThresholdDegrees": 58,
+            "adhesion": {
+              "bark": 0.36
+            },
+            "maxOverhangVoxels": 2,
+            "preferLinearBranchCaps": true
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "white cylinder trunk",
+              "symmetrical Y split",
+              "uniform branch thickness",
+              "leaf blobs",
+              "flat black bark stripes"
+            ]
+          },
+          "validation.metricTargets": {
+            "visibleBranchOrderDepth": {
+              "min": 4
+            },
+            "trunkValueVariationSteps": {
+              "min": 4
+            },
+            "duplicateSilhouetteRate": {
+              "max": 0.1
+            }
+          }
+        }
+      },
+      "prototype.shrub.winter-snow-buried": {
+        "id": "prototype.shrub.winter-snow-buried",
+        "kind": "prototype",
+        "name": "Snow-Buried Winter Shrub",
+        "tags": [
+          "asset",
+          "shrub",
+          "understory",
+          "snow-receiver"
+        ],
+        "components": {
+          "description.intent": {
+            "summary": "Irregular woody shrub with visible twig structure and partial snow burial, used as clustered understory rather than round decorative bushes."
+          },
+          "core.bounds": {
+            "heightM": [
+              0.45,
+              1.9
+            ],
+            "radiusM": [
+              0.4,
+              1.65
+            ],
+            "preferredVoxelHeight": [
+              12,
+              28
+            ]
+          },
+          "geometry.shrubGrammar": {
+            "stemCount": [
+              5,
+              19
+            ],
+            "stemForkDepth": [
+              2,
+              5
+            ],
+            "lobeCount": [
+              2,
+              8
+            ],
+            "openCenterProbability": 0.34,
+            "leanAwayFromObstacle": true,
+            "visibleTwigRatio": [
+              0.2,
+              0.58
+            ],
+            "burialDepthRatio": [
+              0.12,
+              0.55
+            ]
+          },
+          "material.assignment": {
+            "slots": {
+              "wood": "material.deadwood",
+              "snow": "material.snow.fresh"
+            }
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "sphere bush",
+              "cube bush",
+              "even hedge row",
+              "identical snow cap"
+            ]
+          },
+          "validation.metricTargets": {
+            "outlineLobeCount": {
+              "min": 3
+            },
+            "visibleTwigRatio": {
+              "min": 0.18
+            },
+            "duplicateSilhouetteRate": {
+              "max": 0.12
+            }
+          }
+        }
+      },
+      "prototype.ground.frozen-grass-tuft": {
+        "id": "prototype.ground.frozen-grass-tuft",
+        "kind": "prototype",
+        "name": "Frozen Grass Tuft",
+        "tags": [
+          "asset",
+          "ground-cover",
+          "grass",
+          "snow-emergent"
+        ],
+        "components": {
+          "description.intent": {
+            "summary": "Small desaturated grass tuft that appears through thin or wind-scoured snow and breaks broad ground planes."
+          },
+          "core.bounds": {
+            "heightM": [
+              0.12,
+              0.62
+            ],
+            "radiusM": [
+              0.08,
+              0.42
+            ],
+            "preferredVoxelHeight": [
+              4,
+              10
+            ]
+          },
+          "geometry.grassGrammar": {
+            "bladeClusterCount": [
+              2,
+              7
+            ],
+            "bladesPerCluster": [
+              3,
+              12
+            ],
+            "leanDegrees": [
+              8,
+              48
+            ],
+            "azimuthSpreadDegrees": [
+              28,
+              160
+            ],
+            "brokenBladeRatio": [
+              0.08,
+              0.38
+            ],
+            "snowClumpProbability": 0.22
+          },
+          "material.assignment": {
+            "slots": {
+              "grass": "material.ground.frozen",
+              "snow": "material.snow.fresh"
+            }
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "uniform spikes",
+              "neon green",
+              "even lawn coverage",
+              "crossed billboard planes"
+            ]
+          }
+        }
+      },
+      "prototype.rock.glacial-boulder": {
+        "id": "prototype.rock.glacial-boulder",
+        "kind": "prototype",
+        "name": "Fractured Glacial Boulder",
+        "tags": [
+          "asset",
+          "rock",
+          "terrain-detail",
+          "snow-receiver"
+        ],
+        "components": {
+          "description.intent": {
+            "summary": "Angular but weathered glacial boulder with readable fracture planes, partial burial, lichen, and an irregular snow cap."
+          },
+          "core.bounds": {
+            "heightM": [
+              0.35,
+              3.2
+            ],
+            "radiusM": [
+              0.35,
+              2.8
+            ],
+            "preferredVoxelHeight": [
+              12,
+              52
+            ]
+          },
+          "geometry.rockGrammar": {
+            "basePrimitive": "convex-noise-volume",
+            "majorFracturePlanes": [
+              2,
+              7
+            ],
+            "minorChips": [
+              3,
+              20
+            ],
+            "aspectRatioXYZ": {
+              "x": [
+                0.6,
+                1.8
+              ],
+              "y": [
+                0.45,
+                1.4
+              ],
+              "z": [
+                0.6,
+                1.9
+              ]
+            },
+            "burialDepthRatio": [
+              0.12,
+              0.48
+            ],
+            "edgeRoundness": [
+              0.12,
+              0.42
+            ],
+            "avoidLowPolyIcosahedronRead": true
+          },
+          "material.assignment": {
+            "slots": {
+              "stone": "material.stone.glacial",
+              "snow": "material.snow.fresh"
+            }
+          },
+          "surface.snowReceiver": {
+            "enabled": true,
+            "normalThresholdDegrees": 52,
+            "skyExposureWeight": 0.7,
+            "windExposureWeight": 0.35,
+            "maxOverhangVoxels": 5,
+            "preferLeewardLip": true
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "perfect cube rock",
+              "single faceted gem",
+              "flat centered snow hat",
+              "unburied floating contact"
+            ]
+          },
+          "validation.metricTargets": {
+            "majorPlaneCount": {
+              "min": 2
+            },
+            "contactBurialRatio": {
+              "min": 0.1
+            },
+            "duplicateGeometryRate": {
+              "max": 0.08
+            }
+          }
+        }
+      },
+      "prototype.deadwood.fallen-log": {
+        "id": "prototype.deadwood.fallen-log",
+        "kind": "prototype",
+        "name": "Snowy Fallen Log",
+        "tags": [
+          "asset",
+          "deadwood",
+          "ground-detail",
+          "snow-receiver"
+        ],
+        "components": {
+          "description.intent": {
+            "summary": "Broken fallen trunk associated with old-growth pines, partly embedded in snow and surrounded by small debris."
+          },
+          "core.bounds": {
+            "lengthM": [
+              1.8,
+              8.5
+            ],
+            "radiusM": [
+              0.16,
+              0.62
+            ],
+            "preferredVoxelLength": [
+              28,
+              110
+            ]
+          },
+          "geometry.logGrammar": {
+            "centerlineSegments": [
+              4,
+              11
+            ],
+            "bendAmplitudeM": [
+              0.03,
+              0.26
+            ],
+            "brokenEndCount": [
+              1,
+              2
+            ],
+            "branchStubCount": [
+              1,
+              9
+            ],
+            "barkLossCoverage": [
+              0.12,
+              0.55
+            ],
+            "burialDepthRatio": [
+              0.08,
+              0.42
+            ],
+            "splitProbability": 0.18
+          },
+          "material.assignment": {
+            "slots": {
+              "wood": "material.deadwood",
+              "snow": "material.snow.fresh"
+            }
+          },
+          "surface.snowReceiver": {
+            "enabled": true,
+            "normalThresholdDegrees": 58,
+            "maxOverhangVoxels": 3,
+            "forbidContinuousPerfectStrip": true
+          },
+          "detail.attachments": {
+            "twigDebrisCount": [
+              2,
+              18
+            ],
+            "needlePatches": [
+              0,
+              7
+            ],
+            "smallGrassTuftsNearby": [
+              0,
+              6
+            ]
+          }
+        }
+      },
+      "prototype.detail.twig-cluster": {
+        "id": "prototype.detail.twig-cluster",
+        "kind": "prototype",
+        "name": "Winter Twig Debris Cluster",
+        "tags": [
+          "asset",
+          "micro-detail",
+          "ground-detail"
+        ],
+        "components": {
+          "core.bounds": {
+            "radiusM": [
+              0.18,
+              0.85
+            ],
+            "heightM": [
+              0.03,
+              0.22
+            ]
+          },
+          "geometry.twigGrammar": {
+            "twigCount": [
+              3,
+              18
+            ],
+            "lengthM": [
+              0.12,
+              1.0
+            ],
+            "diameterVoxels": [
+              1,
+              3
+            ],
+            "crossingRatio": [
+              0.15,
+              0.55
+            ],
+            "partialSnowBurial": [
+              0.1,
+              0.7
+            ]
+          },
+          "material.assignment": {
+            "slots": {
+              "wood": "material.deadwood",
+              "snow": "material.snow.fresh"
+            }
+          }
+        }
+      }
+    },
+    "profiles": {
+      "profile.render.voxel-diorama-quality": {
+        "id": "profile.render.voxel-diorama-quality",
+        "ambientOcclusion": "high-quality-multiscale",
+        "softShadows": true,
+        "contactShadows": true,
+        "toneMapping": "filmic-soft-shoulder",
+        "palettePreservation": true,
+        "dither": {
+          "enabled": false
+        },
+        "outline": {
+          "enabled": false
+        },
+        "antiAliasing": "TAA-or-supersample-for-final-preview",
+        "deterministicValidationMode": true
+      },
+      "profile.generation.high-density-voxel": {
+        "id": "profile.generation.high-density-voxel",
+        "baseVoxelSizeM": 0.1,
+        "minimumHeroAssetVoxelHeight": 138,
+        "preserveOneVoxelFeaturesInDetailViews": true,
+        "minimumConnectedFeatureVoxels": 2,
+        "allowSubVoxelAuthoringHints": true
+      }
+    }
+  },
+  "entityTree": {
+    "entity": "scene.blue-winter-grove",
+    "children": [
+      {
+        "entity": "group.environment",
+        "children": [
+          {
+            "entity": "environment.sky"
+          },
+          {
+            "entity": "environment.lighting"
+          },
+          {
+            "entity": "environment.atmosphere"
+          },
+          {
+            "entity": "environment.wind"
+          }
+        ]
+      },
+      {
+        "entity": "group.terrain",
+        "children": [
+          {
+            "entity": "terrain.base"
+          },
+          {
+            "entity": "region.clearing.primary"
+          },
+          {
+            "entity": "region.ridge.northwest"
+          },
+          {
+            "entity": "region.hollow.southeast"
+          },
+          {
+            "entity": "region.path.wildlife"
+          }
+        ]
+      },
+      {
+        "entity": "group.ecology",
+        "children": [
+          {
+            "entity": "group.canopy",
+            "children": [
+              {
+                "entity": "population.pine.old-growth"
+              },
+              {
+                "entity": "population.pine.secondary"
+              },
+              {
+                "entity": "population.pine.young"
+              },
+              {
+                "entity": "population.birch.edge"
+              }
+            ]
+          },
+          {
+            "entity": "group.understory",
+            "children": [
+              {
+                "entity": "population.shrub.winter"
+              }
+            ]
+          },
+          {
+            "entity": "group.ground-cover",
+            "children": [
+              {
+                "entity": "population.grass.scoured"
+              },
+              {
+                "entity": "population.grass.canopy"
+              },
+              {
+                "entity": "population.rocks.glacial"
+              },
+              {
+                "entity": "population.deadwood.logs"
+              },
+              {
+                "entity": "population.detail.twigs"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "entity": "group.composition",
+        "children": [
+          {
+            "entity": "anchor.hero-pine"
+          },
+          {
+            "entity": "anchor.clearing-negative-space"
+          },
+          {
+            "entity": "anchor.frame-left"
+          },
+          {
+            "entity": "anchor.frame-right"
+          },
+          {
+            "entity": "anchor.background-depth"
+          }
+        ]
+      },
+      {
+        "entity": "group.cameras",
+        "children": [
+          {
+            "entity": "camera.hero"
+          },
+          {
+            "entity": "camera.top-down"
+          },
+          {
+            "entity": "camera.tree-detail"
+          },
+          {
+            "entity": "camera.ground-detail"
+          },
+          {
+            "entity": "camera.snow-detail"
+          }
+        ]
+      }
+    ]
+  },
+  "entities": {
+    "scene.blue-winter-grove": {
+      "id": "scene.blue-winter-grove",
+      "kind": "scene",
+      "name": "Blue Winter Grove",
+      "enabled": true,
+      "tags": [
+        "scene",
+        "winter",
+        "forest",
+        "voxel-diorama",
+        "vertical-slice"
+      ],
+      "components": {
+        "description.intent": {
+          "summary": "A quiet, dense winter forest clearing at blue hour, rendered as a rich high-definition voxel diorama rather than a blocky game level.",
+          "playerRead": "The player enters a sheltered clearing framed by old snow-laden pines. The grove feels cold, still, layered, and naturally overgrown.",
+          "emotionalTargets": [
+            "quiet",
+            "cold",
+            "sheltered",
+            "slightly mysterious",
+            "hand-crafted density"
+          ],
+          "mustReadAtFirstGlance": [
+            "blue-hour winter atmosphere",
+            "central clearing",
+            "large layered pine silhouettes",
+            "deep forest beyond"
+          ],
+          "mustRewardCloserInspection": [
+            "branch forks",
+            "bark variation",
+            "snow shelves",
+            "grass tips",
+            "roots",
+            "twigs",
+            "rock fractures"
+          ]
+        },
+        "core.bounds": {
+          "sizeM": {
+            "x": 48.0,
+            "y": 18.0,
+            "z": 48.0
+          },
+          "voxelResolutionAtBaseScale": {
+            "x": 480,
+            "y": 180,
+            "z": 480
+          },
+          "playableBoundsM": {
+            "min": {
+              "x": -14,
+              "y": -1,
+              "z": -14
+            },
+            "max": {
+              "x": 14,
+              "y": 5,
+              "z": 14
+            }
+          },
+          "generationMarginM": 10.0
+        },
+        "style.visualLanguage": {
+          "primary": "rich dense voxel diorama",
+          "secondary": [
+            "painterly blue-hour lighting",
+            "naturalistic forest grammar",
+            "layered JRPG scene composition"
+          ],
+          "density": "high",
+          "silhouetteComplexity": "high",
+          "surfaceComplexity": "medium-high",
+          "readability": "clear macro composition with dense local detail",
+          "antiStyles": [
+            "Minecraft",
+            "toy blocks",
+            "simple low-poly forest",
+            "flat white snow recolor",
+            "uniform procedural scatter"
+          ]
+        },
+        "generation.policy": {
+          "mode": "seeded-procedural-with-human-approval",
+          "authoringLayer": "declarative-entity-component-graph",
+          "derivedEntitiesMutableByAgents": false,
+          "regenerateSmallestInvalidatedScope": true,
+          "preserveStableEntityIdsAcrossRegeneration": true
+        },
+        "validation.acceptance": {
+          "requiredSuites": [
+            "suite.schema",
+            "suite.structural",
+            "suite.composition",
+            "suite.visual"
+          ],
+          "maximumBlockingFailures": 0,
+          "maximumWarnings": 12,
+          "humanApprovalRequired": true
+        }
+      }
+    },
+    "group.environment": {
+      "id": "group.environment",
+      "kind": "group",
+      "name": "Environment",
+      "enabled": true,
+      "tags": [
+        "environment"
+      ],
+      "components": {
+        "description.intent": {
+          "summary": "Shared sky, light, fog, wind, and ambient color field."
+        }
+      },
+      "parent": "scene.blue-winter-grove"
+    },
+    "environment.sky": {
+      "id": "environment.sky",
+      "kind": "environment",
+      "name": "Blue-Hour Sky",
+      "enabled": true,
+      "tags": [
+        "sky",
+        "lighting-source"
+      ],
+      "components": {
+        "environment.skyProfile": {
+          "profile": "blue-hour-overcast-clearing",
+          "palette": "palette.atmosphere-blue-hour",
+          "sunElevationDegrees": -2.5,
+          "sunAzimuthDegrees": 232,
+          "cloudCoverage": 0.68,
+          "skyExposure": 0.78,
+          "horizonBrightness": 0.64,
+          "zenithBrightness": 0.38,
+          "visibleSunDisc": false
+        }
+      },
+      "parent": "group.environment"
+    },
+    "environment.lighting": {
+      "id": "environment.lighting",
+      "kind": "environment",
+      "name": "Cool Ambient Lighting",
+      "enabled": true,
+      "tags": [
+        "lighting"
+      ],
+      "components": {
+        "environment.lightingProfile": {
+          "key": {
+            "source": "environment.sky",
+            "direction": {
+              "azimuthDegrees": 232,
+              "elevationDegrees": 18
+            },
+            "softnessDegrees": 14,
+            "intensityLuxRelative": 0.42,
+            "colorTemperatureK": 9200
+          },
+          "ambient": {
+            "intensityRelative": 0.58,
+            "colorTemperatureK": 11200,
+            "groundBounceRelative": 0.18
+          },
+          "occlusion": {
+            "enabled": true,
+            "radiusM": [
+              0.25,
+              4.5
+            ],
+            "strength": 0.72,
+            "contactStrength": 0.88
+          },
+          "shadow": {
+            "type": "soft",
+            "penumbraM": [
+              0.15,
+              1.8
+            ],
+            "minimumShadowValue": 0.13,
+            "avoidCrushedBlack": true
+          },
+          "toneMapping": {
+            "profile": "filmic-soft-shoulder",
+            "exposureEV": -0.25,
+            "contrast": 0.92,
+            "highlightRollOff": 0.78,
+            "shadowLift": 0.06,
+            "saturation": 0.82
+          }
+        }
+      },
+      "parent": "group.environment"
+    },
+    "environment.atmosphere": {
+      "id": "environment.atmosphere",
+      "kind": "environment",
+      "name": "Layered Cold Mist",
+      "enabled": true,
+      "tags": [
+        "fog",
+        "depth"
+      ],
+      "components": {
+        "environment.atmosphereProfile": {
+          "fogType": "height-plus-depth",
+          "nearStartM": 17,
+          "farEndM": 72,
+          "baseDensity": 0.018,
+          "heightFalloff": 0.21,
+          "hollowDensityMultiplier": 1.45,
+          "backgroundDensityMultiplier": 1.3,
+          "colorPalette": "palette.atmosphere-blue-hour",
+          "preserveForegroundContrastM": 12,
+          "noise": {
+            "scaleM": [
+              6,
+              24
+            ],
+            "amplitude": 0.16,
+            "speed": 0.0
+          }
+        }
+      },
+      "parent": "group.environment"
+    },
+    "environment.wind": {
+      "id": "environment.wind",
+      "kind": "environment",
+      "name": "Northwest Winter Wind Field",
+      "enabled": true,
+      "tags": [
+        "wind",
+        "snow-influence"
+      ],
+      "components": {
+        "environment.windField": {
+          "directionDegrees": 128,
+          "speedRelative": 0.34,
+          "gustVariation": 0.12,
+          "terrainSheltering": true,
+          "canopySheltering": true,
+          "leewardDepositionMultiplier": 1.28,
+          "windwardScourMultiplier": 0.62,
+          "orientationInfluence": {
+            "grass": 0.66,
+            "youngTrees": 0.14,
+            "matureTrees": 0.04
+          }
+        }
+      },
+      "parent": "group.environment"
+    },
+    "group.terrain": {
+      "id": "group.terrain",
+      "kind": "group",
+      "name": "Terrain and Snow Field",
+      "enabled": true,
+      "tags": [
+        "terrain"
+      ],
+      "components": {
+        "description.intent": {
+          "summary": "Uneven glacial forest floor with a readable clearing, low ridge, shallow hollow, and wind-shaped snow depth."
+        }
+      },
+      "parent": "scene.blue-winter-grove"
+    },
+    "terrain.base": {
+      "id": "terrain.base",
+      "kind": "terrain",
+      "name": "Glacial Forest Floor",
+      "enabled": true,
+      "tags": [
+        "terrain",
+        "landform"
+      ],
+      "components": {
+        "terrain.heightfield": {
+          "algorithm": "ridged-domain-warped-noise-with-authored-masks",
+          "baseElevationM": 0.0,
+          "macroAmplitudeM": 2.2,
+          "macroScaleM": [
+            18,
+            44
+          ],
+          "mesoAmplitudeM": 0.52,
+          "mesoScaleM": [
+            2.5,
+            8.5
+          ],
+          "microAmplitudeM": 0.12,
+          "microScaleM": [
+            0.3,
+            1.4
+          ],
+          "maximumSlopeDegrees": 31,
+          "playableMaximumSlopeDegrees": 14,
+          "terracing": 0.0,
+          "avoidFlatPlaneCoverageAbove": 0.08
+        },
+        "terrain.surfaceLayers": {
+          "baseMaterial": "material.ground.frozen",
+          "layers": [
+            {
+              "role": "packedSoil",
+              "coverage": [
+                0.02,
+                0.06
+              ],
+              "conditions": [
+                "under-heavy-canopy",
+                "path-center"
+              ]
+            },
+            {
+              "role": "deadNeedles",
+              "coverage": [
+                0.03,
+                0.09
+              ],
+              "conditions": [
+                "pine-dripline",
+                "snow-thin"
+              ]
+            },
+            {
+              "role": "freshSnow",
+              "material": "material.snow.fresh",
+              "coverage": [
+                0.72,
+                0.9
+              ]
+            },
+            {
+              "role": "compactedSnow",
+              "material": "material.snow.compacted",
+              "coverage": [
+                0.03,
+                0.09
+              ],
+              "conditions": [
+                "path",
+                "contact-zones"
+              ]
+            }
+          ]
+        },
+        "terrain.snowField": {
+          "baseDepthM": [
+            0.18,
+            0.72
+          ],
+          "noiseScaleM": [
+            1.2,
+            7.5
+          ],
+          "windInfluenceEntity": "environment.wind",
+          "slopeReductionStartDegrees": 16,
+          "slopeRejectionDegrees": 48,
+          "treeWellRadiusMultiplier": [
+            0.8,
+            1.8
+          ],
+          "treeWellDepthMultiplier": [
+            0.45,
+            0.78
+          ],
+          "rockContactCompressionM": [
+            0.02,
+            0.11
+          ],
+          "edgeRoundingVoxels": [
+            1,
+            5
+          ],
+          "driftCrestSpacingM": [
+            2.4,
+            8.0
+          ],
+          "forbidUniformDepth": true,
+          "forbidSingleFlatTopSurface": true
+        }
+      },
+      "parent": "group.terrain"
+    },
+    "region.clearing.primary": {
+      "id": "region.clearing.primary",
+      "kind": "region",
+      "name": "Primary Sheltered Clearing",
+      "enabled": true,
+      "tags": [
+        "region",
+        "clearing",
+        "negative-space",
+        "playable"
+      ],
+      "components": {
+        "layout.regionMask": {
+          "shape": "irregular-ellipse",
+          "centerM": {
+            "x": 1.5,
+            "y": 0,
+            "z": -0.5
+          },
+          "radiusM": {
+            "x": 9.5,
+            "z": 7.2
+          },
+          "edgeNoiseM": [
+            0.8,
+            2.4
+          ],
+          "edgeNoiseFrequency": [
+            1.5,
+            4.2
+          ],
+          "rotationDegrees": -12,
+          "softFalloffM": 2.6
+        },
+        "layout.clearance": {
+          "excludeTags": [
+            "tree-trunk-large",
+            "boulder-large"
+          ],
+          "maximumCanopyProjectionCoverage": 0.24,
+          "maximumTrunkOccupancy": 0.045,
+          "allowGroundCover": true,
+          "allowYoungTreesAtEdgeOnly": true
+        },
+        "composition.negativeSpace": {
+          "purpose": "primary visual breathing room and player entry area",
+          "targetScreenCoverageHeroView": [
+            0.18,
+            0.3
+          ],
+          "preserveDepthOpeningTowardAzimuthDegrees": 18,
+          "minimumVisibleDepthM": 22
+        }
+      },
+      "parent": "group.terrain"
+    },
+    "region.ridge.northwest": {
+      "id": "region.ridge.northwest",
+      "kind": "region",
+      "name": "Northwest Shelter Ridge",
+      "enabled": true,
+      "tags": [
+        "region",
+        "ridge",
+        "wind-shelter"
+      ],
+      "components": {
+        "layout.regionMask": {
+          "shape": "curved-ribbon",
+          "controlPointsM": [
+            {
+              "x": -22,
+              "z": -8
+            },
+            {
+              "x": -14,
+              "z": -18
+            },
+            {
+              "x": -2,
+              "z": -21
+            },
+            {
+              "x": 9,
+              "z": -18
+            }
+          ],
+          "widthM": [
+            4.0,
+            8.5
+          ],
+          "softFalloffM": 3.0
+        },
+        "terrain.landformModifier": {
+          "elevationOffsetM": [
+            0.8,
+            2.4
+          ],
+          "crestNoiseM": [
+            0.15,
+            0.65
+          ],
+          "windShelterStrength": 0.62
+        }
+      },
+      "parent": "group.terrain"
+    },
+    "region.hollow.southeast": {
+      "id": "region.hollow.southeast",
+      "kind": "region",
+      "name": "Southeast Snow Hollow",
+      "enabled": true,
+      "tags": [
+        "region",
+        "hollow",
+        "mist",
+        "snow-drift"
+      ],
+      "components": {
+        "layout.regionMask": {
+          "shape": "irregular-ellipse",
+          "centerM": {
+            "x": 12,
+            "y": 0,
+            "z": 13
+          },
+          "radiusM": {
+            "x": 8.5,
+            "z": 6.0
+          },
+          "edgeNoiseM": [
+            0.5,
+            1.8
+          ],
+          "softFalloffM": 2.4
+        },
+        "terrain.landformModifier": {
+          "elevationOffsetM": [
+            -1.3,
+            -0.45
+          ],
+          "snowDepthMultiplier": 1.35,
+          "fogDensityMultiplier": 1.42,
+          "rockExposureMultiplier": 1.18
+        }
+      },
+      "parent": "group.terrain"
+    },
+    "region.path.wildlife": {
+      "id": "region.path.wildlife",
+      "kind": "region",
+      "name": "Subtle Wildlife Path",
+      "enabled": true,
+      "tags": [
+        "region",
+        "path",
+        "composition-guide"
+      ],
+      "components": {
+        "layout.splinePath": {
+          "controlPointsM": [
+            {
+              "x": -2,
+              "z": 20
+            },
+            {
+              "x": 1,
+              "z": 11
+            },
+            {
+              "x": 0,
+              "z": 2
+            },
+            {
+              "x": 5,
+              "z": -7
+            },
+            {
+              "x": 9,
+              "z": -18
+            }
+          ],
+          "widthM": [
+            0.55,
+            1.2
+          ],
+          "edgeNoiseM": [
+            0.08,
+            0.35
+          ],
+          "visibility": "subtle-not-roadlike"
+        },
+        "terrain.surfaceOverride": {
+          "snowDepthMultiplier": [
+            0.42,
+            0.72
+          ],
+          "compactedSnowCoverage": [
+            0.25,
+            0.58
+          ],
+          "groundExposureCoverage": [
+            0.04,
+            0.12
+          ],
+          "forbidCobblestoneOrConstructedRead": true
+        }
+      },
+      "parent": "group.terrain"
+    },
+    "group.ecology": {
+      "id": "group.ecology",
+      "kind": "group",
+      "name": "Forest Ecology",
+      "enabled": true,
+      "tags": [
+        "ecology"
+      ],
+      "components": {
+        "description.intent": {
+          "summary": "Layered canopy, understory, ground cover, stone, and deadwood populations governed by explicit ecological and compositional relationships."
+        }
+      },
+      "parent": "scene.blue-winter-grove"
+    },
+    "group.canopy": {
+      "id": "group.canopy",
+      "kind": "group",
+      "name": "Canopy Layer",
+      "enabled": true,
+      "tags": [
+        "ecology-layer",
+        "canopy"
+      ],
+      "components": {
+        "ecology.layerProfile": {
+          "heightM": [
+            6.0,
+            18.0
+          ],
+          "targetHorizontalCoverage": [
+            0.44,
+            0.66
+          ],
+          "targetGapRatioHeroView": [
+            0.18,
+            0.34
+          ],
+          "backgroundCoverageMultiplier": 1.25
+        }
+      },
+      "parent": "group.ecology"
+    },
+    "population.pine.old-growth": {
+      "id": "population.pine.old-growth",
+      "kind": "population",
+      "name": "Old-Growth Pine Clusters",
+      "enabled": true,
+      "tags": [
+        "population",
+        "tree-trunk-large",
+        "canopy",
+        "old-growth"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.tree.snow-pine.mature",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            22,
+            34
+          ],
+          "densityPerHectare": [
+            95,
+            150
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "clustered-poisson-with-composition-masks",
+          "allowedRegions": [
+            "terrain.base"
+          ],
+          "preferredRegions": [
+            "region.ridge.northwest",
+            "region.hollow.southeast"
+          ],
+          "excludedRegions": [
+            "region.clearing.primary"
+          ],
+          "minimumTrunkSpacingM": [
+            3.2,
+            5.8
+          ],
+          "clusterCount": [
+            4,
+            7
+          ],
+          "clusterRadiusM": [
+            5.0,
+            11.0
+          ],
+          "instancesPerCluster": [
+            3,
+            7
+          ],
+          "isolatedInstanceProbability": 0.16,
+          "edgeBias": 0.68,
+          "slopePreferenceDegrees": [
+            2,
+            19
+          ],
+          "nearestNeighborVariationTarget": 0.42,
+          "avoidGrid": true
+        },
+        "population.variation": {
+          "stream": "population.old-growth",
+          "scaleCorrelationWithinCluster": 0.28,
+          "snowLoadCorrelationWithinCluster": 0.36,
+          "minimumUniqueSilhouetteSeedsRatio": 0.92
+        },
+        "composition.populationRole": {
+          "roles": [
+            "frame-clearing",
+            "establish-height",
+            "create-depth-layers"
+          ],
+          "foregroundMaximumCount": 5,
+          "heroViewTrunkOcclusionMax": 0.18,
+          "backgroundDensityMultiplier": 1.25
+        }
+      },
+      "parent": "group.canopy"
+    },
+    "population.pine.secondary": {
+      "id": "population.pine.secondary",
+      "kind": "population",
+      "name": "Secondary Mature Pines",
+      "enabled": true,
+      "tags": [
+        "population",
+        "tree-trunk-large",
+        "canopy"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.tree.snow-pine.mature",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            18,
+            30
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "blue-noise-with-noise-field-bias",
+          "allowedRegions": [
+            "terrain.base"
+          ],
+          "excludedRegions": [
+            "region.clearing.primary"
+          ],
+          "minimumTrunkSpacingM": [
+            2.8,
+            5.0
+          ],
+          "noiseFieldScaleM": [
+            8,
+            19
+          ],
+          "noiseThreshold": [
+            0.42,
+            0.67
+          ],
+          "edgeBias": 0.42,
+          "avoidGrid": true
+        },
+        "population.variation": {
+          "stream": "population.secondary-pine",
+          "minimumUniqueSilhouetteSeedsRatio": 0.9,
+          "heightScaleMultiplier": [
+            0.78,
+            1.06
+          ]
+        },
+        "composition.populationRole": {
+          "roles": [
+            "fill-midground",
+            "break-repeated-clusters",
+            "connect-depth-layers"
+          ],
+          "heroViewTrunkOcclusionMax": 0.12
+        }
+      },
+      "parent": "group.canopy"
+    },
+    "population.pine.young": {
+      "id": "population.pine.young",
+      "kind": "population",
+      "name": "Young Pine Families",
+      "enabled": true,
+      "tags": [
+        "population",
+        "young-tree",
+        "canopy-edge",
+        "understory-tall"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.tree.snow-pine.young",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            45,
+            82
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "parent-biased-clustered-poisson",
+          "parentPopulation": "population.pine.old-growth",
+          "distanceFromParentM": [
+            2.0,
+            9.5
+          ],
+          "minimumSpacingM": [
+            1.0,
+            2.4
+          ],
+          "familySize": [
+            2,
+            8
+          ],
+          "clearingEdgeBandM": [
+            0.8,
+            4.5
+          ],
+          "clearingInteriorProbability": 0.03,
+          "deepCanopyDensityMultiplier": 0.52,
+          "avoidGrid": true
+        },
+        "population.variation": {
+          "stream": "population.young-pine",
+          "ageMix": {
+            "sapling": 0.28,
+            "juvenile": 0.48,
+            "young": 0.24
+          },
+          "minimumUniqueSilhouetteSeedsRatio": 0.86
+        },
+        "composition.populationRole": {
+          "roles": [
+            "soften-clearing-edge",
+            "create-scale-transition",
+            "add-mid-height-rhythm"
+          ],
+          "maximumScreenClumpWidth": 0.18
+        }
+      },
+      "parent": "group.canopy"
+    },
+    "population.birch.edge": {
+      "id": "population.birch.edge",
+      "kind": "population",
+      "name": "Bare Birch Edge Group",
+      "enabled": true,
+      "tags": [
+        "population",
+        "birch",
+        "canopy-contrast"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.tree.birch.bare-winter",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            9,
+            18
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "small-cluster-ribbon",
+          "preferredRegions": [
+            "region.hollow.southeast"
+          ],
+          "distanceFromClearingEdgeM": [
+            4,
+            13
+          ],
+          "clusterCount": [
+            2,
+            4
+          ],
+          "instancesPerCluster": [
+            3,
+            7
+          ],
+          "minimumSpacingM": [
+            1.5,
+            3.4
+          ],
+          "alignWithTerrainFlow": 0.38
+        },
+        "composition.populationRole": {
+          "roles": [
+            "break-conifer-mass",
+            "add-fine-branch-detail",
+            "light-value-accent"
+          ],
+          "heroViewScreenCoverage": [
+            0.025,
+            0.08
+          ],
+          "avoidCenterFocalCompetition": true
+        }
+      },
+      "parent": "group.canopy"
+    },
+    "group.understory": {
+      "id": "group.understory",
+      "kind": "group",
+      "name": "Understory Layer",
+      "enabled": true,
+      "tags": [
+        "ecology-layer",
+        "understory"
+      ],
+      "components": {
+        "ecology.layerProfile": {
+          "heightM": [
+            0.35,
+            2.2
+          ],
+          "targetHorizontalCoverage": [
+            0.12,
+            0.3
+          ],
+          "deepCanopyMultiplier": 0.74,
+          "clearingEdgeMultiplier": 1.32
+        }
+      },
+      "parent": "group.ecology"
+    },
+    "population.shrub.winter": {
+      "id": "population.shrub.winter",
+      "kind": "population",
+      "name": "Snow-Buried Shrub Clusters",
+      "enabled": true,
+      "tags": [
+        "population",
+        "shrub",
+        "understory"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.shrub.winter-snow-buried",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            58,
+            105
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "lee-side-clustered-scatter",
+          "minimumSpacingM": [
+            0.65,
+            1.6
+          ],
+          "clusterCount": [
+            12,
+            24
+          ],
+          "instancesPerCluster": [
+            2,
+            8
+          ],
+          "distanceFromMatureTreeM": [
+            1.0,
+            5.5
+          ],
+          "distanceFromRockM": [
+            0.2,
+            2.2
+          ],
+          "clearingInteriorDensityMultiplier": 0.18,
+          "leewardBias": 0.62,
+          "snowDepthPreferenceM": [
+            0.2,
+            0.58
+          ]
+        },
+        "population.variation": {
+          "stream": "population.winter-shrub",
+          "burialDepthCorrelationByCluster": 0.48,
+          "minimumUniqueSilhouetteSeedsRatio": 0.82
+        }
+      },
+      "parent": "group.understory"
+    },
+    "group.ground-cover": {
+      "id": "group.ground-cover",
+      "kind": "group",
+      "name": "Ground Cover and Forest Debris",
+      "enabled": true,
+      "tags": [
+        "ecology-layer",
+        "ground-cover"
+      ],
+      "components": {
+        "ecology.layerProfile": {
+          "heightM": [
+            0.0,
+            0.8
+          ],
+          "targetVisibleCoverageHeroView": [
+            0.06,
+            0.16
+          ],
+          "targetVisibleCoverageGroundDetailView": [
+            0.22,
+            0.44
+          ]
+        }
+      },
+      "parent": "group.ecology"
+    },
+    "population.grass.scoured": {
+      "id": "population.grass.scoured",
+      "kind": "population",
+      "name": "Wind-Scoured Grass Tufts",
+      "enabled": true,
+      "tags": [
+        "population",
+        "grass",
+        "snow-thin"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.ground.frozen-grass-tuft",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            180,
+            360
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "mask-driven-micro-clusters",
+          "requiredConditions": [
+            "snowDepthM < 0.24",
+            "windExposure > 0.44"
+          ],
+          "preferredRegions": [
+            "region.path.wildlife",
+            "region.clearing.primary"
+          ],
+          "minimumSpacingM": [
+            0.12,
+            0.42
+          ],
+          "clusterRadiusM": [
+            0.25,
+            1.2
+          ],
+          "instancesPerCluster": [
+            3,
+            18
+          ],
+          "orientationEntity": "environment.wind",
+          "avoidEvenCoverage": true
+        },
+        "population.variation": {
+          "stream": "population.grass-scoured",
+          "heightCorrelationByCluster": 0.36,
+          "orientationJitterDegrees": [
+            8,
+            34
+          ]
+        }
+      },
+      "parent": "group.ground-cover"
+    },
+    "population.grass.canopy": {
+      "id": "population.grass.canopy",
+      "kind": "population",
+      "name": "Sheltered Under-Canopy Grass",
+      "enabled": true,
+      "tags": [
+        "population",
+        "grass",
+        "under-canopy"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.ground.frozen-grass-tuft",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            90,
+            210
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "tree-dripline-scatter",
+          "sourcePopulation": "population.pine.old-growth",
+          "normalizedDistanceFromTrunkRadius": [
+            1.1,
+            2.8
+          ],
+          "requiredConditions": [
+            "snowDepthM < 0.32",
+            "skyExposure < 0.55"
+          ],
+          "minimumSpacingM": [
+            0.16,
+            0.5
+          ],
+          "instancesPerPatch": [
+            2,
+            14
+          ],
+          "avoidContinuousRing": true
+        }
+      },
+      "parent": "group.ground-cover"
+    },
+    "population.rocks.glacial": {
+      "id": "population.rocks.glacial",
+      "kind": "population",
+      "name": "Glacial Boulder Groups",
+      "enabled": true,
+      "tags": [
+        "population",
+        "rock",
+        "terrain-detail",
+        "boulder-large"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.rock.glacial-boulder",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            28,
+            52
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "terrain-flow-clustered-poisson",
+          "preferredRegions": [
+            "region.hollow.southeast",
+            "region.ridge.northwest"
+          ],
+          "minimumSpacingM": [
+            1.0,
+            3.8
+          ],
+          "clusterCount": [
+            7,
+            13
+          ],
+          "instancesPerCluster": [
+            1,
+            6
+          ],
+          "largeBoulderRatio": [
+            0.12,
+            0.24
+          ],
+          "alignLongestAxisToSlope": 0.52,
+          "clearingInteriorMaximumCount": 3,
+          "partialBurialRequired": true
+        },
+        "composition.populationRole": {
+          "roles": [
+            "ground-plane-breakup",
+            "foreground-anchor",
+            "snow-drift-obstacle"
+          ],
+          "heroViewLargeBoulderScreenCoverageMax": 0.08
+        }
+      },
+      "parent": "group.ground-cover"
+    },
+    "population.deadwood.logs": {
+      "id": "population.deadwood.logs",
+      "kind": "population",
+      "name": "Fallen Logs and Broken Limbs",
+      "enabled": true,
+      "tags": [
+        "population",
+        "deadwood",
+        "ground-detail"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.deadwood.fallen-log",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            12,
+            27
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "source-tree-associated-scatter",
+          "sourcePopulation": "population.pine.old-growth",
+          "distanceFromSourceM": [
+            1.2,
+            8.0
+          ],
+          "minimumSpacingM": [
+            2.0,
+            5.0
+          ],
+          "orientation": "weighted-downslope-plus-random",
+          "downslopeWeight": 0.46,
+          "clearingInteriorMaximumCount": 2,
+          "avoidPathCenter": true
+        },
+        "population.variation": {
+          "stream": "population.deadwood-logs",
+          "minimumUniqueGeometrySeedsRatio": 0.9
+        }
+      },
+      "parent": "group.ground-cover"
+    },
+    "population.detail.twigs": {
+      "id": "population.detail.twigs",
+      "kind": "population",
+      "name": "Twig and Needle Debris",
+      "enabled": true,
+      "tags": [
+        "population",
+        "micro-detail",
+        "ground-detail"
+      ],
+      "components": {
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.detail.twig-cluster",
+              "weight": 1.0
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            80,
+            180
+          ],
+          "samplingScope": "scene"
+        },
+        "population.distribution": {
+          "algorithm": "contact-and-deadwood-biased-scatter",
+          "sourcePopulations": [
+            "population.deadwood.logs",
+            "population.pine.old-growth"
+          ],
+          "distanceFromSourceM": [
+            0.15,
+            2.8
+          ],
+          "requiredConditions": [
+            "snowDepthM < 0.48"
+          ],
+          "minimumSpacingM": [
+            0.22,
+            0.75
+          ],
+          "visibilityBiasToAcceptanceCameras": 0.26
+        }
+      },
+      "parent": "group.ground-cover"
+    },
+    "group.composition": {
+      "id": "group.composition",
+      "kind": "group",
+      "name": "Composition and Readability",
+      "enabled": true,
+      "tags": [
+        "composition"
+      ],
+      "components": {
+        "description.intent": {
+          "summary": "Authored anchors and protected negative spaces that guide procedural placement without hard-coding every instance."
+        }
+      },
+      "parent": "scene.blue-winter-grove"
+    },
+    "anchor.hero-pine": {
+      "id": "anchor.hero-pine",
+      "kind": "composition-anchor",
+      "name": "Hero Pine Anchor",
+      "enabled": true,
+      "tags": [
+        "composition-anchor",
+        "hero-subject"
+      ],
+      "components": {
+        "layout.anchor": {
+          "worldPositionM": {
+            "x": -6.8,
+            "y": 0,
+            "z": -2.2
+          },
+          "positionToleranceM": 2.2,
+          "preferredPrototype": "prototype.tree.snow-pine.mature",
+          "instanceSelection": "largest-valid-old-growth-near-anchor",
+          "minimumHeightM": 15.0,
+          "maximumLeanAwayFromCameraDegrees": 12
+        },
+        "composition.screenTarget": {
+          "camera": "camera.hero",
+          "subjectCenterNormalized": {
+            "x": [
+              0.22,
+              0.36
+            ],
+            "y": [
+              0.38,
+              0.58
+            ]
+          },
+          "screenHeightNormalized": [
+            0.62,
+            0.9
+          ],
+          "maximumOcclusionRatio": 0.14,
+          "trunkVisibilityRatio": [
+            0.28,
+            0.56
+          ]
+        }
+      },
+      "parent": "group.composition"
+    },
+    "anchor.clearing-negative-space": {
+      "id": "anchor.clearing-negative-space",
+      "kind": "composition-anchor",
+      "name": "Clearing Negative Space",
+      "enabled": true,
+      "tags": [
+        "composition-anchor",
+        "negative-space"
+      ],
+      "components": {
+        "layout.anchor": {
+          "region": "region.clearing.primary"
+        },
+        "composition.screenTarget": {
+          "camera": "camera.hero",
+          "screenRegionNormalized": {
+            "x": [
+              0.34,
+              0.78
+            ],
+            "y": [
+              0.46,
+              0.9
+            ]
+          },
+          "maximumTallAssetCoverage": 0.12,
+          "minimumGroundVisibility": 0.48,
+          "preserveViewDepthM": 22
+        }
+      },
+      "parent": "group.composition"
+    },
+    "anchor.frame-left": {
+      "id": "anchor.frame-left",
+      "kind": "composition-anchor",
+      "name": "Left Foreground Frame",
+      "enabled": true,
+      "tags": [
+        "composition-anchor",
+        "foreground-frame"
+      ],
+      "components": {
+        "composition.frame": {
+          "camera": "camera.hero",
+          "screenRegionNormalized": {
+            "x": [
+              0.0,
+              0.18
+            ],
+            "y": [
+              0.1,
+              1.0
+            ]
+          },
+          "preferredSources": [
+            "population.pine.old-growth",
+            "population.shrub.winter"
+          ],
+          "targetCoverage": [
+            0.1,
+            0.2
+          ],
+          "maximumCenterIntrusion": 0.06,
+          "allowPartialCrop": true
+        }
+      },
+      "parent": "group.composition"
+    },
+    "anchor.frame-right": {
+      "id": "anchor.frame-right",
+      "kind": "composition-anchor",
+      "name": "Right Foreground Frame",
+      "enabled": true,
+      "tags": [
+        "composition-anchor",
+        "foreground-frame"
+      ],
+      "components": {
+        "composition.frame": {
+          "camera": "camera.hero",
+          "screenRegionNormalized": {
+            "x": [
+              0.84,
+              1.0
+            ],
+            "y": [
+              0.18,
+              1.0
+            ]
+          },
+          "preferredSources": [
+            "population.pine.young",
+            "population.rocks.glacial"
+          ],
+          "targetCoverage": [
+            0.07,
+            0.16
+          ],
+          "maximumCenterIntrusion": 0.05,
+          "allowPartialCrop": true
+        }
+      },
+      "parent": "group.composition"
+    },
+    "anchor.background-depth": {
+      "id": "anchor.background-depth",
+      "kind": "composition-anchor",
+      "name": "Background Forest Depth Band",
+      "enabled": true,
+      "tags": [
+        "composition-anchor",
+        "background"
+      ],
+      "components": {
+        "composition.depthBand": {
+          "camera": "camera.hero",
+          "distanceM": [
+            26,
+            58
+          ],
+          "requiredCanopyCoverage": [
+            0.56,
+            0.78
+          ],
+          "requiredFogContrastReduction": [
+            0.22,
+            0.46
+          ],
+          "minimumVisibleTreeLayers": 3,
+          "silhouetteFrequencyBias": "higher-and-finer-than-foreground"
+        }
+      },
+      "parent": "group.composition"
+    },
+    "group.cameras": {
+      "id": "group.cameras",
+      "kind": "group",
+      "name": "Preview and Validation Cameras",
+      "enabled": true,
+      "tags": [
+        "cameras"
+      ],
+      "components": {
+        "description.intent": {
+          "summary": "Stable camera set used for generation review, crop-level validation, and reproducible visual comparison."
+        }
+      },
+      "parent": "scene.blue-winter-grove"
+    },
+    "camera.hero": {
+      "id": "camera.hero",
+      "kind": "camera",
+      "name": "Hero Three-Quarter View",
+      "enabled": true,
+      "tags": [
+        "camera",
+        "hero",
+        "acceptance"
+      ],
+      "components": {
+        "render.camera": {
+          "projection": "orthographic",
+          "positionM": {
+            "x": 24.5,
+            "y": 16.5,
+            "z": 29.0
+          },
+          "lookAtM": {
+            "x": 0.0,
+            "y": 4.2,
+            "z": 0.0
+          },
+          "orthographicWidthM": 37.5,
+          "aspectRatio": "16:9",
+          "resolutionPx": {
+            "width": 1920,
+            "height": 1080
+          },
+          "nearM": 1.0,
+          "farM": 120,
+          "jitter": false
+        },
+        "render.outputPasses": {
+          "passes": [
+            "beauty",
+            "albedo",
+            "normal",
+            "depth",
+            "object-id",
+            "material-id",
+            "snow-coverage",
+            "sky-exposure"
+          ]
+        }
+      },
+      "parent": "group.cameras"
+    },
+    "camera.top-down": {
+      "id": "camera.top-down",
+      "kind": "camera",
+      "name": "Top-Down Distribution View",
+      "enabled": true,
+      "tags": [
+        "camera",
+        "diagnostic"
+      ],
+      "components": {
+        "render.camera": {
+          "projection": "orthographic",
+          "positionM": {
+            "x": 0,
+            "y": 70,
+            "z": 0
+          },
+          "lookAtM": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "up": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "orthographicWidthM": 54,
+          "aspectRatio": "1:1",
+          "resolutionPx": {
+            "width": 1536,
+            "height": 1536
+          }
+        },
+        "render.outputPasses": {
+          "passes": [
+            "object-id",
+            "population-id",
+            "height",
+            "snow-depth",
+            "region-mask"
+          ]
+        }
+      },
+      "parent": "group.cameras"
+    },
+    "camera.tree-detail": {
+      "id": "camera.tree-detail",
+      "kind": "camera",
+      "name": "Mature Pine Detail View",
+      "enabled": true,
+      "tags": [
+        "camera",
+        "diagnostic",
+        "asset-detail"
+      ],
+      "components": {
+        "render.camera": {
+          "projection": "perspective",
+          "targetSelector": {
+            "prototype": "prototype.tree.snow-pine.mature",
+            "selection": "hero-anchor-instance"
+          },
+          "framing": "full-tree-plus-root-contact",
+          "focalLengthMm": 70,
+          "resolutionPx": {
+            "width": 1600,
+            "height": 2000
+          },
+          "background": "neutral-blue-gray"
+        },
+        "render.outputPasses": {
+          "passes": [
+            "beauty",
+            "silhouette",
+            "object-id",
+            "snow-coverage",
+            "branch-order"
+          ]
+        }
+      },
+      "parent": "group.cameras"
+    },
+    "camera.ground-detail": {
+      "id": "camera.ground-detail",
+      "kind": "camera",
+      "name": "Ground Micro-Detail View",
+      "enabled": true,
+      "tags": [
+        "camera",
+        "diagnostic",
+        "surface-detail"
+      ],
+      "components": {
+        "render.camera": {
+          "projection": "perspective",
+          "positionM": {
+            "x": 4.8,
+            "y": 1.4,
+            "z": 4.2
+          },
+          "lookAtM": {
+            "x": 1.8,
+            "y": 0.25,
+            "z": 0.8
+          },
+          "focalLengthMm": 58,
+          "resolutionPx": {
+            "width": 1920,
+            "height": 1080
+          }
+        },
+        "render.outputPasses": {
+          "passes": [
+            "beauty",
+            "normal",
+            "depth",
+            "material-id",
+            "snow-depth"
+          ]
+        }
+      },
+      "parent": "group.cameras"
+    },
+    "camera.snow-detail": {
+      "id": "camera.snow-detail",
+      "kind": "camera",
+      "name": "Snow Accumulation Diagnostic",
+      "enabled": true,
+      "tags": [
+        "camera",
+        "diagnostic",
+        "snow"
+      ],
+      "components": {
+        "render.camera": {
+          "projection": "perspective",
+          "targetSelector": {
+            "tagsAll": [
+              "snow-receiver"
+            ],
+            "selection": "highest-snow-coverage-variety"
+          },
+          "framing": "branch-rock-and-ground-composite",
+          "focalLengthMm": 85,
+          "resolutionPx": {
+            "width": 1800,
+            "height": 1200
+          }
+        },
+        "render.outputPasses": {
+          "passes": [
+            "beauty",
+            "snow-coverage",
+            "sky-exposure",
+            "wind-exposure",
+            "surface-normal"
+          ]
+        }
+      },
+      "parent": "group.cameras"
+    }
+  },
+  "relationships": [
+    {
+      "id": "rel.old-growth.frames-clearing",
+      "type": "composition.frames",
+      "source": "population.pine.old-growth",
+      "target": "region.clearing.primary",
+      "required": true,
+      "priority": 900,
+      "rule": {
+        "preferredArcCoverageDegrees": [
+          190,
+          280
+        ],
+        "openViewAzimuthDegrees": [
+          0,
+          42
+        ],
+        "minimumPerimeterGapCount": 3,
+        "avoidContinuousTreeWall": true
+      },
+      "description": "Old-growth clusters define the clearing edge without enclosing it as a uniform ring."
+    },
+    {
+      "id": "rel.hero-pine.selects-old-growth",
+      "type": "composition.anchors",
+      "source": "anchor.hero-pine",
+      "target": "population.pine.old-growth",
+      "required": true,
+      "priority": 1000,
+      "rule": {
+        "selection": "nearest-valid-largest-instance",
+        "reserveBeforeGeneralPlacement": true,
+        "allowLocalRegenerationAttempts": 12
+      },
+      "description": "Reserve one mature pine as the authored focal anchor."
+    },
+    {
+      "id": "rel.hero-camera.frames-pine",
+      "type": "composition.frames",
+      "source": "camera.hero",
+      "target": "anchor.hero-pine",
+      "required": true,
+      "priority": 1000,
+      "rule": {
+        "preserveFullCrown": true,
+        "allowRootOcclusionRatio": [
+          0.0,
+          0.18
+        ],
+        "maximumCompetingSilhouetteHeightRatio": 0.78
+      }
+    },
+    {
+      "id": "rel.hero-camera.preserves-clearing",
+      "type": "composition.preservesNegativeSpace",
+      "source": "camera.hero",
+      "target": "anchor.clearing-negative-space",
+      "required": true,
+      "priority": 960,
+      "rule": {
+        "minimumUninterruptedScreenWidth": 0.24,
+        "maximumTallInstanceCountInRegion": 2
+      }
+    },
+    {
+      "id": "rel.young-pines.spawn-near-old-growth",
+      "type": "ecology.spawnsNear",
+      "source": "population.pine.young",
+      "target": "population.pine.old-growth",
+      "required": true,
+      "priority": 700,
+      "rule": {
+        "distanceM": [
+          2.0,
+          9.5
+        ],
+        "probabilityFalloff": "smoothstep",
+        "excludeImmediateRootZoneM": [
+          0.0,
+          1.8
+        ],
+        "reduceUnderDenseCanopy": true
+      }
+    },
+    {
+      "id": "rel.young-pines.softens-clearing-edge",
+      "type": "composition.softensBoundary",
+      "source": "population.pine.young",
+      "target": "region.clearing.primary",
+      "required": true,
+      "priority": 680,
+      "rule": {
+        "edgeBandM": [
+          0.8,
+          4.5
+        ],
+        "coverageTarget": [
+          0.12,
+          0.3
+        ],
+        "preserveViewCorridor": true
+      }
+    },
+    {
+      "id": "rel.birch-breaks-conifer-mass",
+      "type": "composition.breaksMass",
+      "source": "population.birch.edge",
+      "target": "population.pine.secondary",
+      "required": false,
+      "priority": 520,
+      "rule": {
+        "minimumVisibleSeparationPxAtHero1080p": 18,
+        "maximumAdjacentBirchClusterCount": 2,
+        "preferFogLayer": "mid-to-background"
+      }
+    },
+    {
+      "id": "rel.shrubs-grow-under-pines",
+      "type": "ecology.growsUnder",
+      "source": "population.shrub.winter",
+      "target": "population.pine.old-growth",
+      "required": false,
+      "priority": 500,
+      "rule": {
+        "normalizedDriplineDistance": [
+          0.65,
+          1.55
+        ],
+        "skyExposureRange": [
+          0.2,
+          0.72
+        ],
+        "avoidTrunkContactM": 0.45
+      }
+    },
+    {
+      "id": "rel.shrubs-lee-of-rocks",
+      "type": "ecology.clustersWith",
+      "source": "population.shrub.winter",
+      "target": "population.rocks.glacial",
+      "required": false,
+      "priority": 430,
+      "rule": {
+        "distanceM": [
+          0.2,
+          2.2
+        ],
+        "preferredSide": "leeward",
+        "probability": 0.44,
+        "avoidCompleteRockRing": true
+      }
+    },
+    {
+      "id": "rel.deadwood-associated-old-growth",
+      "type": "ecology.spawnsFrom",
+      "source": "population.deadwood.logs",
+      "target": "population.pine.old-growth",
+      "required": false,
+      "priority": 440,
+      "rule": {
+        "oneLogPerSourceProbability": 0.28,
+        "maximumLogsPerSource": 2,
+        "distanceM": [
+          1.2,
+          8.0
+        ],
+        "preferDownslope": true
+      }
+    },
+    {
+      "id": "rel.twigs-near-deadwood",
+      "type": "ecology.spawnsNear",
+      "source": "population.detail.twigs",
+      "target": "population.deadwood.logs",
+      "required": false,
+      "priority": 280,
+      "rule": {
+        "distanceM": [
+          0.12,
+          1.8
+        ],
+        "clusterProbability": 0.68
+      }
+    },
+    {
+      "id": "rel.scoured-grass-follows-wind",
+      "type": "environment.influencedByWindField",
+      "source": "population.grass.scoured",
+      "target": "environment.wind",
+      "required": true,
+      "priority": 620,
+      "rule": {
+        "orientationStrength": 0.66,
+        "densityInScouredZonesMultiplier": 1.7,
+        "densityInDriftZonesMultiplier": 0.18
+      }
+    },
+    {
+      "id": "rel.rocks-shape-snow",
+      "type": "surface.createsSnowObstacle",
+      "source": "population.rocks.glacial",
+      "target": "terrain.base",
+      "required": true,
+      "priority": 560,
+      "rule": {
+        "windwardScourRadiusMultiplier": [
+          0.3,
+          0.9
+        ],
+        "leewardDriftLengthMultiplier": [
+          0.8,
+          2.8
+        ],
+        "contactCompressionRequired": true
+      }
+    },
+    {
+      "id": "rel.pines-shape-snow",
+      "type": "surface.createsSnowObstacle",
+      "source": "population.pine.old-growth",
+      "target": "terrain.base",
+      "required": true,
+      "priority": 610,
+      "rule": {
+        "treeWellRadiusByTrunkRadius": [
+          2.8,
+          6.2
+        ],
+        "canopyShelterSnowMultiplier": [
+          0.52,
+          0.84
+        ],
+        "branchDumpClumpProbability": 0.12
+      }
+    },
+    {
+      "id": "rel.wind-influences-snow-receivers",
+      "type": "environment.influences",
+      "source": "environment.wind",
+      "targetSelector": {
+        "component": "surface.snowReceiver"
+      },
+      "required": true,
+      "priority": 800,
+      "rule": {
+        "windwardRetentionMultiplier": [
+          0.55,
+          0.86
+        ],
+        "leewardRetentionMultiplier": [
+          1.05,
+          1.34
+        ],
+        "directionJitterDegrees": [
+          4,
+          13
+        ]
+      }
+    },
+    {
+      "id": "rel.left-frame-uses-populations",
+      "type": "composition.selectsFrom",
+      "source": "anchor.frame-left",
+      "target": "population.pine.old-growth",
+      "required": false,
+      "priority": 640,
+      "rule": {
+        "allowPartialInstance": true,
+        "maximumOcclusionOfHero": 0.08
+      }
+    },
+    {
+      "id": "rel.right-frame-uses-populations",
+      "type": "composition.selectsFrom",
+      "source": "anchor.frame-right",
+      "target": "population.pine.young",
+      "required": false,
+      "priority": 620,
+      "rule": {
+        "allowPartialInstance": true,
+        "maximumOcclusionOfClearing": 0.06
+      }
+    },
+    {
+      "id": "rel.background-depth-filled-by-canopy",
+      "type": "composition.fillsDepthBand",
+      "source": "population.pine.secondary",
+      "target": "anchor.background-depth",
+      "required": true,
+      "priority": 720,
+      "rule": {
+        "minimumLayerCount": 3,
+        "heightScaleByDistance": [
+          0.72,
+          1.0
+        ],
+        "fogIntegrationRequired": true
+      }
+    }
+  ],
+  "systems": [
+    {
+      "id": "system.resolve.contract",
+      "phase": "resolve",
+      "implementation": "antikylabs.contract.resolve",
+      "implementationVersion": "0.2.0",
+      "reads": [
+        "imports",
+        "definitions.prototypes",
+        "entities.*.components",
+        "relationships"
+      ],
+      "writes": [
+        "derived.resolvedPrototype",
+        "derived.resolvedComponent",
+        "derived.dependencyGraph"
+      ],
+      "query": {
+        "allEntities": true
+      },
+      "dependsOn": [],
+      "parameters": {
+        "applyDefaults": true,
+        "resolvePrototypeInheritance": true,
+        "normalizeUnits": true,
+        "canonicalizeEntityOrder": true,
+        "failOnUnknownRequiredComponent": true
+      },
+      "invalidation": {
+        "onChange": [
+          "imports",
+          "definitions",
+          "entities",
+          "relationships"
+        ]
+      },
+      "produces": [
+        "resolved-contract.json",
+        "dependency-graph.json"
+      ]
+    },
+    {
+      "id": "system.layout.region-masks",
+      "phase": "layout",
+      "implementation": "antikylabs.layout.region-mask-rasterizer",
+      "implementationVersion": "0.1.0",
+      "reads": [
+        "layout.regionMask",
+        "layout.splinePath",
+        "core.bounds"
+      ],
+      "writes": [
+        "derived.regionMaskVolume",
+        "derived.distanceField"
+      ],
+      "query": {
+        "anyComponents": [
+          "layout.regionMask",
+          "layout.splinePath"
+        ]
+      },
+      "dependsOn": [
+        "system.resolve.contract"
+      ],
+      "randomStream": "layout.region-masks",
+      "parameters": {
+        "resolutionVoxelsPerMeter": 10,
+        "distanceFieldMaxM": 20
+      },
+      "invalidation": {
+        "onComponentChange": [
+          "layout.regionMask",
+          "layout.splinePath",
+          "core.bounds"
+        ]
+      },
+      "produces": [
+        "region-mask-volume",
+        "region-distance-fields"
+      ]
+    },
+    {
+      "id": "system.terrain.base-form",
+      "phase": "terrain",
+      "implementation": "antikylabs.terrain.layered-heightfield",
+      "implementationVersion": "0.3.0",
+      "reads": [
+        "terrain.heightfield",
+        "terrain.landformModifier",
+        "derived.regionMaskVolume"
+      ],
+      "writes": [
+        "derived.terrainSurface",
+        "derived.slopeField",
+        "derived.flowField"
+      ],
+      "query": {
+        "allComponents": [
+          "terrain.heightfield"
+        ]
+      },
+      "dependsOn": [
+        "system.layout.region-masks"
+      ],
+      "randomStream": "terrain.base-form",
+      "parameters": {
+        "preservePlayableSlope": true,
+        "voxelizeAfterContinuousSolve": true,
+        "surfaceRelaxationIterations": 3
+      },
+      "invalidation": {
+        "onComponentChange": [
+          "terrain.heightfield",
+          "terrain.landformModifier",
+          "layout.regionMask"
+        ]
+      },
+      "produces": [
+        "terrain-voxel-volume",
+        "slope-field",
+        "flow-field"
+      ]
+    },
+    {
+      "id": "system.terrain.snow-depth",
+      "phase": "terrain",
+      "implementation": "antikylabs.snow.ground-depth-field",
+      "implementationVersion": "0.2.0",
+      "reads": [
+        "terrain.snowField",
+        "environment.windField",
+        "derived.terrainSurface",
+        "derived.slopeField",
+        "derived.regionMaskVolume"
+      ],
+      "writes": [
+        "derived.snowDepthField",
+        "derived.windExposureField",
+        "derived.snowThinMask"
+      ],
+      "query": {
+        "allComponents": [
+          "terrain.snowField"
+        ]
+      },
+      "dependsOn": [
+        "system.terrain.base-form"
+      ],
+      "randomStream": "terrain.snow-depth",
+      "parameters": {
+        "simulateObstacleFreeBaseField": true,
+        "minimumDepthStepM": 0.02,
+        "edgeRelaxationIterations": 5
+      },
+      "invalidation": {
+        "onComponentChange": [
+          "terrain.snowField",
+          "environment.windField",
+          "terrain.heightfield"
+        ]
+      },
+      "produces": [
+        "base-snow-depth-field",
+        "snow-thin-mask",
+        "wind-exposure-field"
+      ]
+    },
+    {
+      "id": "system.composition.reserve-anchors",
+      "phase": "layout",
+      "implementation": "antikylabs.composition.anchor-reservation",
+      "implementationVersion": "0.1.0",
+      "reads": [
+        "layout.anchor",
+        "composition.screenTarget",
+        "composition.frame",
+        "composition.depthBand",
+        "render.camera"
+      ],
+      "writes": [
+        "derived.anchorReservation",
+        "derived.protectedViewVolume",
+        "derived.screenRegionWorldProjection"
+      ],
+      "query": {
+        "kind": "composition-anchor"
+      },
+      "dependsOn": [
+        "system.terrain.base-form"
+      ],
+      "randomStream": "composition.anchors",
+      "parameters": {
+        "reserveBeforePopulationPlacement": true,
+        "allowSoftConstraintRelaxation": true
+      },
+      "invalidation": {
+        "onComponentChange": [
+          "layout.anchor",
+          "composition.*",
+          "render.camera"
+        ]
+      },
+      "produces": [
+        "anchor-reservations",
+        "protected-view-volumes"
+      ]
+    },
+    {
+      "id": "system.population.canopy",
+      "phase": "population",
+      "implementation": "antikylabs.population.ecological-cluster-placement",
+      "implementationVersion": "0.4.0",
+      "reads": [
+        "population.prototypeMix",
+        "population.quantity",
+        "population.distribution",
+        "population.variation",
+        "composition.populationRole",
+        "derived.regionMaskVolume",
+        "derived.slopeField",
+        "derived.anchorReservation",
+        "relationships:composition.*",
+        "relationships:ecology.*"
+      ],
+      "writes": [
+        "derived.populationInstance",
+        "derived.instanceTransform",
+        "derived.clusterMembership",
+        "derived.prototypeBinding"
+      ],
+      "query": {
+        "parent": "group.canopy",
+        "kind": "population"
+      },
+      "dependsOn": [
+        "system.terrain.snow-depth",
+        "system.composition.reserve-anchors"
+      ],
+      "randomStream": "population.canopy",
+      "parameters": {
+        "placementOrder": [
+          "population.pine.old-growth",
+          "population.pine.secondary",
+          "population.pine.young",
+          "population.birch.edge"
+        ],
+        "maximumPlacementAttemptsPerInstance": 80,
+        "relaxationPasses": 4,
+        "preserveStableInstanceIds": true
+      },
+      "invalidation": {
+        "onEntitySubtreeChange": [
+          "group.canopy"
+        ],
+        "onRelationshipTypes": [
+          "composition.*",
+          "ecology.*"
+        ]
+      },
+      "produces": [
+        "canopy-instance-set",
+        "canopy-cluster-map"
+      ]
+    },
+    {
+      "id": "system.population.understory",
+      "phase": "population",
+      "implementation": "antikylabs.population.relationship-aware-scatter",
+      "implementationVersion": "0.3.0",
+      "reads": [
+        "population.prototypeMix",
+        "population.quantity",
+        "population.distribution",
+        "population.variation",
+        "derived.populationInstance",
+        "derived.snowDepthField",
+        "derived.windExposureField",
+        "relationships:ecology.*"
+      ],
+      "writes": [
+        "derived.populationInstance",
+        "derived.instanceTransform",
+        "derived.clusterMembership",
+        "derived.prototypeBinding"
+      ],
+      "query": {
+        "parent": "group.understory",
+        "kind": "population"
+      },
+      "dependsOn": [
+        "system.population.canopy"
+      ],
+      "randomStream": "population.understory",
+      "parameters": {
+        "maximumPlacementAttemptsPerInstance": 64,
+        "relationshipSamplingPasses": 3
+      },
+      "invalidation": {
+        "onEntitySubtreeChange": [
+          "group.understory"
+        ],
+        "onPopulationChange": [
+          "population.pine.old-growth",
+          "population.rocks.glacial"
+        ]
+      },
+      "produces": [
+        "understory-instance-set"
+      ]
+    },
+    {
+      "id": "system.population.ground-cover",
+      "phase": "population",
+      "implementation": "antikylabs.population.mask-and-source-scatter",
+      "implementationVersion": "0.4.0",
+      "reads": [
+        "population.prototypeMix",
+        "population.quantity",
+        "population.distribution",
+        "population.variation",
+        "derived.populationInstance",
+        "derived.snowDepthField",
+        "derived.snowThinMask",
+        "derived.windExposureField",
+        "derived.flowField",
+        "relationships:ecology.*",
+        "relationships:surface.*"
+      ],
+      "writes": [
+        "derived.populationInstance",
+        "derived.instanceTransform",
+        "derived.clusterMembership",
+        "derived.prototypeBinding"
+      ],
+      "query": {
+        "parent": "group.ground-cover",
+        "kind": "population"
+      },
+      "dependsOn": [
+        "system.population.canopy",
+        "system.population.understory"
+      ],
+      "randomStream": "population.ground-cover",
+      "parameters": {
+        "placementOrder": [
+          "population.rocks.glacial",
+          "population.deadwood.logs",
+          "population.grass.scoured",
+          "population.grass.canopy",
+          "population.detail.twigs"
+        ],
+        "microScatterBatchSize": 256,
+        "preserveCameraVisibleDetailBias": true
+      },
+      "invalidation": {
+        "onEntitySubtreeChange": [
+          "group.ground-cover"
+        ],
+        "onFieldChange": [
+          "derived.snowDepthField",
+          "derived.flowField"
+        ]
+      },
+      "produces": [
+        "ground-cover-instance-set"
+      ]
+    },
+    {
+      "id": "system.synthesis.tree-geometry",
+      "phase": "synthesis",
+      "implementation": "antikylabs.voxel.tree-grammar",
+      "implementationVersion": "0.5.0",
+      "reads": [
+        "derived.prototypeBinding",
+        "derived.instanceTransform",
+        "geometry.treeGrammar",
+        "core.bounds",
+        "variation.parameters",
+        "material.assignment",
+        "style.forbiddenForms"
+      ],
+      "writes": [
+        "derived.voxelGeometry",
+        "derived.branchGraph",
+        "derived.materialSlots",
+        "derived.assetMetrics"
+      ],
+      "query": {
+        "prototypeTagsAny": [
+          "tree",
+          "conifer",
+          "deciduous"
+        ]
+      },
+      "dependsOn": [
+        "system.population.canopy"
+      ],
+      "randomStream": "synthesis.tree-geometry",
+      "parameters": {
+        "preserveBranchGraph": true,
+        "voxelConnectivity": 26,
+        "minimumBranchDiameterVoxels": 1,
+        "generateAssetLevelLod": true,
+        "lodRatios": [
+          1.0,
+          0.55,
+          0.28
+        ]
+      },
+      "invalidation": {
+        "onPrototypeComponentChange": [
+          "geometry.treeGrammar",
+          "core.bounds",
+          "variation.parameters"
+        ]
+      },
+      "produces": [
+        "tree-voxel-assets",
+        "branch-graphs",
+        "tree-metrics"
+      ]
+    },
+    {
+      "id": "system.synthesis.secondary-assets",
+      "phase": "synthesis",
+      "implementation": "antikylabs.voxel.prototype-grammar-dispatch",
+      "implementationVersion": "0.3.0",
+      "reads": [
+        "derived.prototypeBinding",
+        "derived.instanceTransform",
+        "geometry.*",
+        "core.bounds",
+        "variation.parameters",
+        "material.assignment"
+      ],
+      "writes": [
+        "derived.voxelGeometry",
+        "derived.materialSlots",
+        "derived.assetMetrics"
+      ],
+      "query": {
+        "prototypeTagsNone": [
+          "tree"
+        ],
+        "kind": "derived-population-instance"
+      },
+      "dependsOn": [
+        "system.population.understory",
+        "system.population.ground-cover"
+      ],
+      "randomStream": "synthesis.secondary-assets",
+      "parameters": {
+        "dispatchByGeometryComponent": true,
+        "generateAssetLevelLod": true
+      },
+      "invalidation": {
+        "onPrototypeComponentChange": [
+          "geometry.*",
+          "core.bounds",
+          "variation.parameters"
+        ]
+      },
+      "produces": [
+        "secondary-voxel-assets",
+        "secondary-asset-metrics"
+      ]
+    },
+    {
+      "id": "system.surface.materials",
+      "phase": "surface",
+      "implementation": "antikylabs.surface.semantic-material-resolver",
+      "implementationVersion": "0.2.0",
+      "reads": [
+        "material.assignment",
+        "definitions.materials",
+        "definitions.palettes",
+        "derived.voxelGeometry",
+        "derived.materialSlots"
+      ],
+      "writes": [
+        "derived.materialAssignment",
+        "derived.paletteIndices",
+        "derived.surfaceVariationField"
+      ],
+      "query": {
+        "hasDerived": [
+          "derived.voxelGeometry"
+        ]
+      },
+      "dependsOn": [
+        "system.synthesis.tree-geometry",
+        "system.synthesis.secondary-assets"
+      ],
+      "randomStream": "surface.materials",
+      "parameters": {
+        "preserveSemanticMaterialIds": true,
+        "avoidPerVoxelWhiteNoise": true,
+        "clusterVariationBySurfaceRegion": true
+      },
+      "invalidation": {
+        "onChange": [
+          "definitions.materials",
+          "definitions.palettes",
+          "material.assignment"
+        ]
+      },
+      "produces": [
+        "materialized-voxel-assets",
+        "palette-index-volumes"
+      ]
+    },
+    {
+      "id": "system.surface.snow-accumulation",
+      "phase": "surface",
+      "implementation": "antikylabs.snow.exposure-occlusion-accumulator",
+      "implementationVersion": "0.4.0",
+      "reads": [
+        "surface.snowReceiver",
+        "environment.windField",
+        "derived.voxelGeometry",
+        "derived.branchGraph",
+        "derived.instanceTransform",
+        "derived.windExposureField",
+        "derived.snowDepthField",
+        "relationships:surface.*"
+      ],
+      "writes": [
+        "derived.snowGeometry",
+        "derived.snowCoverage",
+        "derived.skyExposure",
+        "derived.localWindExposure",
+        "derived.contactCompression"
+      ],
+      "query": {
+        "prototypeComponent": "surface.snowReceiver"
+      },
+      "dependsOn": [
+        "system.surface.materials",
+        "system.population.ground-cover"
+      ],
+      "randomStream": "surface.snow-accumulation",
+      "parameters": {
+        "skyExposureSamples": 48,
+        "occlusionRadiusM": [
+          0.2,
+          4.0
+        ],
+        "surfaceRelaxationIterations": 4,
+        "mergeWithGroundSnowAtContacts": true,
+        "forbidDisconnectedFloatingSnow": true
+      },
+      "invalidation": {
+        "onChange": [
+          "surface.snowReceiver",
+          "environment.windField",
+          "derived.voxelGeometry",
+          "derived.instanceTransform"
+        ]
+      },
+      "produces": [
+        "snow-geometry",
+        "snow-coverage-fields",
+        "snow-metrics"
+      ]
+    },
+    {
+      "id": "system.detail.asset-microdetail",
+      "phase": "detail",
+      "implementation": "antikylabs.detail.prototype-attachments",
+      "implementationVersion": "0.2.0",
+      "reads": [
+        "detail.attachments",
+        "derived.voxelGeometry",
+        "derived.branchGraph",
+        "derived.snowCoverage",
+        "derived.materialAssignment"
+      ],
+      "writes": [
+        "derived.microDetailGeometry",
+        "derived.attachmentProvenance"
+      ],
+      "query": {
+        "prototypeComponent": "detail.attachments"
+      },
+      "dependsOn": [
+        "system.surface.snow-accumulation"
+      ],
+      "randomStream": "detail.asset-microdetail",
+      "parameters": {
+        "visibilityPriorityCameras": [
+          "camera.hero",
+          "camera.tree-detail",
+          "camera.ground-detail"
+        ],
+        "minimumProjectedSizePx": 1.2
+      },
+      "invalidation": {
+        "onChange": [
+          "detail.attachments",
+          "derived.snowCoverage",
+          "render.camera"
+        ]
+      },
+      "produces": [
+        "asset-microdetail-geometry"
+      ]
+    },
+    {
+      "id": "system.composition.visibility-correction",
+      "phase": "composition",
+      "implementation": "antikylabs.composition.local-instance-adjustment",
+      "implementationVersion": "0.2.0",
+      "reads": [
+        "composition.screenTarget",
+        "composition.frame",
+        "composition.depthBand",
+        "render.camera",
+        "derived.populationInstance",
+        "derived.instanceTransform",
+        "derived.voxelGeometry",
+        "relationships:composition.*"
+      ],
+      "writes": [
+        "derived.instanceTransformAdjustment",
+        "derived.compositionMetrics",
+        "derived.correctionReport"
+      ],
+      "query": {
+        "kind": "composition-anchor"
+      },
+      "dependsOn": [
+        "system.detail.asset-microdetail"
+      ],
+      "randomStream": "composition.visibility-correction",
+      "parameters": {
+        "maximumTranslationM": 1.4,
+        "maximumRotationDegrees": 18,
+        "maximumScaleAdjustment": 0.08,
+        "allowInstanceSwapWithinPopulation": true,
+        "maximumCorrectionPasses": 5,
+        "neverMoveTerrain": true
+      },
+      "invalidation": {
+        "onChange": [
+          "composition.*",
+          "render.camera",
+          "derived.instanceTransform",
+          "derived.voxelGeometry"
+        ]
+      },
+      "produces": [
+        "composition-corrected-instance-transforms",
+        "composition-report"
+      ]
+    },
+    {
+      "id": "system.render.acceptance-views",
+      "phase": "render",
+      "implementation": "antikylabs.render.acceptance-suite",
+      "implementationVersion": "0.3.0",
+      "reads": [
+        "render.camera",
+        "render.outputPasses",
+        "environment.*",
+        "derived.*Geometry",
+        "derived.materialAssignment",
+        "derived.paletteIndices",
+        "derived.instanceTransformAdjustment"
+      ],
+      "writes": [
+        "artifact.render",
+        "artifact.renderMetadata"
+      ],
+      "query": {
+        "tagsAll": [
+          "camera",
+          "acceptance"
+        ],
+        "orTagsAny": [
+          "diagnostic"
+        ]
+      },
+      "dependsOn": [
+        "system.composition.visibility-correction"
+      ],
+      "parameters": {
+        "beautyRendererProfile": "voxel-diorama-quality",
+        "diagnosticRendererProfile": "deterministic-unlit-data-passes",
+        "disableTemporalNoiseForValidation": true,
+        "storeObjectIdLookup": true
+      },
+      "invalidation": {
+        "onChange": [
+          "render.camera",
+          "environment.*",
+          "derived.*"
+        ]
+      },
+      "produces": [
+        "acceptance-renders",
+        "diagnostic-passes",
+        "object-id-lookup"
+      ]
+    },
+    {
+      "id": "system.validate.contract-and-structure",
+      "phase": "validate",
+      "implementation": "antikylabs.validation.contract-structural-suite",
+      "implementationVersion": "0.3.0",
+      "reads": [
+        "validation.suites",
+        "entities",
+        "relationships",
+        "systems",
+        "derived.assetMetrics",
+        "derived.compositionMetrics",
+        "derived.populationInstance"
+      ],
+      "writes": [
+        "artifact.validationReport",
+        "artifact.metricSeries"
+      ],
+      "query": {
+        "validationSuites": [
+          "suite.schema",
+          "suite.structural",
+          "suite.composition"
+        ]
+      },
+      "dependsOn": [
+        "system.render.acceptance-views"
+      ],
+      "parameters": {
+        "includeEntityAndComponentProvenance": true,
+        "failFastOnSchema": true
+      },
+      "invalidation": {
+        "onChange": [
+          "contract",
+          "entities",
+          "relationships",
+          "systems",
+          "derived.*"
+        ]
+      },
+      "produces": [
+        "structural-validation-report",
+        "metric-series"
+      ]
+    },
+    {
+      "id": "system.validate.visual",
+      "phase": "validate",
+      "implementation": "antikylabs.validation.visual-suite",
+      "implementationVersion": "0.2.0",
+      "reads": [
+        "validation.suites",
+        "validation.acceptanceViews",
+        "artifact.render",
+        "artifact.renderMetadata"
+      ],
+      "writes": [
+        "artifact.visualValidationReport",
+        "artifact.comparisonContactSheet"
+      ],
+      "query": {
+        "validationSuites": [
+          "suite.visual"
+        ]
+      },
+      "dependsOn": [
+        "system.validate.contract-and-structure"
+      ],
+      "parameters": {
+        "compareAgainstReferenceFeatures": true,
+        "runAntiStyleHeuristics": true,
+        "produceAnnotatedFailureCrops": true,
+        "humanReviewRequired": true
+      },
+      "invalidation": {
+        "onChange": [
+          "validation.suites.suite.visual",
+          "artifact.render"
+        ]
+      },
+      "produces": [
+        "visual-validation-report",
+        "annotated-failure-crops",
+        "comparison-contact-sheet"
+      ]
+    },
+    {
+      "id": "system.publish.preview-bundle",
+      "phase": "publish",
+      "implementation": "antikylabs.publish.generated-scene-bundle",
+      "implementationVersion": "0.1.0",
+      "reads": [
+        "validation.promotionPolicy",
+        "artifact.validationReport",
+        "artifact.visualValidationReport",
+        "derived.*",
+        "contract"
+      ],
+      "writes": [
+        "artifact.sceneBundle",
+        "artifact.provenanceMap",
+        "artifact.promotionManifest"
+      ],
+      "query": {
+        "contract": "scene.blue-winter-grove"
+      },
+      "dependsOn": [
+        "system.validate.visual"
+      ],
+      "parameters": {
+        "publishOnlyWhenPromotionPolicyPasses": true,
+        "includeResolvedContract": true,
+        "includeSeedManifest": true
+      },
+      "invalidation": {
+        "onChange": [
+          "contract",
+          "artifact.validationReport",
+          "artifact.visualValidationReport"
+        ]
+      },
+      "produces": [
+        "scene-bundle",
+        "provenance-map",
+        "promotion-manifest"
+      ]
+    }
+  ],
+  "validation": {
+    "suites": {
+      "suite.schema": {
+        "id": "suite.schema",
+        "kind": "schema",
+        "blocking": true,
+        "rules": [
+          {
+            "id": "schema.top-level",
+            "assert": "json-schema-valid",
+            "schema": "./schemas/generative-scene-contract.schema.json"
+          },
+          {
+            "id": "schema.entity-map-id-match",
+            "assert": "entity-map-key-equals-entity-id"
+          },
+          {
+            "id": "schema.tree-complete",
+            "assert": "all-authored-entities-occur-exactly-once-in-ownership-tree"
+          },
+          {
+            "id": "schema.parent-match",
+            "assert": "tree-parent-equals-entity-parent"
+          },
+          {
+            "id": "schema.references",
+            "assert": "all-entity-prototype-material-palette-system-and-relationship-references-resolve"
+          },
+          {
+            "id": "schema.system-dag",
+            "assert": "system-dependency-graph-is-acyclic"
+          }
+        ]
+      },
+      "suite.structural": {
+        "id": "suite.structural",
+        "kind": "generated-data",
+        "blocking": true,
+        "rules": [
+          {
+            "id": "struct.old-growth-count",
+            "severity": "error",
+            "selector": {
+              "sourceEntity": "population.pine.old-growth"
+            },
+            "metric": "generatedInstanceCount",
+            "operator": "betweenInclusive",
+            "value": [
+              22,
+              34
+            ],
+            "rationale": "Preserve the intended mature-canopy density."
+          },
+          {
+            "id": "struct.total-tree-count",
+            "severity": "error",
+            "selector": {
+              "prototypeTagsAny": [
+                "tree"
+              ]
+            },
+            "metric": "generatedInstanceCount",
+            "operator": "betweenInclusive",
+            "value": [
+              94,
+              164
+            ],
+            "rationale": "The scene should feel like a dense grove without becoming an unreadable wall."
+          },
+          {
+            "id": "struct.clearing-trunk-occupancy",
+            "severity": "error",
+            "selector": {
+              "region": "region.clearing.primary",
+              "tagsAny": [
+                "tree-trunk-large"
+              ]
+            },
+            "metric": "horizontalAreaCoverage",
+            "operator": "lessThanOrEqual",
+            "value": 0.045
+          },
+          {
+            "id": "struct.clearing-canopy-coverage",
+            "severity": "warning",
+            "selector": {
+              "region": "region.clearing.primary",
+              "prototypeTagsAny": [
+                "tree"
+              ]
+            },
+            "metric": "projectedCanopyCoverageTopDown",
+            "operator": "betweenInclusive",
+            "value": [
+              0.08,
+              0.24
+            ]
+          },
+          {
+            "id": "struct.tree-height-variation",
+            "severity": "error",
+            "selector": {
+              "prototypeTagsAny": [
+                "tree"
+              ]
+            },
+            "metric": "heightCoefficientOfVariation",
+            "operator": "greaterThanOrEqual",
+            "value": 0.21
+          },
+          {
+            "id": "struct.spacing-not-gridlike",
+            "severity": "error",
+            "selector": {
+              "parent": "group.canopy"
+            },
+            "metric": "nearestNeighborDistanceCoefficientOfVariation",
+            "operator": "greaterThanOrEqual",
+            "value": 0.34
+          },
+          {
+            "id": "struct.cluster-size-diversity",
+            "severity": "warning",
+            "selector": {
+              "sourceEntity": "population.pine.old-growth"
+            },
+            "metric": "clusterSizeUniqueValueCount",
+            "operator": "greaterThanOrEqual",
+            "value": 4
+          },
+          {
+            "id": "struct.duplicate-tree-silhouette",
+            "severity": "error",
+            "selector": {
+              "prototypeTagsAny": [
+                "tree"
+              ]
+            },
+            "metric": "nearDuplicateSilhouettePairRatio",
+            "operator": "lessThanOrEqual",
+            "value": 0.08
+          },
+          {
+            "id": "struct.cone-like-canopy-rate",
+            "severity": "error",
+            "selector": {
+              "prototypeTagsAny": [
+                "conifer"
+              ]
+            },
+            "metric": "singleConeClassificationRate",
+            "operator": "lessThanOrEqual",
+            "value": 0.12
+          },
+          {
+            "id": "struct.snow-depth-variance",
+            "severity": "error",
+            "selector": {
+              "entity": "terrain.base"
+            },
+            "metric": "snowDepthCoefficientOfVariation",
+            "operator": "betweenInclusive",
+            "value": [
+              0.22,
+              0.58
+            ]
+          },
+          {
+            "id": "struct.flat-snow-plane-rate",
+            "severity": "error",
+            "selector": {
+              "entity": "terrain.base"
+            },
+            "metric": "largestCoplanarSnowPatchAreaRatio",
+            "operator": "lessThanOrEqual",
+            "value": 0.07
+          },
+          {
+            "id": "struct.ground-contact",
+            "severity": "error",
+            "selector": {
+              "prototypeTagsAny": [
+                "tree",
+                "rock",
+                "deadwood"
+              ]
+            },
+            "metric": "floatingOrUnembeddedInstanceRatio",
+            "operator": "lessThanOrEqual",
+            "value": 0.005
+          },
+          {
+            "id": "struct.microdetail-visible",
+            "severity": "warning",
+            "selector": {
+              "camera": "camera.ground-detail"
+            },
+            "metric": "groundDetailClassCountVisible",
+            "operator": "greaterThanOrEqual",
+            "value": 5
+          }
+        ]
+      },
+      "suite.composition": {
+        "id": "suite.composition",
+        "kind": "camera-composition",
+        "blocking": true,
+        "camera": "camera.hero",
+        "rules": [
+          {
+            "id": "composition.hero-pine-position",
+            "severity": "error",
+            "selector": {
+              "anchor": "anchor.hero-pine"
+            },
+            "metric": "subjectCenterNormalized",
+            "operator": "insideRect",
+            "value": {
+              "x": [
+                0.22,
+                0.36
+              ],
+              "y": [
+                0.38,
+                0.58
+              ]
+            }
+          },
+          {
+            "id": "composition.hero-pine-size",
+            "severity": "error",
+            "selector": {
+              "anchor": "anchor.hero-pine"
+            },
+            "metric": "screenHeightNormalized",
+            "operator": "betweenInclusive",
+            "value": [
+              0.62,
+              0.9
+            ]
+          },
+          {
+            "id": "composition.hero-pine-occlusion",
+            "severity": "error",
+            "selector": {
+              "anchor": "anchor.hero-pine"
+            },
+            "metric": "occlusionRatio",
+            "operator": "lessThanOrEqual",
+            "value": 0.14
+          },
+          {
+            "id": "composition.clearing-negative-space",
+            "severity": "error",
+            "selector": {
+              "anchor": "anchor.clearing-negative-space"
+            },
+            "metric": "tallAssetCoverage",
+            "operator": "lessThanOrEqual",
+            "value": 0.12
+          },
+          {
+            "id": "composition.clearing-ground-visible",
+            "severity": "warning",
+            "selector": {
+              "anchor": "anchor.clearing-negative-space"
+            },
+            "metric": "groundVisibilityRatio",
+            "operator": "greaterThanOrEqual",
+            "value": 0.48
+          },
+          {
+            "id": "composition.foreground-frame-balance",
+            "severity": "warning",
+            "selector": {
+              "anchors": [
+                "anchor.frame-left",
+                "anchor.frame-right"
+              ]
+            },
+            "metric": "coverageDifferenceAbsolute",
+            "operator": "lessThanOrEqual",
+            "value": 0.09
+          },
+          {
+            "id": "composition.depth-layers",
+            "severity": "error",
+            "selector": {
+              "anchor": "anchor.background-depth"
+            },
+            "metric": "distinctDepthLayerCount",
+            "operator": "greaterThanOrEqual",
+            "value": 3
+          },
+          {
+            "id": "composition.background-canopy",
+            "severity": "warning",
+            "selector": {
+              "anchor": "anchor.background-depth"
+            },
+            "metric": "canopyCoverage",
+            "operator": "betweenInclusive",
+            "value": [
+              0.56,
+              0.78
+            ]
+          }
+        ]
+      },
+      "suite.visual": {
+        "id": "suite.visual",
+        "kind": "rendered-image",
+        "blocking": true,
+        "rules": [
+          {
+            "id": "visual.minecraft-likeness",
+            "severity": "error",
+            "view": "camera.hero",
+            "metric": "antiStyle.minecraftLikeness",
+            "operator": "lessThanOrEqual",
+            "value": 0.12,
+            "rationale": "Reject large cubic foliage, grid placement, flat surfaces, and toy-like low-density forms."
+          },
+          {
+            "id": "visual.toy-diorama-likeness",
+            "severity": "error",
+            "view": "camera.hero",
+            "metric": "antiStyle.toyBlockLikeness",
+            "operator": "lessThanOrEqual",
+            "value": 0.16
+          },
+          {
+            "id": "visual.blue-hour-dominance",
+            "severity": "error",
+            "view": "camera.hero",
+            "metric": "coolPixelCoverage",
+            "operator": "betweenInclusive",
+            "value": [
+              0.72,
+              0.94
+            ]
+          },
+          {
+            "id": "visual.pure-white-limit",
+            "severity": "warning",
+            "view": "camera.hero",
+            "metric": "pixelsAboveLinearLuminance0_96",
+            "operator": "lessThanOrEqual",
+            "value": 0.018
+          },
+          {
+            "id": "visual.edge-density-meso",
+            "severity": "warning",
+            "view": "camera.hero",
+            "metric": "edgeDensityAtScale4To18Px",
+            "operator": "betweenInclusive",
+            "value": [
+              0.16,
+              0.32
+            ]
+          },
+          {
+            "id": "visual.edge-density-micro-tree",
+            "severity": "warning",
+            "view": "camera.tree-detail",
+            "metric": "edgeDensityAtScale1To6Px",
+            "operator": "betweenInclusive",
+            "value": [
+              0.2,
+              0.42
+            ]
+          },
+          {
+            "id": "visual.snow-surface-breakup",
+            "severity": "error",
+            "view": "camera.snow-detail",
+            "metric": "snowRegionLocalValueVariance",
+            "operator": "betweenInclusive",
+            "value": [
+              0.018,
+              0.085
+            ]
+          },
+          {
+            "id": "visual.ground-detail-coverage",
+            "severity": "warning",
+            "view": "camera.ground-detail",
+            "metric": "nonSnowDetailPixelCoverage",
+            "operator": "betweenInclusive",
+            "value": [
+              0.12,
+              0.32
+            ]
+          },
+          {
+            "id": "visual.repeated-patch-rate",
+            "severity": "error",
+            "view": "camera.hero",
+            "metric": "nearDuplicateImagePatchRate",
+            "operator": "lessThanOrEqual",
+            "value": 0.06
+          },
+          {
+            "id": "visual.depth-contrast-falloff",
+            "severity": "warning",
+            "view": "camera.hero",
+            "metric": "contrastReductionForegroundToBackground",
+            "operator": "betweenInclusive",
+            "value": [
+              0.22,
+              0.5
+            ]
+          }
+        ]
+      }
+    },
+    "acceptanceViews": [
+      {
+        "id": "view.hero.beauty",
+        "camera": "camera.hero",
+        "pass": "beauty",
+        "purpose": "Judge overall composition, atmosphere, density, visual language, and first read.",
+        "compare": [
+          "reference.feature.overall-mood",
+          "reference.feature.scene-density"
+        ],
+        "required": true
+      },
+      {
+        "id": "view.hero.object-id",
+        "camera": "camera.hero",
+        "pass": "object-id",
+        "purpose": "Measure population coverage, occlusion, and depth layers.",
+        "required": true
+      },
+      {
+        "id": "view.top-down.population-id",
+        "camera": "camera.top-down",
+        "pass": "population-id",
+        "purpose": "Detect grids, over-dense regions, broken masks, and weak clustering.",
+        "required": true
+      },
+      {
+        "id": "view.tree-detail.beauty",
+        "camera": "camera.tree-detail",
+        "pass": "beauty",
+        "purpose": "Judge trunk taper, branch architecture, foliage perforation, bark, and snow shelves.",
+        "required": true
+      },
+      {
+        "id": "view.tree-detail.silhouette",
+        "camera": "camera.tree-detail",
+        "pass": "silhouette",
+        "purpose": "Measure cone-like forms, concavity, asymmetry, and branch gaps.",
+        "required": true
+      },
+      {
+        "id": "view.ground-detail.beauty",
+        "camera": "camera.ground-detail",
+        "pass": "beauty",
+        "purpose": "Judge snow depth variation, grass emergence, twigs, roots, and material breakup.",
+        "required": true
+      },
+      {
+        "id": "view.snow-detail.coverage",
+        "camera": "camera.snow-detail",
+        "pass": "snow-coverage",
+        "purpose": "Verify accumulation responds to surface normal, sky exposure, wind, and occlusion.",
+        "required": true
+      }
+    ],
+    "humanReview": [
+      {
+        "id": "review.first-read",
+        "question": "Does the scene immediately read as a quiet blue-hour winter grove rather than a generic voxel forest?",
+        "requiredAnswer": "yes",
+        "failurePatchTargets": [
+          "style.visualLanguage",
+          "environment.lightingProfile",
+          "environment.atmosphereProfile",
+          "composition.*"
+        ]
+      },
+      {
+        "id": "review.tree-quality",
+        "question": "Do the mature pines look grown and structurally believable, with visible branch architecture and non-repeating silhouettes?",
+        "requiredAnswer": "yes",
+        "failurePatchTargets": [
+          "geometry.treeGrammar",
+          "variation.parameters",
+          "population.variation"
+        ]
+      },
+      {
+        "id": "review.snow-quality",
+        "question": "Does snow appear accumulated and wind-shaped rather than painted white onto surfaces?",
+        "requiredAnswer": "yes",
+        "failurePatchTargets": [
+          "surface.snowReceiver",
+          "terrain.snowField",
+          "environment.windField",
+          "system.surface.snow-accumulation"
+        ]
+      },
+      {
+        "id": "review.detail-density",
+        "question": "Does closer inspection reveal meso and micro detail without making the scene noisy or unreadable?",
+        "requiredAnswer": "yes",
+        "failurePatchTargets": [
+          "style.detailProfile",
+          "detail.attachments",
+          "population.detail.twigs",
+          "population.grass.*"
+        ]
+      },
+      {
+        "id": "review.no-minecraft",
+        "question": "Are cube foliage, cone trees, grid spacing, flat snow planes, and toy-like proportions absent?",
+        "requiredAnswer": "yes",
+        "failurePatchTargets": [
+          "style.forbiddenForms",
+          "geometry.*Grammar",
+          "population.distribution",
+          "suite.visual"
+        ]
+      }
+    ],
+    "promotionPolicy": {
+      "requireAllBlockingSuitesPass": true,
+      "maximumWarnings": 12,
+      "requireHumanReviewItems": [
+        "review.first-read",
+        "review.tree-quality",
+        "review.snow-quality",
+        "review.detail-density",
+        "review.no-minecraft"
+      ],
+      "requireDeterministicRerunMatch": true,
+      "deterministicRerunAllowedPixelDifferenceRatio": 0.0001,
+      "requireProvenanceCoverage": 1.0,
+      "publishTarget": "preview-world/blue-winter-grove",
+      "promotionCommand": "PromoteGeneratedSceneBundle"
+    }
+  },
+  "outputs": {
+    "resolvedContract": {
+      "path": "generated/blue-winter-grove/resolved-contract.json",
+      "includeHashes": true,
+      "includeResolvedPrototypeComponents": true
+    },
+    "sceneBundle": {
+      "path": "generated/blue-winter-grove/scene.bundle",
+      "contents": [
+        "terrain",
+        "instances",
+        "voxel-assets",
+        "materials",
+        "lighting",
+        "cameras",
+        "runtime-entity-map"
+      ]
+    },
+    "assetLibrary": {
+      "path": "generated/blue-winter-grove/assets/",
+      "naming": "<prototype-id>/<derived-instance-id>/<lod>",
+      "includePerAssetMetrics": true
+    },
+    "renders": {
+      "path": "generated/blue-winter-grove/renders/<acceptance-view-id>/<pass>.png",
+      "includeMetadataSidecar": true,
+      "includeObjectIdLookup": true
+    },
+    "validationReports": {
+      "path": "generated/blue-winter-grove/validation/",
+      "formats": [
+        "json",
+        "markdown",
+        "annotated-png"
+      ],
+      "includeContractPatchHints": true
+    },
+    "provenance": {
+      "path": "generated/blue-winter-grove/provenance-map.json",
+      "mapGeneratedVoxelToSourceEntityWhenPractical": true,
+      "requiredFields": [
+        "contractRevision",
+        "sourceEntity",
+        "prototype",
+        "system",
+        "systemVersion",
+        "seedStream",
+        "artifactHash"
+      ]
+    },
+    "promotion": {
+      "manifestPath": "generated/blue-winter-grove/promotion-manifest.json",
+      "targetEngineSession": "preview",
+      "targetWorld": "world.vertical-slice.snow-clearing",
+      "requiresCommand": "PromoteGeneratedSceneBundle"
+    }
+  }
+}

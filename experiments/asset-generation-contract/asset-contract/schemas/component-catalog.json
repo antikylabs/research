@@ -1,0 +1,2920 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "catalogVersion": "0.1.0",
+  "id": "antikylabs.core-component-catalog",
+  "name": "Antiky Generative Contract Component Catalog",
+  "status": "draft",
+  "purpose": "Registry of namespaced component and relationship types used by generative entity-component graph contracts.",
+  "namespacePolicy": {
+    "format": "<owner-or-domain>.<component-name>",
+    "coreNamespaces": [
+      "core",
+      "description",
+      "style",
+      "generation",
+      "validation",
+      "environment",
+      "terrain",
+      "layout",
+      "composition",
+      "ecology",
+      "population",
+      "variation",
+      "geometry",
+      "material",
+      "surface",
+      "detail",
+      "render"
+    ],
+    "customNamespaceExample": "antikylabs.snow.windCarving",
+    "unknownRequiredComponentPolicy": "reject",
+    "unknownOptionalComponentPolicy": "preserve-round-trip-without-execution"
+  },
+  "mergePolicies": {
+    "replace": "The child payload replaces the inherited payload.",
+    "deep-merge": "Objects merge recursively; scalar values replace inherited scalars; arrays replace unless the component schema defines keyed merge behavior.",
+    "append-unique": "Arrays append values while preserving stable order and uniqueness.",
+    "non-inheritable": "The component may not flow from a parent or prototype."
+  },
+  "componentTypes": {
+    "description.intent": {
+      "description": "Human and agent-facing statement of purpose, first read, emotional target, and required close-detail reads.",
+      "allowedEntityKinds": [
+        "scene",
+        "group",
+        "environment",
+        "terrain",
+        "region",
+        "population",
+        "composition-anchor",
+        "camera",
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "contract editor",
+        "agent planner",
+        "human reviewer"
+      ],
+      "allowedWriters": [
+        "authoring commands only"
+      ],
+      "invalidates": [
+        "none by itself unless a policy chooses to treat intent changes as full-scene invalidation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "playerRead": {
+            "type": "string"
+          },
+          "emotionalTargets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mustReadAtFirstGlance": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mustRewardCloserInspection": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "visualRead": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "summary"
+        ]
+      }
+    },
+    "core.bounds": {
+      "description": "Physical or canonical extent. All world-space dimensions use meters; voxel counts are quality hints.",
+      "allowedEntityKinds": [
+        "scene",
+        "terrain",
+        "region",
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "layout systems",
+        "terrain systems",
+        "asset synthesis",
+        "camera framing"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "layout",
+        "terrain",
+        "population",
+        "synthesis",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sizeM": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number",
+                "minimum": 0
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0
+              },
+              "z": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          "heightM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "lengthM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "radiusM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "crownRadiusM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "trunkRadiusAtBaseM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "rootFlareRadiusM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "playableBoundsM": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "min": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ]
+              },
+              "max": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ]
+              }
+            },
+            "required": [
+              "min",
+              "max"
+            ]
+          },
+          "generationMarginM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "voxelResolutionAtBaseScale": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "z": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          "minimumVoxelHeight": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "preferredVoxelHeight": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              }
+            ]
+          },
+          "preferredVoxelLength": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "style.visualLanguage": {
+      "description": "Scene-level visual grammar and explicit anti-style boundaries.",
+      "allowedEntityKinds": [
+        "scene",
+        "region",
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "agent planner",
+        "quality profile compiler",
+        "visual validators"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "quality targets",
+        "visual validation baselines"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "primary": {
+            "type": "string"
+          },
+          "secondary": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "density": {
+            "enum": [
+              "low",
+              "medium",
+              "medium-high",
+              "high",
+              "very-high"
+            ]
+          },
+          "silhouetteComplexity": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "surfaceComplexity": {
+            "enum": [
+              "low",
+              "medium",
+              "medium-high",
+              "high"
+            ]
+          },
+          "readability": {
+            "type": "string"
+          },
+          "antiStyles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "primary"
+        ]
+      }
+    },
+    "style.detailProfile": {
+      "description": "Required detail at macro, meso, and micro scales for a prototype or scene element.",
+      "allowedEntityKinds": [
+        "scene",
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "micro-detail systems",
+        "visual validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "synthesis",
+        "detail",
+        "visual validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "macro": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "meso": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "micro": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "targetVisibleDetailScales": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          }
+        },
+        "required": [
+          "macro",
+          "meso",
+          "micro"
+        ]
+      }
+    },
+    "style.forbiddenForms": {
+      "description": "Named structural anti-patterns that generation and validation must reject.",
+      "allowedEntityKinds": [
+        "prototype",
+        "scene",
+        "population"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "anti-style validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "synthesis policy",
+        "structural validation",
+        "visual validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "items"
+        ]
+      }
+    },
+    "generation.policy": {
+      "description": "Controls whether derived entities may be edited, what scope regenerates, and how stable identity is preserved.",
+      "allowedEntityKinds": [
+        "scene"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "generation orchestrator",
+        "command handler",
+        "promotion system"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "generation orchestration policy"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "mode": {
+            "enum": [
+              "seeded-procedural-with-human-approval",
+              "deterministic-bake",
+              "exploratory"
+            ]
+          },
+          "authoringLayer": {
+            "type": "string"
+          },
+          "derivedEntitiesMutableByAgents": {
+            "type": "boolean"
+          },
+          "regenerateSmallestInvalidatedScope": {
+            "type": "boolean"
+          },
+          "preserveStableEntityIdsAcrossRegeneration": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "mode",
+          "derivedEntitiesMutableByAgents",
+          "regenerateSmallestInvalidatedScope"
+        ]
+      }
+    },
+    "validation.acceptance": {
+      "description": "Scene-level declaration of required validation suites and human approval policy.",
+      "allowedEntityKinds": [
+        "scene"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "validation orchestrator",
+        "promotion system"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "promotion decision"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "requiredSuites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "maximumBlockingFailures": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "maximumWarnings": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "humanApprovalRequired": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "requiredSuites",
+          "maximumBlockingFailures",
+          "humanApprovalRequired"
+        ]
+      }
+    },
+    "validation.metricTargets": {
+      "description": "Prototype or entity-local metric thresholds. Keys are metric IDs and values are threshold records.",
+      "allowedEntityKinds": [
+        "prototype",
+        "scene",
+        "population",
+        "composition-anchor"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "structural validators",
+        "asset validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "validation only unless a generator consumes targets for optimization"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "target": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "environment.skyProfile": {
+      "description": "Sky illumination and horizon conditions independent of a concrete renderer.",
+      "allowedEntityKinds": [
+        "environment"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "lighting resolver",
+        "snow sky-exposure system",
+        "renderer"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "lighting",
+        "surface snow",
+        "render",
+        "visual validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "profile": {
+            "type": "string"
+          },
+          "palette": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          },
+          "sunElevationDegrees": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          },
+          "sunAzimuthDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 360
+          },
+          "cloudCoverage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "skyExposure": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "horizonBrightness": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "zenithBrightness": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "visibleSunDisc": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "profile",
+          "palette"
+        ]
+      }
+    },
+    "environment.lightingProfile": {
+      "description": "Semantic key, ambient, occlusion, shadow, and tone-mapping intent.",
+      "allowedEntityKinds": [
+        "environment"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "renderer",
+        "visual validator"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "lighting profile compiler"
+      ],
+      "invalidates": [
+        "render",
+        "visual validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "ambient": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "occlusion": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "shadow": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "toneMapping": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "key",
+          "ambient"
+        ]
+      }
+    },
+    "environment.atmosphereProfile": {
+      "description": "Fog and depth-separation field.",
+      "allowedEntityKinds": [
+        "environment"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "renderer",
+        "composition validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "render",
+        "visual validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fogType": {
+            "type": "string"
+          },
+          "nearStartM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "farEndM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "baseDensity": {
+            "type": "number",
+            "minimum": 0
+          },
+          "heightFalloff": {
+            "type": "number",
+            "minimum": 0
+          },
+          "hollowDensityMultiplier": {
+            "type": "number",
+            "minimum": 0
+          },
+          "backgroundDensityMultiplier": {
+            "type": "number",
+            "minimum": 0
+          },
+          "colorPalette": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          },
+          "preserveForegroundContrastM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "noise": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "fogType",
+          "nearStartM",
+          "farEndM",
+          "baseDensity"
+        ]
+      }
+    },
+    "environment.windField": {
+      "description": "World wind direction and shelter/deposition behavior used by snow, grass, and young vegetation.",
+      "allowedEntityKinds": [
+        "environment"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "snow systems",
+        "vegetation orientation systems"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "snow fields",
+        "surface snow",
+        "grass orientation",
+        "some young-tree orientation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "directionDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 360
+          },
+          "speedRelative": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "gustVariation": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "terrainSheltering": {
+            "type": "boolean"
+          },
+          "canopySheltering": {
+            "type": "boolean"
+          },
+          "leewardDepositionMultiplier": {
+            "type": "number",
+            "minimum": 0
+          },
+          "windwardScourMultiplier": {
+            "type": "number",
+            "minimum": 0
+          },
+          "orientationInfluence": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "directionDegrees",
+          "speedRelative"
+        ]
+      }
+    },
+    "terrain.heightfield": {
+      "description": "Layered terrain shape grammar. Algorithm IDs resolve to versioned engine implementations.",
+      "allowedEntityKinds": [
+        "terrain"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "terrain systems",
+        "slope validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "terrain",
+        "snow fields",
+        "population placement",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "algorithm": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          },
+          "baseElevationM": {
+            "type": "number"
+          },
+          "macroAmplitudeM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "macroScaleM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "mesoAmplitudeM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "mesoScaleM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "microAmplitudeM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "microScaleM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "maximumSlopeDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90
+          },
+          "playableMaximumSlopeDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90
+          },
+          "terracing": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "avoidFlatPlaneCoverageAbove": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "algorithm",
+          "baseElevationM",
+          "maximumSlopeDegrees"
+        ]
+      }
+    },
+    "terrain.surfaceLayers": {
+      "description": "Semantic surface layers and condition-based coverage ranges.",
+      "allowedEntityKinds": [
+        "terrain",
+        "region"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "terrain surfacing",
+        "material resolver"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "surface material assignment",
+        "render"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "baseMaterial": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "role": {
+                  "type": "string"
+                },
+                "material": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+                },
+                "coverage": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "conditions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "role",
+                "coverage"
+              ]
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "baseMaterial",
+          "layers"
+        ]
+      }
+    },
+    "terrain.snowField": {
+      "description": "Base ground-snow depth and shaping policy before local obstacles are applied.",
+      "allowedEntityKinds": [
+        "terrain"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "ground snow system",
+        "ground-cover population systems",
+        "snow validators"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "snow depth field",
+        "ground-cover placement",
+        "surface snow",
+        "render"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "baseDepthM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "noiseScaleM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "windInfluenceEntity": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          },
+          "slopeReductionStartDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90
+          },
+          "slopeRejectionDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90
+          },
+          "treeWellRadiusMultiplier": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "treeWellDepthMultiplier": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "rockContactCompressionM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "edgeRoundingVoxels": {
+            "oneOf": [
+              {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              },
+              {
+                "type": "integer",
+                "minimum": 0
+              }
+            ]
+          },
+          "driftCrestSpacingM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "forbidUniformDepth": {
+            "type": "boolean"
+          },
+          "forbidSingleFlatTopSurface": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "baseDepthM",
+          "windInfluenceEntity"
+        ]
+      }
+    },
+    "terrain.landformModifier": {
+      "description": "Region-scoped offset or multiplier applied to a base terrain and environment field.",
+      "allowedEntityKinds": [
+        "region"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "terrain system",
+        "snow field system",
+        "atmosphere system"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "terrain fields and dependent populations"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "terrain.surfaceOverride": {
+      "description": "Region-scoped override for snow, ground exposure, or semantic surface coverage.",
+      "allowedEntityKinds": [
+        "region"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "terrain surfacing",
+        "snow field system"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "terrain surface",
+        "ground-cover placement",
+        "render"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "layout.regionMask": {
+      "description": "Authored or generated spatial mask used for terrain, population, and composition constraints.",
+      "allowedEntityKinds": [
+        "region"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "mask rasterizer",
+        "terrain systems",
+        "population placement",
+        "composition systems"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "mask fields",
+        "terrain",
+        "populations",
+        "composition",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "shape": {
+            "enum": [
+              "irregular-ellipse",
+              "curved-ribbon",
+              "polygon",
+              "spline-band",
+              "volume",
+              "noise-threshold"
+            ]
+          },
+          "centerM": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "radiusM": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "z"
+            ]
+          },
+          "controlPointsM": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "z"
+              ]
+            },
+            "minItems": 2
+          },
+          "widthM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "edgeNoiseM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "edgeNoiseFrequency": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "rotationDegrees": {
+            "type": "number",
+            "minimum": -360,
+            "maximum": 360
+          },
+          "softFalloffM": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "shape"
+        ]
+      }
+    },
+    "layout.clearance": {
+      "description": "Asset exclusion and occupancy policy for a protected region.",
+      "allowedEntityKinds": [
+        "region",
+        "composition-anchor"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "composition validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population placement",
+        "composition correction"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "excludeTags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maximumCanopyProjectionCoverage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "maximumTrunkOccupancy": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "allowGroundCover": {
+            "type": "boolean"
+          },
+          "allowYoungTreesAtEdgeOnly": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "layout.splinePath": {
+      "description": "Spline-defined path or flow corridor.",
+      "allowedEntityKinds": [
+        "region"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "mask rasterizer",
+        "terrain surfacing",
+        "composition systems"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "path mask",
+        "terrain surface",
+        "populations"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "controlPointsM": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "z"
+              ]
+            },
+            "minItems": 2
+          },
+          "widthM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "edgeNoiseM": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "visibility": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "controlPointsM",
+          "widthM"
+        ]
+      }
+    },
+    "layout.anchor": {
+      "description": "Authored reservation or selection point that a composition system resolves to a generated instance or region.",
+      "allowedEntityKinds": [
+        "composition-anchor"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "anchor reservation",
+        "population placement",
+        "composition correction"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "anchor reservation",
+        "affected population placement",
+        "composition validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "worldPositionM": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          "positionToleranceM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "region": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          },
+          "preferredPrototype": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          },
+          "instanceSelection": {
+            "type": "string"
+          },
+          "minimumHeightM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "maximumLeanAwayFromCameraDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 180
+          }
+        }
+      }
+    },
+    "composition.negativeSpace": {
+      "description": "Protected scene or screen-space opening.",
+      "allowedEntityKinds": [
+        "region",
+        "composition-anchor"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "composition correction",
+        "composition validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population placement",
+        "composition correction",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "purpose": {
+            "type": "string"
+          },
+          "targetScreenCoverageHeroView": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "preserveDepthOpeningTowardAzimuthDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 360
+          },
+          "minimumVisibleDepthM": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "purpose"
+        ]
+      }
+    },
+    "composition.populationRole": {
+      "description": "Scene-level role and screen-space limits for a population.",
+      "allowedEntityKinds": [
+        "population"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "composition correction",
+        "composition validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population placement and composition"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "foregroundMaximumCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "heroViewTrunkOcclusionMax": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "backgroundDensityMultiplier": {
+            "type": "number",
+            "minimum": 0
+          },
+          "maximumScreenClumpWidth": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "heroViewScreenCoverage": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "avoidCenterFocalCompetition": {
+            "type": "boolean"
+          },
+          "heroViewLargeBoulderScreenCoverageMax": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "roles"
+        ]
+      }
+    },
+    "composition.screenTarget": {
+      "description": "Screen-space target for a selected subject or protected region.",
+      "allowedEntityKinds": [
+        "composition-anchor"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "anchor reservation",
+        "composition correction",
+        "composition validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "composition and render validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.frame": {
+      "description": "Foreground framing target tied to a camera and one or more source populations.",
+      "allowedEntityKinds": [
+        "composition-anchor"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "composition correction",
+        "composition validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "composition"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.depthBand": {
+      "description": "Required population and atmosphere characteristics across a camera depth range.",
+      "allowedEntityKinds": [
+        "composition-anchor"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "atmosphere resolver",
+        "composition validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population placement",
+        "atmosphere",
+        "composition validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "ecology.layerProfile": {
+      "description": "Vertical and horizontal coverage goals for an ecological layer.",
+      "allowedEntityKinds": [
+        "group"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "ecology validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population placement and structural validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "population.prototypeMix": {
+      "description": "Weighted prototypes available to a population.",
+      "allowedEntityKinds": [
+        "population"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "prototype resolver",
+        "asset synthesis"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population instances",
+        "asset synthesis"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "prototype": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+                },
+                "weight": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "prototype",
+                "weight"
+              ]
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "entries"
+        ]
+      }
+    },
+    "population.quantity": {
+      "description": "Count or density target and the scope at which it is sampled.",
+      "allowedEntityKinds": [
+        "population"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "structural validator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population instances and downstream artifacts"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "densityPerHectare": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "samplingScope": {
+            "enum": [
+              "scene",
+              "region",
+              "cluster"
+            ]
+          }
+        },
+        "required": [
+          "samplingScope"
+        ]
+      }
+    },
+    "population.distribution": {
+      "description": "Algorithm identifier plus spatial, cluster, terrain, mask, and relationship parameters.",
+      "allowedEntityKinds": [
+        "population"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "distribution validators"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population instances and downstream artifacts"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "algorithm": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+          }
+        },
+        "required": [
+          "algorithm"
+        ]
+      }
+    },
+    "population.variation": {
+      "description": "Population-level seed stream, correlations, and uniqueness requirements.",
+      "allowedEntityKinds": [
+        "population"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "population placement",
+        "asset synthesis",
+        "duplicate detection"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "population instance parameters and synthesized assets"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "stream": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "stream"
+        ]
+      }
+    },
+    "variation.parameters": {
+      "description": "Prototype parameter distributions sampled at a declared scope.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "synthesized asset geometry and surfaces"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": {
+            "enum": [
+              "per-scene",
+              "per-cluster",
+              "per-instance",
+              "per-part"
+            ]
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "scope",
+          "parameters"
+        ]
+      }
+    },
+    "geometry.treeGrammar": {
+      "description": "Trunk, branch, crown, and foliage-volume grammar for tree prototypes.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "asset validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "asset synthesis",
+        "surface snow",
+        "detail",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "geometry.shrubGrammar": {
+      "description": "Stem, fork, lobe, burial, and obstacle-response grammar for shrubs.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "asset validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "asset synthesis",
+        "surface snow",
+        "detail",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "geometry.grassGrammar": {
+      "description": "Blade cluster count, lean, spread, breakage, and snow-clump grammar.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "asset validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "asset synthesis",
+        "surface snow",
+        "detail",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "geometry.rockGrammar": {
+      "description": "Fracture, aspect ratio, burial, weathering, and edge-shape grammar.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "asset validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "asset synthesis",
+        "surface snow",
+        "detail",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "geometry.logGrammar": {
+      "description": "Centerline, broken ends, bark loss, branch stubs, and burial grammar.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "asset validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "asset synthesis",
+        "surface snow",
+        "detail",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "geometry.twigGrammar": {
+      "description": "Twig count, length, diameter, crossing, and snow burial grammar.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "asset synthesis",
+        "asset validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "asset synthesis",
+        "surface snow",
+        "detail",
+        "render",
+        "validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "material.assignment": {
+      "description": "Maps semantic geometry slots to semantic material definitions.",
+      "allowedEntityKinds": [
+        "prototype",
+        "terrain",
+        "region"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "semantic material resolver",
+        "renderer"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "material assignment and render"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "slots": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]*$"
+            }
+          }
+        },
+        "required": [
+          "slots"
+        ]
+      }
+    },
+    "surface.snowReceiver": {
+      "description": "Snow adhesion, exposure, occlusion, wind, overhang, and edge rules for generated geometry.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "snow accumulation system",
+        "snow validators"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "surface snow geometry and snow validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "normalThresholdDegrees": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90
+          },
+          "skyExposureWeight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "windExposureWeight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "occlusionWeight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "adhesion": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "maxOverhangVoxels": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "edgeErosion": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "forbidUniformLayerThickness": {
+            "type": "boolean"
+          },
+          "preferLinearBranchCaps": {
+            "type": "boolean"
+          },
+          "preferLeewardLip": {
+            "type": "boolean"
+          },
+          "forbidContinuousPerfectStrip": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled",
+          "normalThresholdDegrees"
+        ]
+      }
+    },
+    "detail.attachments": {
+      "description": "Counts, probabilities, and visibility policy for meso and micro attachments.",
+      "allowedEntityKinds": [
+        "prototype"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "micro-detail system",
+        "detail validator"
+      ],
+      "allowedWriters": [
+        "authoring commands",
+        "prototype resolver"
+      ],
+      "invalidates": [
+        "micro-detail geometry and detail validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "render.camera": {
+      "description": "Stable camera or target-selection definition for beauty and diagnostic renders.",
+      "allowedEntityKinds": [
+        "camera"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "composition systems",
+        "renderer",
+        "visual validators"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "composition correction",
+        "renders",
+        "camera-specific validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "projection": {
+            "enum": [
+              "orthographic",
+              "perspective"
+            ]
+          },
+          "positionM": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          "lookAtM": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          "up": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          "orthographicWidthM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "focalLengthMm": {
+            "type": "number",
+            "minimum": 1
+          },
+          "aspectRatio": {
+            "type": "string"
+          },
+          "resolutionPx": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "width",
+              "height"
+            ]
+          },
+          "nearM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "farM": {
+            "type": "number",
+            "minimum": 0
+          },
+          "jitter": {
+            "type": "boolean"
+          },
+          "targetSelector": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "framing": {
+            "type": "string"
+          },
+          "background": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "projection",
+          "resolutionPx"
+        ]
+      }
+    },
+    "render.outputPasses": {
+      "description": "Required beauty and diagnostic render passes.",
+      "allowedEntityKinds": [
+        "camera"
+      ],
+      "authoring": {
+        "authored": true,
+        "derived": false,
+        "inheritance": "deep-merge"
+      },
+      "commonReaders": [
+        "renderer",
+        "validation orchestrator"
+      ],
+      "allowedWriters": [
+        "authoring commands"
+      ],
+      "invalidates": [
+        "render outputs and dependent validation"
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "passes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "passes"
+        ]
+      }
+    }
+  },
+  "relationshipTypes": {
+    "composition.frames": {
+      "description": "A source population, camera, or anchor frames a target region or subject.",
+      "sourceKinds": [
+        "population",
+        "camera",
+        "composition-anchor"
+      ],
+      "targetKinds": [
+        "region",
+        "population",
+        "composition-anchor"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.anchors": {
+      "description": "An authored anchor selects or reserves a generated instance from a population.",
+      "sourceKinds": [
+        "composition-anchor"
+      ],
+      "targetKinds": [
+        "population"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.preservesNegativeSpace": {
+      "description": "A camera or population must preserve a protected opening.",
+      "sourceKinds": [
+        "camera",
+        "population"
+      ],
+      "targetKinds": [
+        "composition-anchor",
+        "region"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.softensBoundary": {
+      "description": "A population creates an irregular transition around a region boundary.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "region"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.breaksMass": {
+      "description": "A contrasting population breaks the repeated value or silhouette mass of another.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "population"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.selectsFrom": {
+      "description": "A framing or focal anchor selects candidate instances from a population.",
+      "sourceKinds": [
+        "composition-anchor"
+      ],
+      "targetKinds": [
+        "population"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "composition.fillsDepthBand": {
+      "description": "A population is responsible for occupancy and rhythm in a depth band.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "composition-anchor"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "ecology.spawnsNear": {
+      "description": "A population is sampled near instances from another population.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "population"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "ecology.spawnsFrom": {
+      "description": "A population represents debris, offspring, or secondary effects associated with another population.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "population"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "ecology.growsUnder": {
+      "description": "A population prefers the canopy, dripline, or shelter field of another population.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "population"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "ecology.clustersWith": {
+      "description": "Two populations have a local positive spatial association.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "population"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "environment.influencedByWindField": {
+      "description": "A population uses a wind field for orientation or density.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "environment"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "environment.influences": {
+      "description": "An environment entity influences entities selected by a component or tag query.",
+      "sourceKinds": [
+        "environment"
+      ],
+      "targetKinds": [
+        "selector"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "surface.createsSnowObstacle": {
+      "description": "Generated instances alter local ground-snow scouring, deposition, or contact compression.",
+      "sourceKinds": [
+        "population"
+      ],
+      "targetKinds": [
+        "terrain"
+      ],
+      "ruleSchema": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "derivedComponentConvention": {
+    "namespace": "derived",
+    "authoringRule": "Derived components may be read but not directly authored. A persistent correction must be expressed as a source contract patch.",
+    "requiredProvenance": [
+      "sourceEntity",
+      "sourceComponentPaths",
+      "systemId",
+      "systemVersion",
+      "seedStream",
+      "artifactHash"
+    ]
+  },
+  "systemPhaseOrder": [
+    "resolve",
+    "layout",
+    "terrain",
+    "population",
+    "synthesis",
+    "surface",
+    "detail",
+    "composition",
+    "render",
+    "validate",
+    "publish"
+  ]
+}
