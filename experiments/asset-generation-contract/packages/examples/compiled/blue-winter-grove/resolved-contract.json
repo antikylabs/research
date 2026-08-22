@@ -1,0 +1,3167 @@
+{
+  "$schema": "https://antikylabs.dev/schemas/generative-scene-contract.schema.json",
+  "contract": {
+    "id": "antikylabs.scene.blue-winter-grove",
+    "intent": "Guide three companions into a quiet winter grove where careful observation makes the place feel alive.",
+    "kind": "generative-scene",
+    "name": "Blue Winter Grove",
+    "provenance": {
+      "authoring": {
+        "referenceImages": [
+          {
+            "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+            "sha256": "af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6",
+            "uses": [
+              {
+                "ownerId": "prototype.blue-winter-grove.character",
+                "semanticPath": "$.definitions.character.references[0]",
+                "use": "shared sprite proportions, pixel craft, and field-view readability"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.scholar",
+                "semanticPath": "$.definitions.scholar.references[0]",
+                "use": "center character identity, cream scarf, staff, and book satchel"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.scout",
+                "semanticPath": "$.definitions.scout.references[0]",
+                "use": "right character identity, ochre scarf, bow, and quiver"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.vanguard",
+                "semanticPath": "$.definitions.vanguard.references[0]",
+                "use": "left character identity, indigo silhouette, sword, and pack"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.winterboundParty",
+                "semanticPath": "$.definitions.winterboundParty.references[0]",
+                "use": "the three fixed identities and their relative silhouettes"
+              },
+              {
+                "ownerId": "scene.blue-winter-grove",
+                "semanticPath": "$.references[3]",
+                "use": "authoritative character identities, equipment, palette, and pixel craft"
+              }
+            ]
+          },
+          {
+            "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+            "sha256": "2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3",
+            "uses": [
+              {
+                "ownerId": "region.blue-winter-grove.clearing",
+                "semanticPath": "$.cast.clearing.references[0]",
+                "use": "open breathing room, broken tree edge, and party orientation"
+              },
+              {
+                "ownerId": "population.blue-winter-grove.coniferSpires",
+                "semanticPath": "$.cast.coniferSpires.references[0]",
+                "use": "sparse vertical accents and uneven distant skyline"
+              },
+              {
+                "ownerId": "population.blue-winter-grove.roundedGrove",
+                "semanticPath": "$.cast.roundedGrove.references[0]",
+                "use": "dominant tree mass, cluster depth, and open perimeter gaps"
+              },
+              {
+                "ownerId": "population.blue-winter-grove.travellingParty",
+                "semanticPath": "$.cast.travellingParty.references[0]",
+                "use": "party scale and formation in open snow"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+                "semanticPath": "$.definitions.forestFloorDetails.references[0]",
+                "use": "restrained low accents across open powder"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.powderSnow",
+                "semanticPath": "$.definitions.powderSnow.references[0]",
+                "use": "open powder field, rounded drifts, and blue-lilac shadow"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+                "semanticPath": "$.definitions.roundedSnowCrown.references[0]",
+                "use": "broad clustered canopy mass and powder-soft outer silhouette"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.roundedWinterTree",
+                "semanticPath": "$.definitions.roundedWinterTree.references[0]",
+                "use": "dominant grove tree family, scale range, and clustered silhouette"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.spireConifer",
+                "semanticPath": "$.definitions.spireConifer.references[0]",
+                "use": "sparse tall punctuation above and behind rounded tree masses"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.spireSnowCrown",
+                "semanticPath": "$.definitions.spireSnowCrown.references[0]",
+                "use": "slender background accents rising through the rounded canopy"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.vanguard",
+                "semanticPath": "$.definitions.vanguard.references[1]",
+                "use": "party scale and forward travelling pose in the clearing"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+                "semanticPath": "$.definitions.warmForkedTrunk.references[0]",
+                "use": "restrained ochre-brown warmth beneath cool snow"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.winterTree",
+                "semanticPath": "$.definitions.winterTree.references[0]",
+                "use": "shared miniature scale, snow softness, and tree-family cohesion"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.winterboundParty",
+                "semanticPath": "$.definitions.winterboundParty.references[1]",
+                "use": "group scale, formation, and visual priority in open snow"
+              },
+              {
+                "ownerId": "scene.blue-winter-grove",
+                "semanticPath": "$.references[0]",
+                "use": "scene mood, clearing composition, party scale, and dominant tree family"
+              }
+            ]
+          },
+          {
+            "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+            "sha256": "e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019",
+            "uses": [
+              {
+                "ownerId": "region.blue-winter-grove.frozenCreek",
+                "semanticPath": "$.cast.frozenCreek.references[0]",
+                "use": "winding route, stepped banks, and distinct water-ice-snow reads"
+              },
+              {
+                "ownerId": "population.blue-winter-grove.travellingParty",
+                "semanticPath": "$.cast.travellingParty.references[1]",
+                "use": "movement and spacing along the route"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.creekWater",
+                "semanticPath": "$.definitions.creekWater.references[0]",
+                "use": "clear restrained blue water visible beneath and between thin ice"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.powderSnow",
+                "semanticPath": "$.definitions.powderSnow.references[1]",
+                "use": "soft stepped banks and walkable snow beside the ice"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.scholar",
+                "semanticPath": "$.definitions.scholar.references[1]",
+                "use": "observing pose and spacing while travelling beside the creek"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.scout",
+                "semanticPath": "$.definitions.scout.references[1]",
+                "use": "nimble leading pose and readable separation from the other travellers"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.sheetIce",
+                "semanticPath": "$.definitions.sheetIce.references[0]",
+                "use": "glassy center, cloudy frosted edges, and snow-dusted stepped banks"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.winterSurfaces",
+                "semanticPath": "$.definitions.winterSurfaces.references[0]",
+                "use": "the required visual separation between powder, water, and ice"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.winterboundParty",
+                "semanticPath": "$.definitions.winterboundParty.references[2]",
+                "use": "movement as one compact party along a readable route"
+              },
+              {
+                "ownerId": "scene.blue-winter-grove",
+                "semanticPath": "$.references[1]",
+                "use": "traversal route, surface separation, and party movement"
+              }
+            ]
+          },
+          {
+            "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+            "sha256": "d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1",
+            "uses": [
+              {
+                "ownerId": "population.blue-winter-grove.landmarkTree",
+                "semanticPath": "$.cast.landmarkTree.references[0]",
+                "use": "placement, approachable arch, and inspection distance"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+                "semanticPath": "$.definitions.forestFloorDetails.references[1]",
+                "use": "frost grass, low shrubs, and half-buried stones near the tree base"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.frostBentLandmark",
+                "semanticPath": "$.definitions.frostBentLandmark.references[0]",
+                "use": "complete landmark identity, root contact, crown, and arch opening"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.frostBentTrunk",
+                "semanticPath": "$.definitions.frostBentTrunk.references[0]",
+                "use": "split trunk, exposed root flare, and low traversable arch"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+                "semanticPath": "$.definitions.roundedSnowCrown.references[1]",
+                "use": "branch-supported snow clumps with gaps into the crown"
+              },
+              {
+                "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+                "semanticPath": "$.definitions.warmForkedTrunk.references[1]",
+                "use": "readable forks, branch support, and rooted contact with the ground"
+              },
+              {
+                "ownerId": "scene.blue-winter-grove",
+                "semanticPath": "$.references[2]",
+                "use": "close-inspection reward, tree construction, roots, and ground detail"
+              }
+            ]
+          }
+        ],
+        "semantic": {
+          "acceptance": {
+            "checks": [
+              {
+                "expected": [
+                  28,
+                  42
+                ],
+                "key": "rounded-tree-count",
+                "measure": "population count",
+                "subject": {
+                  "ref": "population.blue-winter-grove.roundedGrove"
+                }
+              },
+              {
+                "expected": [
+                  1,
+                  1
+                ],
+                "key": "party-count",
+                "measure": "population count",
+                "subject": {
+                  "ref": "population.blue-winter-grove.travellingParty"
+                }
+              }
+            ],
+            "review": [
+              "Can a player explain who the three companions are and why each one examines the world differently?",
+              "Do shared crown and trunk definitions create a consistent tree family without duplicate silhouettes?",
+              "Does the creek invite movement while the landmark rewards leaving the direct route?",
+              "Can every important visual decision be traced to a tagged reference image?"
+            ]
+          },
+          "cast": {
+            "clearing": {
+              "features": {
+                "details": {
+                  "ref": "prototype.blue-winter-grove.forestFloorDetails"
+                },
+                "surfaces": {
+                  "ref": "prototype.blue-winter-grove.winterSurfaces"
+                }
+              },
+              "keep": [
+                "an open powder field",
+                "a broken multi-species tree edge",
+                "a view toward the creek and deep forest"
+              ],
+              "kind": "region",
+              "name": "Sheltered powder-snow clearing",
+              "purpose": [
+                "give the player a strong first read",
+                "support orientation and unhurried movement"
+              ],
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "open breathing room, broken tree edge, and party orientation"
+                }
+              ],
+              "shape": "broad irregular oval",
+              "width": [
+                20,
+                28
+              ]
+            },
+            "coniferSpires": {
+              "amount": [
+                8,
+                16
+              ],
+              "kind": "population",
+              "name": "Conifer spire accents",
+              "of": {
+                "ref": "prototype.blue-winter-grove.spireConifer"
+              },
+              "placement": {
+                "around": {
+                  "ref": "region.blue-winter-grove.clearing"
+                },
+                "pattern": "loose clusters",
+                "spacing": [
+                  5,
+                  9
+                ]
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "sparse vertical accents and uneven distant skyline"
+                }
+              ],
+              "role": [
+                "punctuate the rounded canopy",
+                "strengthen distant height rhythm"
+              ],
+              "variation": {
+                "avoid": [
+                  "even skyline",
+                  "continuous conifer wall"
+                ],
+                "vary": [
+                  "height",
+                  "spacing",
+                  "snow load"
+                ]
+              }
+            },
+            "frozenCreek": {
+              "features": {
+                "details": {
+                  "ref": "prototype.blue-winter-grove.forestFloorDetails"
+                },
+                "surfaces": {
+                  "ref": "prototype.blue-winter-grove.winterSurfaces"
+                }
+              },
+              "keep": [
+                "clear water beneath thin ice",
+                "walkable powder beside the ice",
+                "an unobstructed route into the clearing"
+              ],
+              "kind": "region",
+              "name": "Partly frozen shallow creek route",
+              "purpose": [
+                "lead the party into the grove",
+                "give travel and inspection a shared route"
+              ],
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "winding route, stepped banks, and distinct water-ice-snow reads"
+                }
+              ],
+              "shape": "gently winding shallow ribbon with stepped snow banks",
+              "width": [
+                2.5,
+                4.5
+              ]
+            },
+            "landmarkTree": {
+              "amount": [
+                1,
+                1
+              ],
+              "kind": "population",
+              "name": "Single clearing-edge landmark",
+              "of": {
+                "ref": "prototype.blue-winter-grove.frostBentLandmark"
+              },
+              "placement": {
+                "around": {
+                  "ref": "region.blue-winter-grove.clearing"
+                }
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png"
+                  },
+                  "use": "placement, approachable arch, and inspection distance"
+                }
+              ],
+              "role": [
+                "anchor close inspection",
+                "reward leaving the center route",
+                "form a low traversable arch"
+              ]
+            },
+            "roundedGrove": {
+              "amount": [
+                28,
+                42
+              ],
+              "kind": "population",
+              "name": "Layered rounded-canopy grove",
+              "of": {
+                "ref": "prototype.blue-winter-grove.roundedWinterTree"
+              },
+              "placement": {
+                "around": {
+                  "ref": "region.blue-winter-grove.clearing"
+                },
+                "leave": [
+                  "a broad opening aligned with the creek",
+                  "gaps into misty deep forest"
+                ],
+                "pattern": "loose clusters",
+                "spacing": [
+                  3.5,
+                  7
+                ]
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "dominant tree mass, cluster depth, and open perimeter gaps"
+                }
+              ],
+              "role": [
+                "dominate the grove mass",
+                "frame the clearing",
+                "form the creek gateway"
+              ],
+              "variation": {
+                "avoid": [
+                  "grid spacing",
+                  "duplicate neighbours"
+                ],
+                "vary": [
+                  "cluster depth",
+                  "tree age",
+                  "crown shape",
+                  "snow load"
+                ]
+              }
+            },
+            "travellingParty": {
+              "amount": [
+                1,
+                1
+              ],
+              "kind": "population",
+              "name": "Player-controlled travelling party",
+              "of": {
+                "ref": "prototype.blue-winter-grove.winterboundParty"
+              },
+              "placement": {
+                "around": {
+                  "ref": "region.blue-winter-grove.frozenCreek"
+                }
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "party scale and formation in open snow"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "movement and spacing along the route"
+                }
+              ],
+              "role": [
+                "carry the player point of view",
+                "cross the clearing",
+                "follow the creek",
+                "study the landmark"
+              ]
+            }
+          },
+          "composition": [
+            {
+              "kind": "frames",
+              "options": {
+                "avoid": "an even skyline",
+                "coverage": "sparse background punctuation"
+              },
+              "source": "population.blue-winter-grove.coniferSpires",
+              "target": "region.blue-winter-grove.clearing"
+            },
+            {
+              "kind": "frames",
+              "options": {
+                "coverage": "one memorable edge anchor",
+                "opening": "the low arch remains visible and approachable"
+              },
+              "source": "population.blue-winter-grove.landmarkTree",
+              "target": "region.blue-winter-grove.clearing"
+            },
+            {
+              "kind": "frames",
+              "options": {
+                "avoid": "a continuous tree wall",
+                "coverage": "most of the edge",
+                "opening": "aligned with the creek"
+              },
+              "source": "population.blue-winter-grove.roundedGrove",
+              "target": "region.blue-winter-grove.clearing"
+            }
+          ],
+          "definitions": {
+            "character": {
+              "gameplay": {
+                "playable": true,
+                "playerCan": [
+                  "travel",
+                  "observe the environment",
+                  "inspect points of interest"
+                ],
+                "role": "share exploration, observation, and discovery with the other party members"
+              },
+              "identity": [
+                "a player-controlled member of a cooperative three-person expedition",
+                "a flat HD-2D field sprite that remains visually separate from the voxel environment"
+              ],
+              "kind": "thing",
+              "name": "Playable field character",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png"
+                  },
+                  "use": "shared sprite proportions, pixel craft, and field-view readability"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "3D or voxel anatomy",
+                  "placeholder sprite treatment",
+                  "oversized weapons or heads"
+                ],
+                "must": [
+                  "remain readable at the scene camera distance"
+                ]
+              },
+              "visual": {
+                "detail": "class-readable clothing and equipment at field scale, without portrait-scale ornament",
+                "language": "premium original pixel sprite with crisp clusters, layered winter gear, and a restrained outline"
+              }
+            },
+            "creekWater": {
+              "identity": [
+                "shallow slow-moving clear water",
+                "visible depth beneath thinner frozen areas"
+              ],
+              "kind": "thing",
+              "name": "Shallow winter creek water",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "clear restrained blue water visible beneath and between thin ice"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "opaque blue ribbon",
+                  "dramatic rapids",
+                  "realistic fluid noise"
+                ]
+              }
+            },
+            "forestFloorDetails": {
+              "identity": [
+                "ice-blue frost-grass tufts",
+                "low snow-buried shrubs",
+                "half-buried brown-gray stones with powder caps"
+              ],
+              "kind": "thing",
+              "name": "Sparse winter forest-floor details",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "restrained low accents across open powder"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png"
+                  },
+                  "use": "frost grass, low shrubs, and half-buried stones near the tree base"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "continuous lawn",
+                  "decorative rows",
+                  "floating stones"
+                ]
+              },
+              "variation": {
+                "preserve": [
+                  "low sparse scale",
+                  "clear snow gaps"
+                ],
+                "vary": [
+                  "patch size",
+                  "burial",
+                  "spacing"
+                ]
+              }
+            },
+            "frostBentLandmark": {
+              "basedOn": {
+                "ref": "prototype.blue-winter-grove.winterTree"
+              },
+              "kind": "thing",
+              "name": "Frost-bent landmark tree",
+              "parts": {
+                "crown": {
+                  "ref": "prototype.blue-winter-grove.roundedSnowCrown"
+                },
+                "trunk": {
+                  "ref": "prototype.blue-winter-grove.frostBentTrunk"
+                }
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png"
+                  },
+                  "use": "complete landmark identity, root contact, crown, and arch opening"
+                }
+              ],
+              "shape": {
+                "height": [
+                  7,
+                  12
+                ]
+              },
+              "variation": {
+                "preserve": [
+                  "recognizable arch",
+                  "ancient weight",
+                  "reused rounded-crown language"
+                ],
+                "vary": [
+                  "branch loss",
+                  "snow shelves"
+                ]
+              }
+            },
+            "frostBentTrunk": {
+              "basedOn": {
+                "ref": "prototype.blue-winter-grove.warmForkedTrunk"
+              },
+              "identity": [
+                "thick split base with exposed root flare",
+                "one low arching limb that creates an opening beneath it"
+              ],
+              "kind": "thing",
+              "name": "Ancient frost-bent trunk",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png"
+                  },
+                  "use": "split trunk, exposed root flare, and low traversable arch"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "upright symmetry",
+                  "thin sapling proportions"
+                ],
+                "must": [
+                  "form a recognizable approachable arch"
+                ]
+              },
+              "shape": {
+                "form": "weighted sideways by age and snow while remaining structurally credible"
+              }
+            },
+            "powderSnow": {
+              "identity": [
+                "fresh dry powder",
+                "rounded drifts and heavy branch caps",
+                "cool blue-lilac shadow with faint blush bounce"
+              ],
+              "kind": "thing",
+              "name": "Dry powder snow",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "open powder field, rounded drifts, and blue-lilac shadow"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "soft stepped banks and walkable snow beside the ice"
+                }
+              ],
+              "variation": {
+                "preserve": [
+                  "powder-soft surface",
+                  "readable stepped voxel form"
+                ],
+                "vary": [
+                  "depth",
+                  "drift edge",
+                  "burial"
+                ]
+              }
+            },
+            "roundedSnowCrown": {
+              "identity": [
+                "broad irregular crown assembled from rounded clusters",
+                "heavy powder shelves supported by visible branches"
+              ],
+              "kind": "thing",
+              "name": "Rounded snow-loaded crown",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "broad clustered canopy mass and powder-soft outer silhouette"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png"
+                  },
+                  "use": "branch-supported snow clumps with gaps into the crown"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "one smooth sphere",
+                  "uniform snow cap",
+                  "perfectly radial clusters"
+                ]
+              },
+              "shape": {
+                "form": "wide, tiered, asymmetrical, and open enough to reveal some branch structure"
+              },
+              "variation": {
+                "preserve": [
+                  "rounded family read",
+                  "branch-supported construction"
+                ],
+                "vary": [
+                  "cluster size",
+                  "gaps",
+                  "edge breakup",
+                  "snow load"
+                ]
+              }
+            },
+            "roundedWinterTree": {
+              "basedOn": {
+                "ref": "prototype.blue-winter-grove.winterTree"
+              },
+              "kind": "thing",
+              "name": "Rounded-canopy winter tree",
+              "parts": {
+                "crown": {
+                  "ref": "prototype.blue-winter-grove.roundedSnowCrown"
+                },
+                "trunk": {
+                  "ref": "prototype.blue-winter-grove.warmForkedTrunk"
+                }
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "dominant grove tree family, scale range, and clustered silhouette"
+                }
+              ],
+              "shape": {
+                "height": [
+                  5,
+                  15
+                ]
+              },
+              "variation": {
+                "preserve": [
+                  "rounded crown family",
+                  "warm visible trunk"
+                ],
+                "vary": [
+                  "age",
+                  "scale",
+                  "lean",
+                  "branch spread",
+                  "snow load"
+                ]
+              }
+            },
+            "scholar": {
+              "basedOn": {
+                "ref": "prototype.blue-winter-grove.character"
+              },
+              "gameplay": {
+                "playerCan": [
+                  "study natural details",
+                  "interpret signs of age, weather, and passage"
+                ],
+                "role": "interpret environmental clues and turn close observation into understanding"
+              },
+              "identity": [
+                "long rust-red winter coat",
+                "cream scarf and book satchel",
+                "brass-ringed wooden staff"
+              ],
+              "kind": "thing",
+              "name": "Rust-coated scholar",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png"
+                  },
+                  "use": "center character identity, cream scarf, staff, and book satchel"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "observing pose and spacing while travelling beside the creek"
+                }
+              ]
+            },
+            "scout": {
+              "basedOn": {
+                "ref": "prototype.blue-winter-grove.character"
+              },
+              "gameplay": {
+                "playerCan": [
+                  "find traversable ground",
+                  "notice partially hidden details"
+                ],
+                "role": "notice routes, edges, and small changes before the rest of the party"
+              },
+              "identity": [
+                "cropped moss-green cloak",
+                "ochre scarf and fitted leather travel gear",
+                "short bow and compact quiver"
+              ],
+              "kind": "thing",
+              "name": "Moss-cloaked scout",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png"
+                  },
+                  "use": "right character identity, ochre scarf, bow, and quiver"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "nimble leading pose and readable separation from the other travellers"
+                }
+              ]
+            },
+            "sheetIce": {
+              "identity": [
+                "thin translucent pale-blue ice",
+                "clearer center and cloudy frost at the edges"
+              ],
+              "kind": "thing",
+              "name": "Thin sheet ice",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "glassy center, cloudy frosted edges, and snow-dusted stepped banks"
+                }
+              ],
+              "variation": {
+                "preserve": [
+                  "water remains legible beneath the ice"
+                ],
+                "vary": [
+                  "opacity",
+                  "frosted edge width",
+                  "snow dusting"
+                ]
+              }
+            },
+            "spireConifer": {
+              "basedOn": {
+                "ref": "prototype.blue-winter-grove.winterTree"
+              },
+              "kind": "thing",
+              "name": "Narrow snow conifer",
+              "parts": {
+                "crown": {
+                  "ref": "prototype.blue-winter-grove.spireSnowCrown"
+                },
+                "trunk": {
+                  "ref": "prototype.blue-winter-grove.warmForkedTrunk"
+                }
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "sparse tall punctuation above and behind rounded tree masses"
+                }
+              ],
+              "shape": {
+                "height": [
+                  9,
+                  19
+                ]
+              },
+              "variation": {
+                "preserve": [
+                  "narrow spire crown",
+                  "readable tier rhythm"
+                ],
+                "vary": [
+                  "height",
+                  "top shape",
+                  "branch gaps",
+                  "snow load"
+                ]
+              }
+            },
+            "spireSnowCrown": {
+              "identity": [
+                "tapering evergreen spire",
+                "broken vertical tiers carrying separate snow shelves"
+              ],
+              "kind": "thing",
+              "name": "Narrow conifer spire crown",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "slender background accents rising through the rounded canopy"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "perfect cone",
+                  "stacked identical tiers",
+                  "solid white silhouette"
+                ]
+              },
+              "shape": {
+                "form": "narrow, vertically tiered, and irregular at the top"
+              },
+              "variation": {
+                "preserve": [
+                  "slender spire read",
+                  "separate branch tiers"
+                ],
+                "vary": [
+                  "height",
+                  "top shape",
+                  "tier gaps",
+                  "snow load"
+                ]
+              }
+            },
+            "vanguard": {
+              "basedOn": {
+                "ref": "prototype.blue-winter-grove.character"
+              },
+              "gameplay": {
+                "playerCan": [
+                  "read the route ahead",
+                  "inspect physical obstructions"
+                ],
+                "role": "lead the party through uncertain ground and make the route feel safe enough to continue"
+              },
+              "identity": [
+                "deep indigo hooded half-cape",
+                "dark layered travel gear",
+                "silver-edged short sword held low"
+              ],
+              "kind": "thing",
+              "name": "Indigo-hooded vanguard",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png"
+                  },
+                  "use": "left character identity, indigo silhouette, sword, and pack"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "party scale and forward travelling pose in the clearing"
+                }
+              ]
+            },
+            "warmForkedTrunk": {
+              "identity": [
+                "ochre-brown trunk with one or more readable forks",
+                "visible support for the crown and snow mass"
+              ],
+              "kind": "thing",
+              "name": "Warm forked tree trunk",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "restrained ochre-brown warmth beneath cool snow"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png"
+                  },
+                  "use": "readable forks, branch support, and rooted contact with the ground"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "hidden trunk structure",
+                  "fissured photoreal bark",
+                  "thin unsupported crown stem"
+                ]
+              },
+              "shape": {
+                "form": "sturdy, gently tapered, and irregular without realistic bark noise"
+              }
+            },
+            "winterSurfaces": {
+              "identity": [
+                "three related but visibly distinct traversable surface reads"
+              ],
+              "kind": "thing",
+              "name": "Winter clearing surface family",
+              "parts": {
+                "ice": {
+                  "ref": "prototype.blue-winter-grove.sheetIce"
+                },
+                "powder": {
+                  "ref": "prototype.blue-winter-grove.powderSnow"
+                },
+                "water": {
+                  "ref": "prototype.blue-winter-grove.creekWater"
+                }
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "the required visual separation between powder, water, and ice"
+                }
+              ],
+              "rules": {
+                "must": [
+                  "powder, water, and ice remain distinguishable at the play camera"
+                ]
+              }
+            },
+            "winterTree": {
+              "identity": [
+                "a mature tree built from readable trunk and crown parts",
+                "a soft voxel silhouette with visible structure"
+              ],
+              "kind": "thing",
+              "name": "Winter grove tree",
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "shared miniature scale, snow softness, and tree-family cohesion"
+                }
+              ],
+              "rules": {
+                "avoid": [
+                  "smooth blobs",
+                  "micro-voxel noise",
+                  "duplicate neighbouring silhouettes"
+                ]
+              },
+              "variation": {
+                "preserve": [
+                  "visible trunk-to-crown construction",
+                  "family resemblance within each tree type"
+                ],
+                "vary": [
+                  "height",
+                  "age",
+                  "lean",
+                  "branch loss",
+                  "snow load"
+                ]
+              }
+            },
+            "winterboundParty": {
+              "gameplay": {
+                "playable": true,
+                "playerCan": [
+                  "move as a group",
+                  "pause to observe",
+                  "approach and inspect discoveries"
+                ],
+                "role": "the player-controlled exploration party and emotional point of view into the grove"
+              },
+              "identity": [
+                "three distinct companions who travel and make discoveries together",
+                "a compact player unit whose members remain individually recognizable"
+              ],
+              "kind": "thing",
+              "name": "Winterbound adventuring party",
+              "parts": {
+                "scholar": {
+                  "ref": "prototype.blue-winter-grove.scholar"
+                },
+                "scout": {
+                  "ref": "prototype.blue-winter-grove.scout"
+                },
+                "vanguard": {
+                  "ref": "prototype.blue-winter-grove.vanguard"
+                }
+              },
+              "references": [
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png"
+                  },
+                  "use": "the three fixed identities and their relative silhouettes"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+                  },
+                  "use": "group scale, formation, and visual priority in open snow"
+                },
+                {
+                  "image": {
+                    "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+                  },
+                  "use": "movement as one compact party along a readable route"
+                }
+              ],
+              "variation": {
+                "preserve": [
+                  "exactly three members",
+                  "role colors",
+                  "class-readable equipment",
+                  "individual silhouettes"
+                ],
+                "vary": [
+                  "walking, waiting, and observing poses",
+                  "loose travel formation"
+                ]
+              }
+            }
+          },
+          "dependencies": [
+            {
+              "kind": "population-of",
+              "semanticPath": "$.cast.coniferSpires.of",
+              "sourceId": "population.blue-winter-grove.coniferSpires",
+              "targetId": "prototype.blue-winter-grove.spireConifer"
+            },
+            {
+              "kind": "placement-around",
+              "semanticPath": "$.cast.coniferSpires.placement.around",
+              "sourceId": "population.blue-winter-grove.coniferSpires",
+              "targetId": "region.blue-winter-grove.clearing"
+            },
+            {
+              "kind": "population-of",
+              "semanticPath": "$.cast.landmarkTree.of",
+              "sourceId": "population.blue-winter-grove.landmarkTree",
+              "targetId": "prototype.blue-winter-grove.frostBentLandmark"
+            },
+            {
+              "kind": "placement-around",
+              "semanticPath": "$.cast.landmarkTree.placement.around",
+              "sourceId": "population.blue-winter-grove.landmarkTree",
+              "targetId": "region.blue-winter-grove.clearing"
+            },
+            {
+              "kind": "population-of",
+              "semanticPath": "$.cast.roundedGrove.of",
+              "sourceId": "population.blue-winter-grove.roundedGrove",
+              "targetId": "prototype.blue-winter-grove.roundedWinterTree"
+            },
+            {
+              "kind": "placement-around",
+              "semanticPath": "$.cast.roundedGrove.placement.around",
+              "sourceId": "population.blue-winter-grove.roundedGrove",
+              "targetId": "region.blue-winter-grove.clearing"
+            },
+            {
+              "kind": "population-of",
+              "semanticPath": "$.cast.travellingParty.of",
+              "sourceId": "population.blue-winter-grove.travellingParty",
+              "targetId": "prototype.blue-winter-grove.winterboundParty"
+            },
+            {
+              "kind": "placement-around",
+              "semanticPath": "$.cast.travellingParty.placement.around",
+              "sourceId": "population.blue-winter-grove.travellingParty",
+              "targetId": "region.blue-winter-grove.frozenCreek"
+            },
+            {
+              "kind": "part",
+              "role": "trunk",
+              "semanticPath": "$.definitions.frostBentLandmark.parts.trunk",
+              "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+              "targetId": "prototype.blue-winter-grove.frostBentTrunk"
+            },
+            {
+              "kind": "part",
+              "role": "crown",
+              "semanticPath": "$.definitions.frostBentLandmark.parts.crown",
+              "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+              "targetId": "prototype.blue-winter-grove.roundedSnowCrown"
+            },
+            {
+              "kind": "based-on",
+              "semanticPath": "$.definitions.frostBentLandmark.basedOn",
+              "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+              "targetId": "prototype.blue-winter-grove.winterTree"
+            },
+            {
+              "kind": "based-on",
+              "semanticPath": "$.definitions.frostBentTrunk.basedOn",
+              "sourceId": "prototype.blue-winter-grove.frostBentTrunk",
+              "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+            },
+            {
+              "kind": "part",
+              "role": "crown",
+              "semanticPath": "$.definitions.roundedWinterTree.parts.crown",
+              "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+              "targetId": "prototype.blue-winter-grove.roundedSnowCrown"
+            },
+            {
+              "kind": "part",
+              "role": "trunk",
+              "semanticPath": "$.definitions.roundedWinterTree.parts.trunk",
+              "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+              "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+            },
+            {
+              "kind": "based-on",
+              "semanticPath": "$.definitions.roundedWinterTree.basedOn",
+              "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+              "targetId": "prototype.blue-winter-grove.winterTree"
+            },
+            {
+              "kind": "based-on",
+              "semanticPath": "$.definitions.scholar.basedOn",
+              "sourceId": "prototype.blue-winter-grove.scholar",
+              "targetId": "prototype.blue-winter-grove.character"
+            },
+            {
+              "kind": "based-on",
+              "semanticPath": "$.definitions.scout.basedOn",
+              "sourceId": "prototype.blue-winter-grove.scout",
+              "targetId": "prototype.blue-winter-grove.character"
+            },
+            {
+              "kind": "part",
+              "role": "crown",
+              "semanticPath": "$.definitions.spireConifer.parts.crown",
+              "sourceId": "prototype.blue-winter-grove.spireConifer",
+              "targetId": "prototype.blue-winter-grove.spireSnowCrown"
+            },
+            {
+              "kind": "part",
+              "role": "trunk",
+              "semanticPath": "$.definitions.spireConifer.parts.trunk",
+              "sourceId": "prototype.blue-winter-grove.spireConifer",
+              "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+            },
+            {
+              "kind": "based-on",
+              "semanticPath": "$.definitions.spireConifer.basedOn",
+              "sourceId": "prototype.blue-winter-grove.spireConifer",
+              "targetId": "prototype.blue-winter-grove.winterTree"
+            },
+            {
+              "kind": "based-on",
+              "semanticPath": "$.definitions.vanguard.basedOn",
+              "sourceId": "prototype.blue-winter-grove.vanguard",
+              "targetId": "prototype.blue-winter-grove.character"
+            },
+            {
+              "kind": "part",
+              "role": "water",
+              "semanticPath": "$.definitions.winterSurfaces.parts.water",
+              "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+              "targetId": "prototype.blue-winter-grove.creekWater"
+            },
+            {
+              "kind": "part",
+              "role": "powder",
+              "semanticPath": "$.definitions.winterSurfaces.parts.powder",
+              "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+              "targetId": "prototype.blue-winter-grove.powderSnow"
+            },
+            {
+              "kind": "part",
+              "role": "ice",
+              "semanticPath": "$.definitions.winterSurfaces.parts.ice",
+              "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+              "targetId": "prototype.blue-winter-grove.sheetIce"
+            },
+            {
+              "kind": "part",
+              "role": "scholar",
+              "semanticPath": "$.definitions.winterboundParty.parts.scholar",
+              "sourceId": "prototype.blue-winter-grove.winterboundParty",
+              "targetId": "prototype.blue-winter-grove.scholar"
+            },
+            {
+              "kind": "part",
+              "role": "scout",
+              "semanticPath": "$.definitions.winterboundParty.parts.scout",
+              "sourceId": "prototype.blue-winter-grove.winterboundParty",
+              "targetId": "prototype.blue-winter-grove.scout"
+            },
+            {
+              "kind": "part",
+              "role": "vanguard",
+              "semanticPath": "$.definitions.winterboundParty.parts.vanguard",
+              "sourceId": "prototype.blue-winter-grove.winterboundParty",
+              "targetId": "prototype.blue-winter-grove.vanguard"
+            },
+            {
+              "kind": "feature",
+              "role": "details",
+              "semanticPath": "$.cast.clearing.features.details",
+              "sourceId": "region.blue-winter-grove.clearing",
+              "targetId": "prototype.blue-winter-grove.forestFloorDetails"
+            },
+            {
+              "kind": "feature",
+              "role": "surfaces",
+              "semanticPath": "$.cast.clearing.features.surfaces",
+              "sourceId": "region.blue-winter-grove.clearing",
+              "targetId": "prototype.blue-winter-grove.winterSurfaces"
+            },
+            {
+              "kind": "feature",
+              "role": "details",
+              "semanticPath": "$.cast.frozenCreek.features.details",
+              "sourceId": "region.blue-winter-grove.frozenCreek",
+              "targetId": "prototype.blue-winter-grove.forestFloorDetails"
+            },
+            {
+              "kind": "feature",
+              "role": "surfaces",
+              "semanticPath": "$.cast.frozenCreek.features.surfaces",
+              "sourceId": "region.blue-winter-grove.frozenCreek",
+              "targetId": "prototype.blue-winter-grove.winterSurfaces"
+            },
+            {
+              "kind": "frames-source",
+              "semanticPath": "$.composition[1].source",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "population.blue-winter-grove.coniferSpires"
+            },
+            {
+              "kind": "frames-source",
+              "semanticPath": "$.composition[2].source",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "population.blue-winter-grove.landmarkTree"
+            },
+            {
+              "kind": "acceptance-subject",
+              "semanticPath": "$.acceptance.checks[0].subject",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "population.blue-winter-grove.roundedGrove"
+            },
+            {
+              "kind": "frames-source",
+              "semanticPath": "$.composition[0].source",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "population.blue-winter-grove.roundedGrove"
+            },
+            {
+              "kind": "acceptance-subject",
+              "semanticPath": "$.acceptance.checks[1].subject",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "population.blue-winter-grove.travellingParty"
+            },
+            {
+              "kind": "play-as",
+              "semanticPath": "$.gameplay.playAs",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "population.blue-winter-grove.travellingParty"
+            },
+            {
+              "kind": "frames-target",
+              "semanticPath": "$.composition[0].target",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "region.blue-winter-grove.clearing"
+            },
+            {
+              "kind": "frames-target",
+              "semanticPath": "$.composition[1].target",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "region.blue-winter-grove.clearing"
+            },
+            {
+              "kind": "frames-target",
+              "semanticPath": "$.composition[2].target",
+              "sourceId": "scene.blue-winter-grove",
+              "targetId": "region.blue-winter-grove.clearing"
+            }
+          ],
+          "experience": {
+            "closerLook": [
+              "water beneath thin ice and powder along its banks",
+              "crowns assembled from branch-supported snow clusters",
+              "warm forked trunks, roots, frost grass, shrubs, and half-buried stones"
+            ],
+            "fantasy": "Guide three companions into a quiet winter grove where careful observation makes the place feel alive.",
+            "feel": [
+              "quiet",
+              "cold",
+              "inviting",
+              "curious",
+              "slightly mysterious"
+            ],
+            "firstRead": [
+              "three distinct adventurers entering along a frozen creek",
+              "an open powder clearing held by rounded trees and sparse conifer spires",
+              "one ancient bent tree worth approaching"
+            ]
+          },
+          "gameplay": {
+            "loop": [
+              "follow a readable route",
+              "notice a visual question",
+              "approach it",
+              "inspect details",
+              "choose what to follow next"
+            ],
+            "pace": "unhurried, with room to stop and look",
+            "playAs": {
+              "ref": "population.blue-winter-grove.travellingParty"
+            },
+            "playerCan": [
+              "cross the clearing",
+              "follow the frozen creek bank",
+              "approach the landmark",
+              "inspect natural details"
+            ],
+            "purpose": "explore through movement, environmental reading, and close inspection rather than combat or collection",
+            "spaceMust": [
+              "keep the powder field traversable",
+              "keep water and ice legible",
+              "keep the tree arch approachable"
+            ]
+          },
+          "key": "blue-winter-grove",
+          "kind": "scene",
+          "name": "Blue Winter Grove",
+          "profiles": [
+            {
+              "id": "voxel-diorama",
+              "version": "0.1.0"
+            }
+          ],
+          "references": [
+            {
+              "image": {
+                "path": "./references/blue-winter-grove-reference-01-clearing-v4.png"
+              },
+              "use": "scene mood, clearing composition, party scale, and dominant tree family"
+            },
+            {
+              "image": {
+                "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png"
+              },
+              "use": "traversal route, surface separation, and party movement"
+            },
+            {
+              "image": {
+                "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png"
+              },
+              "use": "close-inspection reward, tree construction, roots, and ground detail"
+            },
+            {
+              "image": {
+                "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png"
+              },
+              "use": "authoritative character identities, equipment, palette, and pixel craft"
+            }
+          ],
+          "rules": {
+            "avoid": [
+              "foxes",
+              "uniform crowns",
+              "obvious grids",
+              "flat snow sheets",
+              "opaque blue creek",
+              "unreadable bloom"
+            ],
+            "must": [
+              "the party stays readable but subordinate to the place",
+              "each adventurer keeps a distinct role, silhouette, and reason to inspect the world",
+              "rounded trees dominate while spires punctuate and the bent tree anchors",
+              "powder, water, and thin ice remain visibly distinct"
+            ]
+          },
+          "visual": {
+            "avoid": [
+              "photoreal detail",
+              "micro-voxel noise",
+              "3D characters",
+              "one repeated tree type",
+              "sharp full-frame focus"
+            ],
+            "density": "medium-high",
+            "detail": "chunky readable environment parts and crisp layered character sprites, never texture noise",
+            "language": "soft high-key tilt-shift voxel miniature environment with production-quality flat HD-2D adventurers",
+            "lighting": "diffuse periwinkle and lilac winter light with blush snow bounce and faint warmth through the grove",
+            "silhouettes": "rounded broad crowns, sparse narrow spires, clear gaps, and one bent arch"
+          }
+        }
+      },
+      "compiler": {
+        "id": "@antiky/contracts/compiler",
+        "version": "0.1.0"
+      },
+      "profiles": [
+        {
+          "id": "voxel-diorama",
+          "selection": "explicit",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    "revision": 1,
+    "status": "draft"
+  },
+  "coordinateSystem": {
+    "handedness": "right",
+    "horizontalAxes": [
+      "x",
+      "z"
+    ],
+    "originMeaning": "scene-bounds-center-at-terrain-reference",
+    "upAxis": "y",
+    "voxelSizeM": 0.1,
+    "worldUnit": "meter"
+  },
+  "definitions": {
+    "materials": {},
+    "palettes": {},
+    "profiles": {
+      "profile.voxel-diorama": {
+        "id": "profile.voxel-diorama",
+        "selection": "explicit",
+        "sourceProfile": "voxel-diorama",
+        "version": "0.1.0"
+      }
+    },
+    "prototypes": {
+      "prototype.blue-winter-grove.character": {
+        "components": {
+          "description.intent": {
+            "summary": "Playable field character",
+            "visualRead": [
+              "a player-controlled member of a cooperative three-person expedition",
+              "a flat HD-2D field sprite that remains visually separate from the voxel environment",
+              "share exploration, observation, and discovery with the other party members",
+              "travel",
+              "observe the environment",
+              "inspect points of interest"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "3D or voxel anatomy",
+              "placeholder sprite treatment",
+              "oversized weapons or heads"
+            ]
+          },
+          "style.visualLanguage": {
+            "primary": "premium original pixel sprite with crisp clusters, layered winter gear, and a restrained outline"
+          }
+        },
+        "id": "prototype.blue-winter-grove.character",
+        "kind": "prototype",
+        "name": "Playable field character"
+      },
+      "prototype.blue-winter-grove.creekWater": {
+        "components": {
+          "description.intent": {
+            "summary": "Shallow winter creek water",
+            "visualRead": [
+              "shallow slow-moving clear water",
+              "visible depth beneath thinner frozen areas"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "opaque blue ribbon",
+              "dramatic rapids",
+              "realistic fluid noise"
+            ]
+          }
+        },
+        "id": "prototype.blue-winter-grove.creekWater",
+        "kind": "prototype",
+        "name": "Shallow winter creek water"
+      },
+      "prototype.blue-winter-grove.forestFloorDetails": {
+        "components": {
+          "description.intent": {
+            "summary": "Sparse winter forest-floor details",
+            "visualRead": [
+              "ice-blue frost-grass tufts",
+              "low snow-buried shrubs",
+              "half-buried brown-gray stones with powder caps"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "continuous lawn",
+              "decorative rows",
+              "floating stones"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "low sparse scale",
+                  "clear snow gaps"
+                ],
+                "vary": [
+                  "patch size",
+                  "burial",
+                  "spacing"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.forestFloorDetails",
+        "kind": "prototype",
+        "name": "Sparse winter forest-floor details"
+      },
+      "prototype.blue-winter-grove.frostBentLandmark": {
+        "components": {
+          "core.bounds": {
+            "heightM": [
+              7,
+              12
+            ]
+          },
+          "description.intent": {
+            "summary": "Frost-bent landmark tree",
+            "visualRead": [
+              "a mature tree built from readable trunk and crown parts",
+              "a soft voxel silhouette with visible structure"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "smooth blobs",
+              "micro-voxel noise",
+              "duplicate neighbouring silhouettes"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "recognizable arch",
+                  "ancient weight",
+                  "reused rounded-crown language"
+                ],
+                "vary": [
+                  "branch loss",
+                  "snow shelves"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.frostBentLandmark",
+        "kind": "prototype",
+        "name": "Frost-bent landmark tree"
+      },
+      "prototype.blue-winter-grove.frostBentTrunk": {
+        "components": {
+          "description.intent": {
+            "summary": "Ancient frost-bent trunk",
+            "visualRead": [
+              "thick split base with exposed root flare",
+              "one low arching limb that creates an opening beneath it",
+              "weighted sideways by age and snow while remaining structurally credible"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "upright symmetry",
+              "thin sapling proportions"
+            ]
+          }
+        },
+        "id": "prototype.blue-winter-grove.frostBentTrunk",
+        "kind": "prototype",
+        "name": "Ancient frost-bent trunk"
+      },
+      "prototype.blue-winter-grove.powderSnow": {
+        "components": {
+          "description.intent": {
+            "summary": "Dry powder snow",
+            "visualRead": [
+              "fresh dry powder",
+              "rounded drifts and heavy branch caps",
+              "cool blue-lilac shadow with faint blush bounce"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "powder-soft surface",
+                  "readable stepped voxel form"
+                ],
+                "vary": [
+                  "depth",
+                  "drift edge",
+                  "burial"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.powderSnow",
+        "kind": "prototype",
+        "name": "Dry powder snow"
+      },
+      "prototype.blue-winter-grove.roundedSnowCrown": {
+        "components": {
+          "description.intent": {
+            "summary": "Rounded snow-loaded crown",
+            "visualRead": [
+              "broad irregular crown assembled from rounded clusters",
+              "heavy powder shelves supported by visible branches",
+              "wide, tiered, asymmetrical, and open enough to reveal some branch structure"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "one smooth sphere",
+              "uniform snow cap",
+              "perfectly radial clusters"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "rounded family read",
+                  "branch-supported construction"
+                ],
+                "vary": [
+                  "cluster size",
+                  "gaps",
+                  "edge breakup",
+                  "snow load"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.roundedSnowCrown",
+        "kind": "prototype",
+        "name": "Rounded snow-loaded crown"
+      },
+      "prototype.blue-winter-grove.roundedWinterTree": {
+        "components": {
+          "core.bounds": {
+            "heightM": [
+              5,
+              15
+            ]
+          },
+          "description.intent": {
+            "summary": "Rounded-canopy winter tree",
+            "visualRead": [
+              "a mature tree built from readable trunk and crown parts",
+              "a soft voxel silhouette with visible structure"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "smooth blobs",
+              "micro-voxel noise",
+              "duplicate neighbouring silhouettes"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "rounded crown family",
+                  "warm visible trunk"
+                ],
+                "vary": [
+                  "age",
+                  "scale",
+                  "lean",
+                  "branch spread",
+                  "snow load"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.roundedWinterTree",
+        "kind": "prototype",
+        "name": "Rounded-canopy winter tree"
+      },
+      "prototype.blue-winter-grove.scholar": {
+        "components": {
+          "description.intent": {
+            "summary": "Rust-coated scholar",
+            "visualRead": [
+              "long rust-red winter coat",
+              "cream scarf and book satchel",
+              "brass-ringed wooden staff",
+              "interpret environmental clues and turn close observation into understanding",
+              "study natural details",
+              "interpret signs of age, weather, and passage"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "3D or voxel anatomy",
+              "placeholder sprite treatment",
+              "oversized weapons or heads"
+            ]
+          },
+          "style.visualLanguage": {
+            "primary": "premium original pixel sprite with crisp clusters, layered winter gear, and a restrained outline"
+          }
+        },
+        "id": "prototype.blue-winter-grove.scholar",
+        "kind": "prototype",
+        "name": "Rust-coated scholar"
+      },
+      "prototype.blue-winter-grove.scout": {
+        "components": {
+          "description.intent": {
+            "summary": "Moss-cloaked scout",
+            "visualRead": [
+              "cropped moss-green cloak",
+              "ochre scarf and fitted leather travel gear",
+              "short bow and compact quiver",
+              "notice routes, edges, and small changes before the rest of the party",
+              "find traversable ground",
+              "notice partially hidden details"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "3D or voxel anatomy",
+              "placeholder sprite treatment",
+              "oversized weapons or heads"
+            ]
+          },
+          "style.visualLanguage": {
+            "primary": "premium original pixel sprite with crisp clusters, layered winter gear, and a restrained outline"
+          }
+        },
+        "id": "prototype.blue-winter-grove.scout",
+        "kind": "prototype",
+        "name": "Moss-cloaked scout"
+      },
+      "prototype.blue-winter-grove.sheetIce": {
+        "components": {
+          "description.intent": {
+            "summary": "Thin sheet ice",
+            "visualRead": [
+              "thin translucent pale-blue ice",
+              "clearer center and cloudy frost at the edges"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "water remains legible beneath the ice"
+                ],
+                "vary": [
+                  "opacity",
+                  "frosted edge width",
+                  "snow dusting"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.sheetIce",
+        "kind": "prototype",
+        "name": "Thin sheet ice"
+      },
+      "prototype.blue-winter-grove.spireConifer": {
+        "components": {
+          "core.bounds": {
+            "heightM": [
+              9,
+              19
+            ]
+          },
+          "description.intent": {
+            "summary": "Narrow snow conifer",
+            "visualRead": [
+              "a mature tree built from readable trunk and crown parts",
+              "a soft voxel silhouette with visible structure"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "smooth blobs",
+              "micro-voxel noise",
+              "duplicate neighbouring silhouettes"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "narrow spire crown",
+                  "readable tier rhythm"
+                ],
+                "vary": [
+                  "height",
+                  "top shape",
+                  "branch gaps",
+                  "snow load"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.spireConifer",
+        "kind": "prototype",
+        "name": "Narrow snow conifer"
+      },
+      "prototype.blue-winter-grove.spireSnowCrown": {
+        "components": {
+          "description.intent": {
+            "summary": "Narrow conifer spire crown",
+            "visualRead": [
+              "tapering evergreen spire",
+              "broken vertical tiers carrying separate snow shelves",
+              "narrow, vertically tiered, and irregular at the top"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "perfect cone",
+              "stacked identical tiers",
+              "solid white silhouette"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "slender spire read",
+                  "separate branch tiers"
+                ],
+                "vary": [
+                  "height",
+                  "top shape",
+                  "tier gaps",
+                  "snow load"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.spireSnowCrown",
+        "kind": "prototype",
+        "name": "Narrow conifer spire crown"
+      },
+      "prototype.blue-winter-grove.vanguard": {
+        "components": {
+          "description.intent": {
+            "summary": "Indigo-hooded vanguard",
+            "visualRead": [
+              "deep indigo hooded half-cape",
+              "dark layered travel gear",
+              "silver-edged short sword held low",
+              "lead the party through uncertain ground and make the route feel safe enough to continue",
+              "read the route ahead",
+              "inspect physical obstructions"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "3D or voxel anatomy",
+              "placeholder sprite treatment",
+              "oversized weapons or heads"
+            ]
+          },
+          "style.visualLanguage": {
+            "primary": "premium original pixel sprite with crisp clusters, layered winter gear, and a restrained outline"
+          }
+        },
+        "id": "prototype.blue-winter-grove.vanguard",
+        "kind": "prototype",
+        "name": "Indigo-hooded vanguard"
+      },
+      "prototype.blue-winter-grove.warmForkedTrunk": {
+        "components": {
+          "description.intent": {
+            "summary": "Warm forked tree trunk",
+            "visualRead": [
+              "ochre-brown trunk with one or more readable forks",
+              "visible support for the crown and snow mass",
+              "sturdy, gently tapered, and irregular without realistic bark noise"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "hidden trunk structure",
+              "fissured photoreal bark",
+              "thin unsupported crown stem"
+            ]
+          }
+        },
+        "id": "prototype.blue-winter-grove.warmForkedTrunk",
+        "kind": "prototype",
+        "name": "Warm forked tree trunk"
+      },
+      "prototype.blue-winter-grove.winterSurfaces": {
+        "components": {
+          "description.intent": {
+            "summary": "Winter clearing surface family",
+            "visualRead": [
+              "three related but visibly distinct traversable surface reads"
+            ]
+          }
+        },
+        "id": "prototype.blue-winter-grove.winterSurfaces",
+        "kind": "prototype",
+        "name": "Winter clearing surface family"
+      },
+      "prototype.blue-winter-grove.winterTree": {
+        "components": {
+          "description.intent": {
+            "summary": "Winter grove tree",
+            "visualRead": [
+              "a mature tree built from readable trunk and crown parts",
+              "a soft voxel silhouette with visible structure"
+            ]
+          },
+          "style.forbiddenForms": {
+            "items": [
+              "smooth blobs",
+              "micro-voxel noise",
+              "duplicate neighbouring silhouettes"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "visible trunk-to-crown construction",
+                  "family resemblance within each tree type"
+                ],
+                "vary": [
+                  "height",
+                  "age",
+                  "lean",
+                  "branch loss",
+                  "snow load"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.winterTree",
+        "kind": "prototype",
+        "name": "Winter grove tree"
+      },
+      "prototype.blue-winter-grove.winterboundParty": {
+        "components": {
+          "description.intent": {
+            "summary": "Winterbound adventuring party",
+            "visualRead": [
+              "three distinct companions who travel and make discoveries together",
+              "a compact player unit whose members remain individually recognizable",
+              "the player-controlled exploration party and emotional point of view into the grove",
+              "move as a group",
+              "pause to observe",
+              "approach and inspect discoveries"
+            ]
+          },
+          "variation.parameters": {
+            "parameters": {
+              "semantic-direction": {
+                "preserve": [
+                  "exactly three members",
+                  "role colors",
+                  "class-readable equipment",
+                  "individual silhouettes"
+                ],
+                "vary": [
+                  "walking, waiting, and observing poses",
+                  "loose travel formation"
+                ]
+              }
+            },
+            "scope": "per-instance"
+          }
+        },
+        "id": "prototype.blue-winter-grove.winterboundParty",
+        "kind": "prototype",
+        "name": "Winterbound adventuring party"
+      }
+    }
+  },
+  "determinism": {
+    "rootSeed": "sha256:50831a8db6429d5bfe8d5305c6e0ce7af392ab72e2c879c2a5684b301c8dac53",
+    "stableInputs": [
+      "root-seed",
+      "contract-id",
+      "entity-id",
+      "system-id",
+      "purpose-key"
+    ],
+    "streamPolicy": "sha256-hierarchical-v1",
+    "streams": {
+      "asset": "asset/<derived-instance-id>/<purpose-key>",
+      "layout": "layout/*",
+      "population": "population/<population-id>"
+    }
+  },
+  "entities": {
+    "population.blue-winter-grove.coniferSpires": {
+      "components": {
+        "composition.populationRole": {
+          "roles": [
+            "punctuate the rounded canopy",
+            "strengthen distant height rhythm"
+          ]
+        },
+        "description.intent": {
+          "summary": "Conifer spire accents",
+          "visualRead": [
+            "punctuate the rounded canopy",
+            "strengthen distant height rhythm"
+          ]
+        },
+        "population.distribution": {
+          "algorithm": "antikylabs.population.loose-clusters-v1",
+          "preferredRegions": [
+            "region.blue-winter-grove.clearing"
+          ],
+          "spacingM": [
+            5,
+            9
+          ]
+        },
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.blue-winter-grove.spireConifer",
+              "weight": 1
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            8,
+            16
+          ],
+          "samplingScope": "region"
+        },
+        "population.variation": {
+          "avoid": [
+            "even skyline",
+            "continuous conifer wall"
+          ],
+          "stream": "population/population.blue-winter-grove.coniferSpires",
+          "vary": [
+            "height",
+            "spacing",
+            "snow load"
+          ]
+        },
+        "style.forbiddenForms": {
+          "items": [
+            "even skyline",
+            "continuous conifer wall"
+          ]
+        }
+      },
+      "id": "population.blue-winter-grove.coniferSpires",
+      "kind": "population",
+      "name": "Conifer spire accents",
+      "parent": "scene.blue-winter-grove"
+    },
+    "population.blue-winter-grove.landmarkTree": {
+      "components": {
+        "composition.populationRole": {
+          "roles": [
+            "anchor close inspection",
+            "reward leaving the center route",
+            "form a low traversable arch"
+          ]
+        },
+        "description.intent": {
+          "summary": "Single clearing-edge landmark",
+          "visualRead": [
+            "anchor close inspection",
+            "reward leaving the center route",
+            "form a low traversable arch"
+          ]
+        },
+        "population.distribution": {
+          "algorithm": "antikylabs.population.around-region-v1",
+          "preferredRegions": [
+            "region.blue-winter-grove.clearing"
+          ]
+        },
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.blue-winter-grove.frostBentLandmark",
+              "weight": 1
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            1,
+            1
+          ],
+          "samplingScope": "region"
+        }
+      },
+      "id": "population.blue-winter-grove.landmarkTree",
+      "kind": "population",
+      "name": "Single clearing-edge landmark",
+      "parent": "scene.blue-winter-grove"
+    },
+    "population.blue-winter-grove.roundedGrove": {
+      "components": {
+        "composition.populationRole": {
+          "roles": [
+            "dominate the grove mass",
+            "frame the clearing",
+            "form the creek gateway"
+          ]
+        },
+        "description.intent": {
+          "summary": "Layered rounded-canopy grove",
+          "visualRead": [
+            "dominate the grove mass",
+            "frame the clearing",
+            "form the creek gateway"
+          ]
+        },
+        "population.distribution": {
+          "algorithm": "antikylabs.population.loose-clusters-v1",
+          "leave": [
+            "a broad opening aligned with the creek",
+            "gaps into misty deep forest"
+          ],
+          "preferredRegions": [
+            "region.blue-winter-grove.clearing"
+          ],
+          "spacingM": [
+            3.5,
+            7
+          ]
+        },
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.blue-winter-grove.roundedWinterTree",
+              "weight": 1
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            28,
+            42
+          ],
+          "samplingScope": "region"
+        },
+        "population.variation": {
+          "avoid": [
+            "grid spacing",
+            "duplicate neighbours"
+          ],
+          "stream": "population/population.blue-winter-grove.roundedGrove",
+          "vary": [
+            "cluster depth",
+            "tree age",
+            "crown shape",
+            "snow load"
+          ]
+        },
+        "style.forbiddenForms": {
+          "items": [
+            "grid spacing",
+            "duplicate neighbours"
+          ]
+        }
+      },
+      "id": "population.blue-winter-grove.roundedGrove",
+      "kind": "population",
+      "name": "Layered rounded-canopy grove",
+      "parent": "scene.blue-winter-grove"
+    },
+    "population.blue-winter-grove.travellingParty": {
+      "components": {
+        "composition.populationRole": {
+          "roles": [
+            "carry the player point of view",
+            "cross the clearing",
+            "follow the creek",
+            "study the landmark"
+          ]
+        },
+        "description.intent": {
+          "summary": "Player-controlled travelling party",
+          "visualRead": [
+            "carry the player point of view",
+            "cross the clearing",
+            "follow the creek",
+            "study the landmark"
+          ]
+        },
+        "population.distribution": {
+          "algorithm": "antikylabs.population.around-region-v1",
+          "preferredRegions": [
+            "region.blue-winter-grove.frozenCreek"
+          ]
+        },
+        "population.prototypeMix": {
+          "entries": [
+            {
+              "prototype": "prototype.blue-winter-grove.winterboundParty",
+              "weight": 1
+            }
+          ]
+        },
+        "population.quantity": {
+          "count": [
+            1,
+            1
+          ],
+          "samplingScope": "region"
+        }
+      },
+      "id": "population.blue-winter-grove.travellingParty",
+      "kind": "population",
+      "name": "Player-controlled travelling party",
+      "parent": "scene.blue-winter-grove"
+    },
+    "region.blue-winter-grove.clearing": {
+      "components": {
+        "composition.negativeSpace": {
+          "purpose": "give the player a strong first read; support orientation and unhurried movement"
+        },
+        "description.intent": {
+          "summary": "Sheltered powder-snow clearing",
+          "visualRead": [
+            "give the player a strong first read",
+            "support orientation and unhurried movement",
+            "broad irregular oval",
+            "an open powder field",
+            "a broken multi-species tree edge",
+            "a view toward the creek and deep forest"
+          ]
+        }
+      },
+      "id": "region.blue-winter-grove.clearing",
+      "kind": "region",
+      "name": "Sheltered powder-snow clearing",
+      "parent": "scene.blue-winter-grove"
+    },
+    "region.blue-winter-grove.frozenCreek": {
+      "components": {
+        "composition.negativeSpace": {
+          "purpose": "lead the party into the grove; give travel and inspection a shared route"
+        },
+        "description.intent": {
+          "summary": "Partly frozen shallow creek route",
+          "visualRead": [
+            "lead the party into the grove",
+            "give travel and inspection a shared route",
+            "gently winding shallow ribbon with stepped snow banks",
+            "clear water beneath thin ice",
+            "walkable powder beside the ice",
+            "an unobstructed route into the clearing"
+          ]
+        }
+      },
+      "id": "region.blue-winter-grove.frozenCreek",
+      "kind": "region",
+      "name": "Partly frozen shallow creek route",
+      "parent": "scene.blue-winter-grove"
+    },
+    "scene.blue-winter-grove": {
+      "components": {
+        "description.intent": {
+          "emotionalTargets": [
+            "quiet",
+            "cold",
+            "inviting",
+            "curious",
+            "slightly mysterious"
+          ],
+          "mustReadAtFirstGlance": [
+            "three distinct adventurers entering along a frozen creek",
+            "an open powder clearing held by rounded trees and sparse conifer spires",
+            "one ancient bent tree worth approaching"
+          ],
+          "mustRewardCloserInspection": [
+            "water beneath thin ice and powder along its banks",
+            "crowns assembled from branch-supported snow clusters",
+            "warm forked trunks, roots, frost grass, shrubs, and half-buried stones"
+          ],
+          "playerRead": "explore through movement, environmental reading, and close inspection rather than combat or collection",
+          "summary": "Guide three companions into a quiet winter grove where careful observation makes the place feel alive."
+        },
+        "style.forbiddenForms": {
+          "items": [
+            "photoreal detail",
+            "micro-voxel noise",
+            "3D characters",
+            "one repeated tree type",
+            "sharp full-frame focus",
+            "foxes",
+            "uniform crowns",
+            "obvious grids",
+            "flat snow sheets",
+            "opaque blue creek",
+            "unreadable bloom"
+          ]
+        },
+        "style.visualLanguage": {
+          "antiStyles": [
+            "photoreal detail",
+            "micro-voxel noise",
+            "3D characters",
+            "one repeated tree type",
+            "sharp full-frame focus"
+          ],
+          "density": "medium-high",
+          "primary": "soft high-key tilt-shift voxel miniature environment with production-quality flat HD-2D adventurers"
+        },
+        "validation.acceptance": {
+          "humanApprovalRequired": true,
+          "maximumBlockingFailures": 0,
+          "requiredSuites": [
+            "suite.schema",
+            "suite.semantic"
+          ]
+        },
+        "validation.metricTargets": {
+          "party-count": {
+            "max": 1,
+            "min": 1
+          },
+          "rounded-tree-count": {
+            "max": 42,
+            "min": 28
+          }
+        }
+      },
+      "id": "scene.blue-winter-grove",
+      "kind": "scene",
+      "name": "Blue Winter Grove"
+    }
+  },
+  "entityTree": {
+    "children": [
+      {
+        "entity": "region.blue-winter-grove.clearing"
+      },
+      {
+        "entity": "population.blue-winter-grove.coniferSpires"
+      },
+      {
+        "entity": "region.blue-winter-grove.frozenCreek"
+      },
+      {
+        "entity": "population.blue-winter-grove.landmarkTree"
+      },
+      {
+        "entity": "population.blue-winter-grove.roundedGrove"
+      },
+      {
+        "entity": "population.blue-winter-grove.travellingParty"
+      }
+    ],
+    "entity": "scene.blue-winter-grove"
+  },
+  "imports": [
+    {
+      "id": "antikylabs.core-component-catalog",
+      "optional": false,
+      "uri": "https://antikylabs.dev/schemas/component-catalog.json",
+      "version": "0.1.0"
+    }
+  ],
+  "outputs": {
+    "canonicalContract": "resolved-contract.json",
+    "profilePolicyHash": "59efc22b8debe6eab11cedda6cb4c07421e72cc1db4b3f9ff7fbfe330350af47",
+    "requiredRenderPasses": [
+      "beauty",
+      "albedo",
+      "normal",
+      "depth",
+      "object-id",
+      "material-id",
+      "snow-coverage"
+    ]
+  },
+  "relationships": [
+    {
+      "description": "Semantic frames relationship.",
+      "id": "rel.blue-winter-grove.frames.coniferSpires.clearing",
+      "required": true,
+      "rule": {
+        "avoid": "an even skyline",
+        "coverage": "sparse background punctuation"
+      },
+      "source": "population.blue-winter-grove.coniferSpires",
+      "target": "region.blue-winter-grove.clearing",
+      "type": "composition.frames"
+    },
+    {
+      "description": "Semantic frames relationship.",
+      "id": "rel.blue-winter-grove.frames.landmarkTree.clearing",
+      "required": true,
+      "rule": {
+        "coverage": "one memorable edge anchor",
+        "opening": "the low arch remains visible and approachable"
+      },
+      "source": "population.blue-winter-grove.landmarkTree",
+      "target": "region.blue-winter-grove.clearing",
+      "type": "composition.frames"
+    },
+    {
+      "description": "Semantic frames relationship.",
+      "id": "rel.blue-winter-grove.frames.roundedGrove.clearing",
+      "required": true,
+      "rule": {
+        "avoid": "a continuous tree wall",
+        "coverage": "most of the edge",
+        "opening": "aligned with the creek"
+      },
+      "source": "population.blue-winter-grove.roundedGrove",
+      "target": "region.blue-winter-grove.clearing",
+      "type": "composition.frames"
+    }
+  ],
+  "schemaVersion": "0.2.0",
+  "systems": [
+    {
+      "dependsOn": [],
+      "id": "system.resolve.contract",
+      "implementation": "antikylabs.contract.resolve",
+      "implementationVersion": "0.2.0",
+      "parameters": {
+        "applyDefaults": true,
+        "canonicalizeEntityOrder": true,
+        "normalizeUnits": true,
+        "resolvePrototypeInheritance": true
+      },
+      "phase": "resolve",
+      "produces": [
+        "dependency-graph.json",
+        "resolved-contract.json"
+      ],
+      "query": {
+        "allEntities": true
+      },
+      "reads": [
+        "definitions.prototypes",
+        "entities.*.components",
+        "imports",
+        "relationships"
+      ],
+      "writes": [
+        "derived.dependencyGraph",
+        "derived.resolvedComponent",
+        "derived.resolvedPrototype"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.resolve.contract"
+      ],
+      "id": "system.layout.region-masks",
+      "implementation": "antikylabs.layout.region-mask-rasterizer",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "distanceFieldMaxM": 20,
+        "resolutionVoxelsPerMeter": 10
+      },
+      "phase": "layout",
+      "produces": [
+        "region-distance-fields",
+        "region-mask-volume"
+      ],
+      "query": {
+        "anyComponents": [
+          "layout.regionMask",
+          "layout.clearance"
+        ]
+      },
+      "randomStream": "layout.region-masks",
+      "reads": [
+        "core.bounds",
+        "layout.clearance",
+        "layout.regionMask"
+      ],
+      "writes": [
+        "derived.distanceField",
+        "derived.regionMaskVolume"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.layout.region-masks"
+      ],
+      "id": "system.population.semantic-layout",
+      "implementation": "antikylabs.population.semantic-layout",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "preserveStableInstanceIds": true
+      },
+      "phase": "population",
+      "produces": [
+        "population-instance-set"
+      ],
+      "query": {
+        "kind": "population"
+      },
+      "randomStream": "population/<population-id>",
+      "reads": [
+        "composition.populationRole",
+        "derived.regionMaskVolume",
+        "population.distribution",
+        "population.prototypeMix",
+        "population.quantity",
+        "population.variation",
+        "relationships:composition.*"
+      ],
+      "writes": [
+        "derived.instanceTransform",
+        "derived.populationInstance",
+        "derived.prototypeBinding"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.population.semantic-layout"
+      ],
+      "id": "system.synthesis.semantic-prototypes",
+      "implementation": "antikylabs.synthesis.semantic-prototype-dispatch",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "preserveSemanticDependencyGraph": true
+      },
+      "phase": "synthesis",
+      "produces": [
+        "asset-metrics",
+        "prototype-artifacts"
+      ],
+      "query": {
+        "kind": "prototype"
+      },
+      "randomStream": "asset/<derived-instance-id>/<purpose-key>",
+      "reads": [
+        "definitions.prototypes",
+        "derived.instanceTransform",
+        "derived.prototypeBinding",
+        "variation.parameters"
+      ],
+      "writes": [
+        "derived.assetMetrics",
+        "derived.prototypeArtifact"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.synthesis.semantic-prototypes"
+      ],
+      "id": "system.render.acceptance-views",
+      "implementation": "antikylabs.render.acceptance-suite",
+      "implementationVersion": "0.3.0",
+      "parameters": {
+        "beautyRendererProfile": "voxel-diorama-quality",
+        "diagnosticRendererProfile": "deterministic-unlit-data-passes",
+        "disableTemporalNoiseForValidation": true
+      },
+      "phase": "render",
+      "produces": [
+        "acceptance-renders",
+        "diagnostic-passes",
+        "object-id-lookup"
+      ],
+      "query": {
+        "tagsAny": [
+          "camera",
+          "acceptance"
+        ]
+      },
+      "reads": [
+        "derived.*",
+        "render.camera",
+        "render.outputPasses"
+      ],
+      "writes": [
+        "artifact.render",
+        "artifact.renderMetadata"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.render.acceptance-views"
+      ],
+      "id": "system.validate.contract-and-structure",
+      "implementation": "antikylabs.validation.contract-structural-suite",
+      "implementationVersion": "0.3.0",
+      "parameters": {
+        "failFastOnSchema": true,
+        "humanReviewRequired": true,
+        "includeEntityAndComponentProvenance": true
+      },
+      "phase": "validate",
+      "produces": [
+        "metric-series",
+        "structural-validation-report"
+      ],
+      "query": {
+        "allValidationSuites": true
+      },
+      "reads": [
+        "derived.*",
+        "entities",
+        "relationships",
+        "systems",
+        "validation.suites"
+      ],
+      "writes": [
+        "artifact.metricSeries",
+        "artifact.validationReport"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.validate.contract-and-structure"
+      ],
+      "id": "system.publish.resolved-contract",
+      "implementation": "antikylabs.publish.resolved-contract",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "includeSeedManifest": true,
+        "publishOnlyWhenValidationPasses": true
+      },
+      "phase": "publish",
+      "produces": [
+        "provenance-map",
+        "resolved-contract"
+      ],
+      "query": {
+        "contractKind": "generative-scene"
+      },
+      "reads": [
+        "artifact.validationReport",
+        "contract",
+        "derived.*"
+      ],
+      "writes": [
+        "artifact.provenanceMap",
+        "artifact.resolvedContract"
+      ]
+    }
+  ],
+  "validation": {
+    "acceptanceViews": [],
+    "humanReview": [
+      {
+        "id": "review.semantic.1",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Can a player explain who the three companions are and why each one examines the world differently?",
+        "semanticPath": "$.acceptance.review[0]"
+      },
+      {
+        "id": "review.semantic.2",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Do shared crown and trunk definitions create a consistent tree family without duplicate silhouettes?",
+        "semanticPath": "$.acceptance.review[1]"
+      },
+      {
+        "id": "review.semantic.3",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Does the creek invite movement while the landmark rewards leaving the direct route?",
+        "semanticPath": "$.acceptance.review[2]"
+      },
+      {
+        "id": "review.semantic.4",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Can every important visual decision be traced to a tagged reference image?",
+        "semanticPath": "$.acceptance.review[3]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.required.1",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this required outcome present: the party stays readable but subordinate to the place",
+        "semanticPath": "$.rules.must[0]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.required.2",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this required outcome present: each adventurer keeps a distinct role, silhouette, and reason to inspect the world",
+        "semanticPath": "$.rules.must[1]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.required.3",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this required outcome present: rounded trees dominate while spires punctuate and the bent tree anchors",
+        "semanticPath": "$.rules.must[2]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.required.4",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this required outcome present: powder, water, and thin ice remain visibly distinct",
+        "semanticPath": "$.rules.must[3]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.forbidden.1",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this forbidden outcome absent: foxes",
+        "semanticPath": "$.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.forbidden.2",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this forbidden outcome absent: uniform crowns",
+        "semanticPath": "$.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.forbidden.3",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this forbidden outcome absent: obvious grids",
+        "semanticPath": "$.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.forbidden.4",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this forbidden outcome absent: flat snow sheets",
+        "semanticPath": "$.rules.avoid[3]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.forbidden.5",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this forbidden outcome absent: opaque blue creek",
+        "semanticPath": "$.rules.avoid[4]"
+      },
+      {
+        "id": "review.rule.scene.blue-winter-grove.forbidden.6",
+        "ownerId": "scene.blue-winter-grove",
+        "question": "Is this forbidden outcome absent: unreadable bloom",
+        "semanticPath": "$.rules.avoid[5]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.character.required.1",
+        "ownerId": "prototype.blue-winter-grove.character",
+        "question": "Is this required outcome present: remain readable at the scene camera distance",
+        "semanticPath": "$.definitions.character.rules.must[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.character.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.character",
+        "question": "Is this forbidden outcome absent: 3D or voxel anatomy",
+        "semanticPath": "$.definitions.character.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.character.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.character",
+        "question": "Is this forbidden outcome absent: placeholder sprite treatment",
+        "semanticPath": "$.definitions.character.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.character.forbidden.3",
+        "ownerId": "prototype.blue-winter-grove.character",
+        "question": "Is this forbidden outcome absent: oversized weapons or heads",
+        "semanticPath": "$.definitions.character.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.creekWater.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.creekWater",
+        "question": "Is this forbidden outcome absent: opaque blue ribbon",
+        "semanticPath": "$.definitions.creekWater.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.creekWater.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.creekWater",
+        "question": "Is this forbidden outcome absent: dramatic rapids",
+        "semanticPath": "$.definitions.creekWater.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.creekWater.forbidden.3",
+        "ownerId": "prototype.blue-winter-grove.creekWater",
+        "question": "Is this forbidden outcome absent: realistic fluid noise",
+        "semanticPath": "$.definitions.creekWater.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+        "question": "Is this forbidden outcome absent: continuous lawn",
+        "semanticPath": "$.definitions.forestFloorDetails.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+        "question": "Is this forbidden outcome absent: decorative rows",
+        "semanticPath": "$.definitions.forestFloorDetails.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.3",
+        "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+        "question": "Is this forbidden outcome absent: floating stones",
+        "semanticPath": "$.definitions.forestFloorDetails.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.frostBentTrunk.required.1",
+        "ownerId": "prototype.blue-winter-grove.frostBentTrunk",
+        "question": "Is this required outcome present: form a recognizable approachable arch",
+        "semanticPath": "$.definitions.frostBentTrunk.rules.must[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.frostBentTrunk",
+        "question": "Is this forbidden outcome absent: upright symmetry",
+        "semanticPath": "$.definitions.frostBentTrunk.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.frostBentTrunk",
+        "question": "Is this forbidden outcome absent: thin sapling proportions",
+        "semanticPath": "$.definitions.frostBentTrunk.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+        "question": "Is this forbidden outcome absent: one smooth sphere",
+        "semanticPath": "$.definitions.roundedSnowCrown.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+        "question": "Is this forbidden outcome absent: uniform snow cap",
+        "semanticPath": "$.definitions.roundedSnowCrown.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.3",
+        "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+        "question": "Is this forbidden outcome absent: perfectly radial clusters",
+        "semanticPath": "$.definitions.roundedSnowCrown.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.spireSnowCrown",
+        "question": "Is this forbidden outcome absent: perfect cone",
+        "semanticPath": "$.definitions.spireSnowCrown.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.spireSnowCrown",
+        "question": "Is this forbidden outcome absent: stacked identical tiers",
+        "semanticPath": "$.definitions.spireSnowCrown.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.3",
+        "ownerId": "prototype.blue-winter-grove.spireSnowCrown",
+        "question": "Is this forbidden outcome absent: solid white silhouette",
+        "semanticPath": "$.definitions.spireSnowCrown.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+        "question": "Is this forbidden outcome absent: hidden trunk structure",
+        "semanticPath": "$.definitions.warmForkedTrunk.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+        "question": "Is this forbidden outcome absent: fissured photoreal bark",
+        "semanticPath": "$.definitions.warmForkedTrunk.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.3",
+        "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+        "question": "Is this forbidden outcome absent: thin unsupported crown stem",
+        "semanticPath": "$.definitions.warmForkedTrunk.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.winterSurfaces.required.1",
+        "ownerId": "prototype.blue-winter-grove.winterSurfaces",
+        "question": "Is this required outcome present: powder, water, and ice remain distinguishable at the play camera",
+        "semanticPath": "$.definitions.winterSurfaces.rules.must[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.winterTree.forbidden.1",
+        "ownerId": "prototype.blue-winter-grove.winterTree",
+        "question": "Is this forbidden outcome absent: smooth blobs",
+        "semanticPath": "$.definitions.winterTree.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.winterTree.forbidden.2",
+        "ownerId": "prototype.blue-winter-grove.winterTree",
+        "question": "Is this forbidden outcome absent: micro-voxel noise",
+        "semanticPath": "$.definitions.winterTree.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.prototype.blue-winter-grove.winterTree.forbidden.3",
+        "ownerId": "prototype.blue-winter-grove.winterTree",
+        "question": "Is this forbidden outcome absent: duplicate neighbouring silhouettes",
+        "semanticPath": "$.definitions.winterTree.rules.avoid[2]"
+      },
+      {
+        "id": "review.rule.region.blue-winter-grove.clearing.required.1",
+        "ownerId": "region.blue-winter-grove.clearing",
+        "question": "Is this required outcome present: an open powder field",
+        "semanticPath": "$.cast.clearing.keep[0]"
+      },
+      {
+        "id": "review.rule.region.blue-winter-grove.clearing.required.2",
+        "ownerId": "region.blue-winter-grove.clearing",
+        "question": "Is this required outcome present: a broken multi-species tree edge",
+        "semanticPath": "$.cast.clearing.keep[1]"
+      },
+      {
+        "id": "review.rule.region.blue-winter-grove.clearing.required.3",
+        "ownerId": "region.blue-winter-grove.clearing",
+        "question": "Is this required outcome present: a view toward the creek and deep forest",
+        "semanticPath": "$.cast.clearing.keep[2]"
+      },
+      {
+        "id": "review.rule.region.blue-winter-grove.frozenCreek.required.1",
+        "ownerId": "region.blue-winter-grove.frozenCreek",
+        "question": "Is this required outcome present: clear water beneath thin ice",
+        "semanticPath": "$.cast.frozenCreek.keep[0]"
+      },
+      {
+        "id": "review.rule.region.blue-winter-grove.frozenCreek.required.2",
+        "ownerId": "region.blue-winter-grove.frozenCreek",
+        "question": "Is this required outcome present: walkable powder beside the ice",
+        "semanticPath": "$.cast.frozenCreek.keep[1]"
+      },
+      {
+        "id": "review.rule.region.blue-winter-grove.frozenCreek.required.3",
+        "ownerId": "region.blue-winter-grove.frozenCreek",
+        "question": "Is this required outcome present: an unobstructed route into the clearing",
+        "semanticPath": "$.cast.frozenCreek.keep[2]"
+      }
+    ],
+    "promotionPolicy": {
+      "requireAllBlockingSuitesPass": true,
+      "requireDeterministicRerunMatch": true,
+      "requireHumanReview": true
+    },
+    "suites": {
+      "suite.schema": {
+        "blocking": true,
+        "id": "suite.schema",
+        "kind": "schema",
+        "rules": [
+          {
+            "assert": "json-schema-valid",
+            "id": "schema.top-level"
+          },
+          {
+            "assert": "ownership-complete-and-acyclic",
+            "id": "schema.ownership"
+          },
+          {
+            "assert": "all-contract-references-resolve",
+            "id": "schema.references"
+          },
+          {
+            "assert": "system-dependency-graph-is-acyclic",
+            "id": "schema.system-dag"
+          }
+        ]
+      },
+      "suite.semantic": {
+        "blocking": true,
+        "id": "suite.semantic",
+        "kind": "semantic",
+        "rules": [
+          {
+            "assert": "population-count-between-inclusive",
+            "id": "semantic.rounded-tree-count",
+            "selector": {
+              "sourceEntity": "population.blue-winter-grove.roundedGrove"
+            },
+            "semanticPath": "$.acceptance.checks[0]",
+            "value": [
+              28,
+              42
+            ]
+          },
+          {
+            "assert": "population-count-between-inclusive",
+            "id": "semantic.party-count",
+            "selector": {
+              "sourceEntity": "population.blue-winter-grove.travellingParty"
+            },
+            "semanticPath": "$.acceptance.checks[1]",
+            "value": [
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

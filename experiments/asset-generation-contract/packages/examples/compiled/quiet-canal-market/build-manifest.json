@@ -1,0 +1,149 @@
+{
+  "catalog": {
+    "id": "antikylabs.core-component-catalog",
+    "sha256": "107339a1e475ac399bf203a02a77f3a7b89cc454fd08e9259fbbd3b31aecadbb",
+    "version": "0.1.0"
+  },
+  "compiler": {
+    "id": "@antiky/contracts/compiler",
+    "version": "0.1.0"
+  },
+  "diagnostics": {
+    "errors": 0,
+    "info": 0,
+    "total": 0,
+    "warnings": 0
+  },
+  "inputs": {
+    "entry": "quiet-canal-market.contract.ts",
+    "referenceImages": [],
+    "semanticSha256": "f383889c7b3266039693cd326ec0f97dfb7580428e18dc18b5ab5e88cd60e509",
+    "sourceFiles": [
+      {
+        "path": "quiet-canal-market.contract.ts",
+        "sha256": "7c9653927ddf20790a02e8884f5e8b2145294993069ce3413be0122e147a5c19"
+      }
+    ]
+  },
+  "lowerers": [
+    {
+      "id": "scene-root",
+      "version": "0.1.0"
+    },
+    {
+      "id": "reference-image-use",
+      "version": "0.1.0"
+    },
+    {
+      "id": "experience-direction",
+      "version": "0.1.0"
+    },
+    {
+      "id": "visual-direction",
+      "version": "0.1.0"
+    },
+    {
+      "id": "gameplay-direction",
+      "version": "0.1.0"
+    },
+    {
+      "id": "thing-prototype",
+      "version": "0.1.0"
+    },
+    {
+      "id": "thing-specialization",
+      "version": "0.1.0"
+    },
+    {
+      "id": "thing-parts",
+      "version": "0.1.0"
+    },
+    {
+      "id": "region",
+      "version": "0.1.0"
+    },
+    {
+      "id": "region-features",
+      "version": "0.1.0"
+    },
+    {
+      "id": "population",
+      "version": "0.1.0"
+    },
+    {
+      "id": "composition-frames",
+      "version": "0.1.0"
+    },
+    {
+      "id": "acceptance",
+      "version": "0.1.0"
+    },
+    {
+      "id": "voxel-diorama-profile",
+      "version": "0.1.0"
+    }
+  ],
+  "outputHashes": {
+    "contract-index.json": "b2e108e96f6a3f0d5c8f2bdaed13ab47d0186648fdd02ec4d0afbb27d8afb2f4",
+    "contract.refs.ts": "f147e4eaeaca221fd8a830657475347759c968cfde38c0c8dfb21b4d8b714a4f",
+    "diagnostics.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "resolved-contract.json": "99ba3b2239794b986d0b17dab8f17520f1678cb1db79f03c79206fa68e2475b9"
+  },
+  "passes": [
+    {
+      "id": "load-and-serialization-guard",
+      "version": "0.1.0"
+    },
+    {
+      "id": "semantic-collection-and-scoped-identity",
+      "version": "0.1.0"
+    },
+    {
+      "id": "profile-expansion-and-conflict-analysis",
+      "version": "0.1.0"
+    },
+    {
+      "id": "semantic-lowering",
+      "version": "0.1.0"
+    },
+    {
+      "id": "technical-graph-resolution",
+      "version": "0.1.0"
+    },
+    {
+      "id": "schema-and-catalog-validation",
+      "version": "0.1.0"
+    },
+    {
+      "id": "canonicalization-and-hashing",
+      "version": "0.1.0"
+    },
+    {
+      "id": "emission",
+      "version": "0.1.0"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "voxel-diorama",
+      "selection": "explicit",
+      "sha256": "68e368a8074e960a403b233992cf272a0b15e6e46993e1bb125ef21389d54685",
+      "version": "0.1.0"
+    }
+  ],
+  "resolvedContractSha256": "99ba3b2239794b986d0b17dab8f17520f1678cb1db79f03c79206fa68e2475b9",
+  "schema": {
+    "id": "https://antikylabs.dev/schemas/generative-scene-contract.schema.json",
+    "sha256": "784caab1245cd7e6268cd3c5b00f13671b17188a7e498bf3d8ae43b6d910b58f",
+    "version": "0.2.0"
+  },
+  "systemOrder": [
+    "system.resolve.contract",
+    "system.layout.region-masks",
+    "system.population.semantic-layout",
+    "system.synthesis.semantic-prototypes",
+    "system.render.acceptance-views",
+    "system.validate.contract-and-structure",
+    "system.publish.resolved-contract"
+  ]
+}

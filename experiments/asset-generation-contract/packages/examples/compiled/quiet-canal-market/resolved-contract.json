@@ -1,0 +1,612 @@
+{
+  "$schema": "https://antikylabs.dev/schemas/generative-scene-contract.schema.json",
+  "contract": {
+    "id": "antikylabs.scene.quiet-canal-market",
+    "intent": "A fantasy canal town inspired by layered JRPG towns.",
+    "kind": "generative-scene",
+    "name": "Quiet Canal Market",
+    "provenance": {
+      "authoring": {
+        "referenceImages": [],
+        "semantic": {
+          "acceptance": {
+            "review": [
+              "Is shopfront density high?",
+              "Are empty facades absent?",
+              "Does the result avoid Minecraft style?",
+              "Does the result avoid generic German cottage style?"
+            ]
+          },
+          "cast": {
+            "canals": {
+              "kind": "region",
+              "name": "Canals",
+              "purpose": [
+                "primary streets"
+              ]
+            },
+            "dock": {
+              "kind": "region",
+              "name": "Dock district"
+            },
+            "market": {
+              "kind": "region",
+              "name": "Market district"
+            },
+            "residential": {
+              "kind": "region",
+              "name": "Residential district"
+            }
+          },
+          "composition": [],
+          "definitions": {},
+          "dependencies": [],
+          "experience": {
+            "closerLook": [
+              "architecture in stucco, brick, wood, and stone",
+              "window boxes, lanterns, cracked plaster, moss, and trim",
+              "cobblestones with size and height variation, cracks, and moss",
+              "boats, crates, barrels, awnings, signs, and plants"
+            ],
+            "fantasy": "A fantasy canal town inspired by layered JRPG towns.",
+            "firstRead": [
+              "canals that serve as the primary streets",
+              "arched stone bridges",
+              "market, residential, and dock districts"
+            ]
+          },
+          "key": "quiet-canal-market",
+          "kind": "scene",
+          "name": "Quiet Canal Market",
+          "profiles": [
+            {
+              "id": "voxel-diorama",
+              "version": "0.1.0"
+            }
+          ],
+          "rules": {
+            "avoid": [
+              "flat walls",
+              "cobblestone tiling",
+              "empty facades"
+            ],
+            "must": [
+              "facades have depth",
+              "cobblestone uses the source range 2–7 for size variation; the unit is unspecified",
+              "cobblestone height varies",
+              "cobblestone includes cracks and moss"
+            ]
+          },
+          "visual": {
+            "avoid": [
+              "Minecraft style",
+              "generic German cottage style"
+            ],
+            "language": "fantasy canal town inspired by layered JRPG towns"
+          }
+        }
+      },
+      "compiler": {
+        "id": "@antiky/contracts/compiler",
+        "version": "0.1.0"
+      },
+      "profiles": [
+        {
+          "id": "voxel-diorama",
+          "selection": "explicit",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    "revision": 1,
+    "status": "draft"
+  },
+  "coordinateSystem": {
+    "handedness": "right",
+    "horizontalAxes": [
+      "x",
+      "z"
+    ],
+    "originMeaning": "scene-bounds-center-at-terrain-reference",
+    "upAxis": "y",
+    "voxelSizeM": 0.1,
+    "worldUnit": "meter"
+  },
+  "definitions": {
+    "materials": {},
+    "palettes": {},
+    "profiles": {
+      "profile.voxel-diorama": {
+        "id": "profile.voxel-diorama",
+        "selection": "explicit",
+        "sourceProfile": "voxel-diorama",
+        "version": "0.1.0"
+      }
+    },
+    "prototypes": {}
+  },
+  "determinism": {
+    "rootSeed": "sha256:fc36e06a8b382e2d6345e3fa9fc58b6073193673d7517064bdcf2dd3b784cd3f",
+    "stableInputs": [
+      "root-seed",
+      "contract-id",
+      "entity-id",
+      "system-id",
+      "purpose-key"
+    ],
+    "streamPolicy": "sha256-hierarchical-v1",
+    "streams": {
+      "asset": "asset/<derived-instance-id>/<purpose-key>",
+      "layout": "layout/*",
+      "population": "population/<population-id>"
+    }
+  },
+  "entities": {
+    "region.quiet-canal-market.canals": {
+      "components": {
+        "composition.negativeSpace": {
+          "purpose": "primary streets"
+        },
+        "description.intent": {
+          "summary": "Canals",
+          "visualRead": [
+            "primary streets"
+          ]
+        }
+      },
+      "id": "region.quiet-canal-market.canals",
+      "kind": "region",
+      "name": "Canals",
+      "parent": "scene.quiet-canal-market"
+    },
+    "region.quiet-canal-market.dock": {
+      "components": {
+        "description.intent": {
+          "summary": "Dock district"
+        }
+      },
+      "id": "region.quiet-canal-market.dock",
+      "kind": "region",
+      "name": "Dock district",
+      "parent": "scene.quiet-canal-market"
+    },
+    "region.quiet-canal-market.market": {
+      "components": {
+        "description.intent": {
+          "summary": "Market district"
+        }
+      },
+      "id": "region.quiet-canal-market.market",
+      "kind": "region",
+      "name": "Market district",
+      "parent": "scene.quiet-canal-market"
+    },
+    "region.quiet-canal-market.residential": {
+      "components": {
+        "description.intent": {
+          "summary": "Residential district"
+        }
+      },
+      "id": "region.quiet-canal-market.residential",
+      "kind": "region",
+      "name": "Residential district",
+      "parent": "scene.quiet-canal-market"
+    },
+    "scene.quiet-canal-market": {
+      "components": {
+        "description.intent": {
+          "mustReadAtFirstGlance": [
+            "canals that serve as the primary streets",
+            "arched stone bridges",
+            "market, residential, and dock districts"
+          ],
+          "mustRewardCloserInspection": [
+            "architecture in stucco, brick, wood, and stone",
+            "window boxes, lanterns, cracked plaster, moss, and trim",
+            "cobblestones with size and height variation, cracks, and moss",
+            "boats, crates, barrels, awnings, signs, and plants"
+          ],
+          "summary": "A fantasy canal town inspired by layered JRPG towns."
+        },
+        "style.forbiddenForms": {
+          "items": [
+            "Minecraft style",
+            "generic German cottage style",
+            "flat walls",
+            "cobblestone tiling",
+            "empty facades"
+          ]
+        },
+        "style.visualLanguage": {
+          "antiStyles": [
+            "Minecraft style",
+            "generic German cottage style"
+          ],
+          "primary": "fantasy canal town inspired by layered JRPG towns"
+        },
+        "validation.acceptance": {
+          "humanApprovalRequired": true,
+          "maximumBlockingFailures": 0,
+          "requiredSuites": [
+            "suite.schema",
+            "suite.semantic"
+          ]
+        }
+      },
+      "id": "scene.quiet-canal-market",
+      "kind": "scene",
+      "name": "Quiet Canal Market"
+    }
+  },
+  "entityTree": {
+    "children": [
+      {
+        "entity": "region.quiet-canal-market.canals"
+      },
+      {
+        "entity": "region.quiet-canal-market.dock"
+      },
+      {
+        "entity": "region.quiet-canal-market.market"
+      },
+      {
+        "entity": "region.quiet-canal-market.residential"
+      }
+    ],
+    "entity": "scene.quiet-canal-market"
+  },
+  "imports": [
+    {
+      "id": "antikylabs.core-component-catalog",
+      "optional": false,
+      "uri": "https://antikylabs.dev/schemas/component-catalog.json",
+      "version": "0.1.0"
+    }
+  ],
+  "outputs": {
+    "canonicalContract": "resolved-contract.json",
+    "profilePolicyHash": "59efc22b8debe6eab11cedda6cb4c07421e72cc1db4b3f9ff7fbfe330350af47",
+    "requiredRenderPasses": [
+      "beauty",
+      "albedo",
+      "normal",
+      "depth",
+      "object-id",
+      "material-id",
+      "snow-coverage"
+    ]
+  },
+  "relationships": [],
+  "schemaVersion": "0.2.0",
+  "systems": [
+    {
+      "dependsOn": [],
+      "id": "system.resolve.contract",
+      "implementation": "antikylabs.contract.resolve",
+      "implementationVersion": "0.2.0",
+      "parameters": {
+        "applyDefaults": true,
+        "canonicalizeEntityOrder": true,
+        "normalizeUnits": true,
+        "resolvePrototypeInheritance": true
+      },
+      "phase": "resolve",
+      "produces": [
+        "dependency-graph.json",
+        "resolved-contract.json"
+      ],
+      "query": {
+        "allEntities": true
+      },
+      "reads": [
+        "definitions.prototypes",
+        "entities.*.components",
+        "imports",
+        "relationships"
+      ],
+      "writes": [
+        "derived.dependencyGraph",
+        "derived.resolvedComponent",
+        "derived.resolvedPrototype"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.resolve.contract"
+      ],
+      "id": "system.layout.region-masks",
+      "implementation": "antikylabs.layout.region-mask-rasterizer",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "distanceFieldMaxM": 20,
+        "resolutionVoxelsPerMeter": 10
+      },
+      "phase": "layout",
+      "produces": [
+        "region-distance-fields",
+        "region-mask-volume"
+      ],
+      "query": {
+        "anyComponents": [
+          "layout.regionMask",
+          "layout.clearance"
+        ]
+      },
+      "randomStream": "layout.region-masks",
+      "reads": [
+        "core.bounds",
+        "layout.clearance",
+        "layout.regionMask"
+      ],
+      "writes": [
+        "derived.distanceField",
+        "derived.regionMaskVolume"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.layout.region-masks"
+      ],
+      "id": "system.population.semantic-layout",
+      "implementation": "antikylabs.population.semantic-layout",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "preserveStableInstanceIds": true
+      },
+      "phase": "population",
+      "produces": [
+        "population-instance-set"
+      ],
+      "query": {
+        "kind": "population"
+      },
+      "randomStream": "population/<population-id>",
+      "reads": [
+        "composition.populationRole",
+        "derived.regionMaskVolume",
+        "population.distribution",
+        "population.prototypeMix",
+        "population.quantity",
+        "population.variation",
+        "relationships:composition.*"
+      ],
+      "writes": [
+        "derived.instanceTransform",
+        "derived.populationInstance",
+        "derived.prototypeBinding"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.population.semantic-layout"
+      ],
+      "id": "system.synthesis.semantic-prototypes",
+      "implementation": "antikylabs.synthesis.semantic-prototype-dispatch",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "preserveSemanticDependencyGraph": true
+      },
+      "phase": "synthesis",
+      "produces": [
+        "asset-metrics",
+        "prototype-artifacts"
+      ],
+      "query": {
+        "kind": "prototype"
+      },
+      "randomStream": "asset/<derived-instance-id>/<purpose-key>",
+      "reads": [
+        "definitions.prototypes",
+        "derived.instanceTransform",
+        "derived.prototypeBinding",
+        "variation.parameters"
+      ],
+      "writes": [
+        "derived.assetMetrics",
+        "derived.prototypeArtifact"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.synthesis.semantic-prototypes"
+      ],
+      "id": "system.render.acceptance-views",
+      "implementation": "antikylabs.render.acceptance-suite",
+      "implementationVersion": "0.3.0",
+      "parameters": {
+        "beautyRendererProfile": "voxel-diorama-quality",
+        "diagnosticRendererProfile": "deterministic-unlit-data-passes",
+        "disableTemporalNoiseForValidation": true
+      },
+      "phase": "render",
+      "produces": [
+        "acceptance-renders",
+        "diagnostic-passes",
+        "object-id-lookup"
+      ],
+      "query": {
+        "tagsAny": [
+          "camera",
+          "acceptance"
+        ]
+      },
+      "reads": [
+        "derived.*",
+        "render.camera",
+        "render.outputPasses"
+      ],
+      "writes": [
+        "artifact.render",
+        "artifact.renderMetadata"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.render.acceptance-views"
+      ],
+      "id": "system.validate.contract-and-structure",
+      "implementation": "antikylabs.validation.contract-structural-suite",
+      "implementationVersion": "0.3.0",
+      "parameters": {
+        "failFastOnSchema": true,
+        "humanReviewRequired": true,
+        "includeEntityAndComponentProvenance": true
+      },
+      "phase": "validate",
+      "produces": [
+        "metric-series",
+        "structural-validation-report"
+      ],
+      "query": {
+        "allValidationSuites": true
+      },
+      "reads": [
+        "derived.*",
+        "entities",
+        "relationships",
+        "systems",
+        "validation.suites"
+      ],
+      "writes": [
+        "artifact.metricSeries",
+        "artifact.validationReport"
+      ]
+    },
+    {
+      "dependsOn": [
+        "system.validate.contract-and-structure"
+      ],
+      "id": "system.publish.resolved-contract",
+      "implementation": "antikylabs.publish.resolved-contract",
+      "implementationVersion": "0.1.0",
+      "parameters": {
+        "includeSeedManifest": true,
+        "publishOnlyWhenValidationPasses": true
+      },
+      "phase": "publish",
+      "produces": [
+        "provenance-map",
+        "resolved-contract"
+      ],
+      "query": {
+        "contractKind": "generative-scene"
+      },
+      "reads": [
+        "artifact.validationReport",
+        "contract",
+        "derived.*"
+      ],
+      "writes": [
+        "artifact.provenanceMap",
+        "artifact.resolvedContract"
+      ]
+    }
+  ],
+  "validation": {
+    "acceptanceViews": [],
+    "humanReview": [
+      {
+        "id": "review.semantic.1",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is shopfront density high?",
+        "semanticPath": "$.acceptance.review[0]"
+      },
+      {
+        "id": "review.semantic.2",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Are empty facades absent?",
+        "semanticPath": "$.acceptance.review[1]"
+      },
+      {
+        "id": "review.semantic.3",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Does the result avoid Minecraft style?",
+        "semanticPath": "$.acceptance.review[2]"
+      },
+      {
+        "id": "review.semantic.4",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Does the result avoid generic German cottage style?",
+        "semanticPath": "$.acceptance.review[3]"
+      },
+      {
+        "id": "review.rule.scene.quiet-canal-market.required.1",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is this required outcome present: facades have depth",
+        "semanticPath": "$.rules.must[0]"
+      },
+      {
+        "id": "review.rule.scene.quiet-canal-market.required.2",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is this required outcome present: cobblestone uses the source range 2–7 for size variation; the unit is unspecified",
+        "semanticPath": "$.rules.must[1]"
+      },
+      {
+        "id": "review.rule.scene.quiet-canal-market.required.3",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is this required outcome present: cobblestone height varies",
+        "semanticPath": "$.rules.must[2]"
+      },
+      {
+        "id": "review.rule.scene.quiet-canal-market.required.4",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is this required outcome present: cobblestone includes cracks and moss",
+        "semanticPath": "$.rules.must[3]"
+      },
+      {
+        "id": "review.rule.scene.quiet-canal-market.forbidden.1",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is this forbidden outcome absent: flat walls",
+        "semanticPath": "$.rules.avoid[0]"
+      },
+      {
+        "id": "review.rule.scene.quiet-canal-market.forbidden.2",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is this forbidden outcome absent: cobblestone tiling",
+        "semanticPath": "$.rules.avoid[1]"
+      },
+      {
+        "id": "review.rule.scene.quiet-canal-market.forbidden.3",
+        "ownerId": "scene.quiet-canal-market",
+        "question": "Is this forbidden outcome absent: empty facades",
+        "semanticPath": "$.rules.avoid[2]"
+      }
+    ],
+    "promotionPolicy": {
+      "requireAllBlockingSuitesPass": true,
+      "requireDeterministicRerunMatch": true,
+      "requireHumanReview": true
+    },
+    "suites": {
+      "suite.schema": {
+        "blocking": true,
+        "id": "suite.schema",
+        "kind": "schema",
+        "rules": [
+          {
+            "assert": "json-schema-valid",
+            "id": "schema.top-level"
+          },
+          {
+            "assert": "ownership-complete-and-acyclic",
+            "id": "schema.ownership"
+          },
+          {
+            "assert": "all-contract-references-resolve",
+            "id": "schema.references"
+          },
+          {
+            "assert": "system-dependency-graph-is-acyclic",
+            "id": "schema.system-dag"
+          }
+        ]
+      },
+      "suite.semantic": {
+        "blocking": true,
+        "id": "suite.semantic",
+        "kind": "semantic",
+        "rules": []
+      }
+    }
+  }
+}

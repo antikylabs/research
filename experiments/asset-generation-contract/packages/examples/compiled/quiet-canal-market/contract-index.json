@@ -1,0 +1,1148 @@
+{
+  "byId": {
+    "profile.voxel-diorama": {
+      "kind": "profile",
+      "path": "$.definitions.profiles[\"profile.voxel-diorama\"]"
+    },
+    "region.quiet-canal-market.canals": {
+      "kind": "region",
+      "path": "$.entities[\"region.quiet-canal-market.canals\"]"
+    },
+    "region.quiet-canal-market.dock": {
+      "kind": "region",
+      "path": "$.entities[\"region.quiet-canal-market.dock\"]"
+    },
+    "region.quiet-canal-market.market": {
+      "kind": "region",
+      "path": "$.entities[\"region.quiet-canal-market.market\"]"
+    },
+    "region.quiet-canal-market.residential": {
+      "kind": "region",
+      "path": "$.entities[\"region.quiet-canal-market.residential\"]"
+    },
+    "scene.quiet-canal-market": {
+      "kind": "scene",
+      "path": "$.entities[\"scene.quiet-canal-market\"]"
+    },
+    "system.layout.region-masks": {
+      "kind": "system",
+      "path": "$.systems[1]"
+    },
+    "system.population.semantic-layout": {
+      "kind": "system",
+      "path": "$.systems[2]"
+    },
+    "system.publish.resolved-contract": {
+      "kind": "system",
+      "path": "$.systems[6]"
+    },
+    "system.render.acceptance-views": {
+      "kind": "system",
+      "path": "$.systems[4]"
+    },
+    "system.resolve.contract": {
+      "kind": "system",
+      "path": "$.systems[0]"
+    },
+    "system.synthesis.semantic-prototypes": {
+      "kind": "system",
+      "path": "$.systems[3]"
+    },
+    "system.validate.contract-and-structure": {
+      "kind": "system",
+      "path": "$.systems[5]"
+    }
+  },
+  "bySemanticPath": {
+    "$": [
+      "antikylabs.scene.quiet-canal-market",
+      "scene.quiet-canal-market",
+      "scene.quiet-canal-market#ownership",
+      "scene.quiet-canal-market#semantic-projection"
+    ],
+    "$.acceptance": [
+      "policy.validation-promotion",
+      "scene.quiet-canal-market#validation.acceptance",
+      "suite.semantic"
+    ],
+    "$.acceptance.review[0]": [
+      "review.semantic.1"
+    ],
+    "$.acceptance.review[1]": [
+      "review.semantic.2"
+    ],
+    "$.acceptance.review[2]": [
+      "review.semantic.3"
+    ],
+    "$.acceptance.review[3]": [
+      "review.semantic.4"
+    ],
+    "$.cast.canals": [
+      "region.quiet-canal-market.canals",
+      "region.quiet-canal-market.canals#ownership",
+      "scene.quiet-canal-market#semantic-projection"
+    ],
+    "$.cast.canals.name": [
+      "region.quiet-canal-market.canals#description.intent"
+    ],
+    "$.cast.canals.purpose": [
+      "region.quiet-canal-market.canals#composition.negativeSpace",
+      "region.quiet-canal-market.canals#description.intent"
+    ],
+    "$.cast.dock": [
+      "region.quiet-canal-market.dock",
+      "region.quiet-canal-market.dock#ownership",
+      "scene.quiet-canal-market#semantic-projection"
+    ],
+    "$.cast.dock.name": [
+      "region.quiet-canal-market.dock#description.intent"
+    ],
+    "$.cast.market": [
+      "region.quiet-canal-market.market",
+      "region.quiet-canal-market.market#ownership",
+      "scene.quiet-canal-market#semantic-projection"
+    ],
+    "$.cast.market.name": [
+      "region.quiet-canal-market.market#description.intent"
+    ],
+    "$.cast.residential": [
+      "region.quiet-canal-market.residential",
+      "region.quiet-canal-market.residential#ownership",
+      "scene.quiet-canal-market#semantic-projection"
+    ],
+    "$.cast.residential.name": [
+      "region.quiet-canal-market.residential#description.intent"
+    ],
+    "$.experience": [
+      "antikylabs.scene.quiet-canal-market",
+      "scene.quiet-canal-market#description.intent"
+    ],
+    "$.key": [
+      "policy.determinism"
+    ],
+    "$.name": [
+      "antikylabs.scene.quiet-canal-market"
+    ],
+    "$.profiles[0]": [
+      "policy.catalog-import",
+      "policy.coordinate-system",
+      "policy.determinism",
+      "policy.outputs",
+      "policy.validation-promotion",
+      "profile.voxel-diorama",
+      "scene.quiet-canal-market#validation.acceptance",
+      "suite.schema",
+      "suite.semantic",
+      "system.layout.region-masks",
+      "system.population.semantic-layout",
+      "system.publish.resolved-contract",
+      "system.render.acceptance-views",
+      "system.resolve.contract",
+      "system.synthesis.semantic-prototypes",
+      "system.validate.contract-and-structure"
+    ],
+    "$.rules.avoid": [
+      "scene.quiet-canal-market#style.forbiddenForms"
+    ],
+    "$.rules.avoid[0]": [
+      "review.rule.scene.quiet-canal-market.forbidden.1"
+    ],
+    "$.rules.avoid[1]": [
+      "review.rule.scene.quiet-canal-market.forbidden.2"
+    ],
+    "$.rules.avoid[2]": [
+      "review.rule.scene.quiet-canal-market.forbidden.3"
+    ],
+    "$.rules.must[0]": [
+      "review.rule.scene.quiet-canal-market.required.1"
+    ],
+    "$.rules.must[1]": [
+      "review.rule.scene.quiet-canal-market.required.2"
+    ],
+    "$.rules.must[2]": [
+      "review.rule.scene.quiet-canal-market.required.3"
+    ],
+    "$.rules.must[3]": [
+      "review.rule.scene.quiet-canal-market.required.4"
+    ],
+    "$.visual": [
+      "scene.quiet-canal-market#style.visualLanguage"
+    ],
+    "$.visual.avoid": [
+      "scene.quiet-canal-market#style.forbiddenForms"
+    ]
+  },
+  "childrenByParent": {
+    "scene.quiet-canal-market": [
+      "region.quiet-canal-market.canals",
+      "region.quiet-canal-market.dock",
+      "region.quiet-canal-market.market",
+      "region.quiet-canal-market.residential"
+    ]
+  },
+  "dependenciesBySourceId": {},
+  "dependentsByTargetId": {},
+  "derivationsByOutputId": {
+    "antikylabs.scene.quiet-canal-market": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "antikylabs.scene.quiet-canal-market",
+        "outputPath": "$.contract",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$",
+          "$.name",
+          "$.experience"
+        ]
+      }
+    ],
+    "policy.catalog-import": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.catalog-import",
+        "outputPath": "$.imports[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "policy.coordinate-system": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.coordinate-system",
+        "outputPath": "$.coordinateSystem",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "policy.determinism": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.determinism",
+        "outputPath": "$.determinism",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]",
+          "$.key"
+        ]
+      }
+    ],
+    "policy.outputs": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.outputs",
+        "outputPath": "$.outputs",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "policy.validation-promotion": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.validation-promotion",
+        "outputPath": "$.validation.promotionPolicy",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]",
+          "$.acceptance"
+        ]
+      }
+    ],
+    "profile.voxel-diorama": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "profile.voxel-diorama",
+        "outputPath": "$.definitions.profiles[\"profile.voxel-diorama\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.canals": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.canals",
+        "outputPath": "$.entities[\"region.quiet-canal-market.canals\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.canals"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.canals#composition.negativeSpace": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.canals#composition.negativeSpace",
+        "outputPath": "$.entities[\"region.quiet-canal-market.canals\"].components[\"composition.negativeSpace\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.canals.purpose"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.canals#description.intent": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.canals#description.intent",
+        "outputPath": "$.entities[\"region.quiet-canal-market.canals\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.canals.name",
+          "$.cast.canals.purpose"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.canals#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.canals#ownership",
+        "outputPath": "$.entityTree.children[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.canals"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.dock": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.dock",
+        "outputPath": "$.entities[\"region.quiet-canal-market.dock\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.dock"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.dock#description.intent": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.dock#description.intent",
+        "outputPath": "$.entities[\"region.quiet-canal-market.dock\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.dock.name"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.dock#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.dock#ownership",
+        "outputPath": "$.entityTree.children[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.dock"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.market": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.market",
+        "outputPath": "$.entities[\"region.quiet-canal-market.market\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.market"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.market#description.intent": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.market#description.intent",
+        "outputPath": "$.entities[\"region.quiet-canal-market.market\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.market.name"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.market#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.market#ownership",
+        "outputPath": "$.entityTree.children[2]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.market"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.residential": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.residential",
+        "outputPath": "$.entities[\"region.quiet-canal-market.residential\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.residential"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.residential#description.intent": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.residential#description.intent",
+        "outputPath": "$.entities[\"region.quiet-canal-market.residential\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.residential.name"
+        ]
+      }
+    ],
+    "region.quiet-canal-market.residential#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "region.quiet-canal-market.residential#ownership",
+        "outputPath": "$.entityTree.children[3]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.residential"
+        ]
+      }
+    ],
+    "review.rule.scene.quiet-canal-market.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.quiet-canal-market.forbidden.1",
+        "outputPath": "$.validation.humanReview[8]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.scene.quiet-canal-market.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.quiet-canal-market.forbidden.2",
+        "outputPath": "$.validation.humanReview[9]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.scene.quiet-canal-market.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.quiet-canal-market.forbidden.3",
+        "outputPath": "$.validation.humanReview[10]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.scene.quiet-canal-market.required.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.quiet-canal-market.required.1",
+        "outputPath": "$.validation.humanReview[4]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[0]"
+        ]
+      }
+    ],
+    "review.rule.scene.quiet-canal-market.required.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.quiet-canal-market.required.2",
+        "outputPath": "$.validation.humanReview[5]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[1]"
+        ]
+      }
+    ],
+    "review.rule.scene.quiet-canal-market.required.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.quiet-canal-market.required.3",
+        "outputPath": "$.validation.humanReview[6]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[2]"
+        ]
+      }
+    ],
+    "review.rule.scene.quiet-canal-market.required.4": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.quiet-canal-market.required.4",
+        "outputPath": "$.validation.humanReview[7]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[3]"
+        ]
+      }
+    ],
+    "review.semantic.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.1",
+        "outputPath": "$.validation.humanReview[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[0]"
+        ]
+      }
+    ],
+    "review.semantic.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.2",
+        "outputPath": "$.validation.humanReview[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[1]"
+        ]
+      }
+    ],
+    "review.semantic.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.3",
+        "outputPath": "$.validation.humanReview[2]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[2]"
+        ]
+      }
+    ],
+    "review.semantic.4": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.4",
+        "outputPath": "$.validation.humanReview[3]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[3]"
+        ]
+      }
+    ],
+    "scene.quiet-canal-market": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.quiet-canal-market",
+        "outputPath": "$.entities[\"scene.quiet-canal-market\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$"
+        ]
+      }
+    ],
+    "scene.quiet-canal-market#description.intent": [
+      {
+        "lowerer": {
+          "id": "experience-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.quiet-canal-market#description.intent",
+        "outputPath": "$.entities[\"scene.quiet-canal-market\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.experience"
+        ]
+      }
+    ],
+    "scene.quiet-canal-market#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.quiet-canal-market#ownership",
+        "outputPath": "$.entityTree",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$"
+        ]
+      }
+    ],
+    "scene.quiet-canal-market#semantic-projection": [
+      {
+        "lowerer": {
+          "id": "semantic-preservation",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.quiet-canal-market#semantic-projection",
+        "outputPath": "$.contract.provenance.authoring.semantic",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$",
+          "$.cast.canals",
+          "$.cast.dock",
+          "$.cast.market",
+          "$.cast.residential"
+        ]
+      }
+    ],
+    "scene.quiet-canal-market#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.quiet-canal-market#style.forbiddenForms",
+        "outputPath": "$.entities[\"scene.quiet-canal-market\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.visual.avoid",
+          "$.rules.avoid"
+        ]
+      }
+    ],
+    "scene.quiet-canal-market#style.visualLanguage": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.quiet-canal-market#style.visualLanguage",
+        "outputPath": "$.entities[\"scene.quiet-canal-market\"].components[\"style.visualLanguage\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.visual"
+        ]
+      }
+    ],
+    "scene.quiet-canal-market#validation.acceptance": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.quiet-canal-market#validation.acceptance",
+        "outputPath": "$.entities[\"scene.quiet-canal-market\"].components[\"validation.acceptance\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance",
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "suite.schema": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "suite.schema",
+        "outputPath": "$.validation.suites[\"suite.schema\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "suite.semantic": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "suite.semantic",
+        "outputPath": "$.validation.suites[\"suite.semantic\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]",
+          "$.acceptance"
+        ]
+      }
+    ],
+    "system.layout.region-masks": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.layout.region-masks",
+        "outputPath": "$.systems[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.population.semantic-layout": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.population.semantic-layout",
+        "outputPath": "$.systems[2]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.publish.resolved-contract": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.publish.resolved-contract",
+        "outputPath": "$.systems[6]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.render.acceptance-views": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.render.acceptance-views",
+        "outputPath": "$.systems[4]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.resolve.contract": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.resolve.contract",
+        "outputPath": "$.systems[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.synthesis.semantic-prototypes": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.synthesis.semantic-prototypes",
+        "outputPath": "$.systems[3]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.validate.contract-and-structure": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.validate.contract-and-structure",
+        "outputPath": "$.systems[5]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ]
+  },
+  "hashById": {
+    "profile.voxel-diorama": "96e655db04701b240f3c03d133db1e86c1b092470741840c2956956675eee025",
+    "region.quiet-canal-market.canals": "e920648552e7fba0144a34f80da6337854e25c41924b001862569f4a9bd79c24",
+    "region.quiet-canal-market.dock": "59ee24c51275d08b474ea17d0b3d877d8818217d7cd1b07dca60481fc8210001",
+    "region.quiet-canal-market.market": "a5bc5ca651e8c333e8e5dca792cc808a83968b7e201d9aeab8e468aa6fac4219",
+    "region.quiet-canal-market.residential": "b3d5101ef31aca262422b345bcb31deea6418811f27eb0d29075098332e95160",
+    "scene.quiet-canal-market": "01eb29fb3a7b8ad3bdd44c5a6714cf57e8980328e69cd69636abee048477f883",
+    "system.layout.region-masks": "8ad6435291a7a650277fdd93586359bbd2e991dbbbede1b23819487e922415b8",
+    "system.population.semantic-layout": "5f0896f738c888f195d24e7557552a1c7f734940d2f47a5d3d0d2fa67033a0af",
+    "system.publish.resolved-contract": "9757a1e616b84862d47e45facb5cf848f36baff116d18962d794a078452a3971",
+    "system.render.acceptance-views": "4abc17e71a166a4fbec396651e89220194e7074f30995ca88a6a8c132846cafe",
+    "system.resolve.contract": "dc51b1ed52c8f5b49a0359eacb69422ad1d3ab74615d3a83dde882eda3359605",
+    "system.synthesis.semantic-prototypes": "528555598a4b421ba7eaa206a92ea70d803acb726c8a7048221bc142afe137b9",
+    "system.validate.contract-and-structure": "1f735f0d11b718b82a1ab29d37e66a3f4d887f7ab0094221369d64669122dbb6"
+  },
+  "incomingRelationshipsById": {},
+  "outgoingRelationshipsById": {},
+  "prototypesByAncestor": {},
+  "referenceUsesByImageHash": {},
+  "systemsByReadType": {
+    "artifact.validationReport": [
+      "system.publish.resolved-contract"
+    ],
+    "composition.populationRole": [
+      "system.population.semantic-layout"
+    ],
+    "contract": [
+      "system.publish.resolved-contract"
+    ],
+    "core.bounds": [
+      "system.layout.region-masks"
+    ],
+    "definitions.prototypes": [
+      "system.resolve.contract",
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.*": [
+      "system.publish.resolved-contract",
+      "system.render.acceptance-views",
+      "system.validate.contract-and-structure"
+    ],
+    "derived.instanceTransform": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.prototypeBinding": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.regionMaskVolume": [
+      "system.population.semantic-layout"
+    ],
+    "entities": [
+      "system.validate.contract-and-structure"
+    ],
+    "entities.*.components": [
+      "system.resolve.contract"
+    ],
+    "imports": [
+      "system.resolve.contract"
+    ],
+    "layout.clearance": [
+      "system.layout.region-masks"
+    ],
+    "layout.regionMask": [
+      "system.layout.region-masks"
+    ],
+    "population.distribution": [
+      "system.population.semantic-layout"
+    ],
+    "population.prototypeMix": [
+      "system.population.semantic-layout"
+    ],
+    "population.quantity": [
+      "system.population.semantic-layout"
+    ],
+    "population.variation": [
+      "system.population.semantic-layout"
+    ],
+    "relationships": [
+      "system.resolve.contract",
+      "system.validate.contract-and-structure"
+    ],
+    "relationships:composition.*": [
+      "system.population.semantic-layout"
+    ],
+    "render.camera": [
+      "system.render.acceptance-views"
+    ],
+    "render.outputPasses": [
+      "system.render.acceptance-views"
+    ],
+    "systems": [
+      "system.validate.contract-and-structure"
+    ],
+    "validation.suites": [
+      "system.validate.contract-and-structure"
+    ],
+    "variation.parameters": [
+      "system.synthesis.semantic-prototypes"
+    ]
+  },
+  "systemsByWriteType": {
+    "artifact.metricSeries": [
+      "system.validate.contract-and-structure"
+    ],
+    "artifact.provenanceMap": [
+      "system.publish.resolved-contract"
+    ],
+    "artifact.render": [
+      "system.render.acceptance-views"
+    ],
+    "artifact.renderMetadata": [
+      "system.render.acceptance-views"
+    ],
+    "artifact.resolvedContract": [
+      "system.publish.resolved-contract"
+    ],
+    "artifact.validationReport": [
+      "system.validate.contract-and-structure"
+    ],
+    "derived.assetMetrics": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.dependencyGraph": [
+      "system.resolve.contract"
+    ],
+    "derived.distanceField": [
+      "system.layout.region-masks"
+    ],
+    "derived.instanceTransform": [
+      "system.population.semantic-layout"
+    ],
+    "derived.populationInstance": [
+      "system.population.semantic-layout"
+    ],
+    "derived.prototypeArtifact": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.prototypeBinding": [
+      "system.population.semantic-layout"
+    ],
+    "derived.regionMaskVolume": [
+      "system.layout.region-masks"
+    ],
+    "derived.resolvedComponent": [
+      "system.resolve.contract"
+    ],
+    "derived.resolvedPrototype": [
+      "system.resolve.contract"
+    ]
+  }
+}

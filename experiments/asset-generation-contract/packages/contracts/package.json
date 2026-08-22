@@ -1,0 +1,46 @@
+{
+  "name": "@antiky/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Declarative TypeScript scene contracts and deterministic technical ECS compilation.",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    "./catalog": {
+      "types": "./dist/catalog/index.d.ts",
+      "import": "./dist/catalog/index.js"
+    },
+    "./compiler": {
+      "types": "./dist/compiler/index.d.ts",
+      "import": "./dist/compiler/index.js"
+    },
+    "./dsl": {
+      "types": "./dist/dsl/index.d.ts",
+      "import": "./dist/dsl/index.js"
+    },
+    "./ir": {
+      "types": "./dist/ir/index.d.ts",
+      "import": "./dist/ir/index.js"
+    }
+  },
+  "bin": {
+    "antiky-contract": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "lint": "oxlint src test",
+    "test": "npm run build && vitest run",
+    "test:fixture-types": "tsc --project tsconfig.fixture.json --noEmit",
+    "test:types": "tsc --project tsconfig.types.json --noEmit",
+    "typecheck": "tsc --project tsconfig.json --noEmit && npm run test:types && npm run test:fixture-types"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "esbuild": "0.28.2"
+  }
+}

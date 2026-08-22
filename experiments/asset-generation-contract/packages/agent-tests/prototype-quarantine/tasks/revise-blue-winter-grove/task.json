@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "id": "revise-blue-winter-grove",
+  "title": "Revise Blue Winter Grove",
+  "summary": "Apply a four-part bounded revision while preserving the seeded contract graph and reference lineage.",
+  "entry": "src/blue-winter-grove/blue-winter-grove.contract.ts",
+  "allowedWrites": [
+    "src/blue-winter-grove/blue-winter-grove.contract.ts",
+    "src/blue-winter-grove/blue-winter-grove.layout.ts"
+  ],
+  "seeds": [
+    {
+      "source": "docs/usage-docs/reference/dsl.md",
+      "target": "guidance/reference/dsl.md",
+      "optional": false
+    },
+    {
+      "source": "docs/usage-docs/how-to/compile-and-validate.md",
+      "target": "guidance/how-to/compile-and-validate.md",
+      "optional": false
+    },
+    {
+      "source": "docs/usage-docs/how-to/organize-large-contracts.md",
+      "target": "guidance/how-to/organize-large-contracts.md",
+      "optional": false
+    },
+    {
+      "source": "packages/examples/src/blue-winter-grove",
+      "target": "src/blue-winter-grove",
+      "optional": false
+    }
+  ],
+  "assertions": {
+    "entityIds": [
+      "population.blue-winter-grove.coniferSpires",
+      "population.blue-winter-grove.landmarkTree",
+      "population.blue-winter-grove.roundedGrove",
+      "population.blue-winter-grove.travellingParty",
+      "region.blue-winter-grove.clearing",
+      "region.blue-winter-grove.frozenCreek",
+      "scene.blue-winter-grove"
+    ],
+    "prototypeIds": [
+      "prototype.blue-winter-grove.character",
+      "prototype.blue-winter-grove.creekWater",
+      "prototype.blue-winter-grove.forestFloorDetails",
+      "prototype.blue-winter-grove.frostBentLandmark",
+      "prototype.blue-winter-grove.frostBentTrunk",
+      "prototype.blue-winter-grove.powderSnow",
+      "prototype.blue-winter-grove.roundedSnowCrown",
+      "prototype.blue-winter-grove.roundedWinterTree",
+      "prototype.blue-winter-grove.scholar",
+      "prototype.blue-winter-grove.scout",
+      "prototype.blue-winter-grove.sheetIce",
+      "prototype.blue-winter-grove.spireConifer",
+      "prototype.blue-winter-grove.spireSnowCrown",
+      "prototype.blue-winter-grove.vanguard",
+      "prototype.blue-winter-grove.warmForkedTrunk",
+      "prototype.blue-winter-grove.winterSurfaces",
+      "prototype.blue-winter-grove.winterTree",
+      "prototype.blue-winter-grove.winterboundParty"
+    ],
+    "systemIds": [
+      "system.resolve.contract",
+      "system.layout.region-masks",
+      "system.population.semantic-layout",
+      "system.synthesis.semantic-prototypes",
+      "system.render.acceptance-views",
+      "system.validate.contract-and-structure",
+      "system.publish.resolved-contract"
+    ],
+    "relationships": [
+      {
+        "description": "Semantic frames relationship.",
+        "id": "rel.blue-winter-grove.frames.coniferSpires.clearing",
+        "required": true,
+        "rule": {
+          "avoid": "an even skyline",
+          "coverage": "sparse background punctuation"
+        },
+        "source": "population.blue-winter-grove.coniferSpires",
+        "target": "region.blue-winter-grove.clearing",
+        "type": "composition.frames"
+      },
+      {
+        "description": "Semantic frames relationship.",
+        "id": "rel.blue-winter-grove.frames.landmarkTree.clearing",
+        "required": true,
+        "rule": {
+          "coverage": "one memorable edge anchor",
+          "opening": "the low arch remains visible and approachable"
+        },
+        "source": "population.blue-winter-grove.landmarkTree",
+        "target": "region.blue-winter-grove.clearing",
+        "type": "composition.frames"
+      },
+      {
+        "description": "Semantic frames relationship.",
+        "id": "rel.blue-winter-grove.frames.roundedGrove.clearing",
+        "required": true,
+        "rule": {
+          "avoid": "a continuous tree wall",
+          "coverage": "most of the edge",
+          "opening": "aligned with the creek"
+        },
+        "source": "population.blue-winter-grove.roundedGrove",
+        "target": "region.blue-winter-grove.clearing",
+        "type": "composition.frames"
+      }
+    ],
+    "references": [
+      {
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "sha256": "af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6"
+      },
+      {
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "sha256": "2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+      },
+      {
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "sha256": "e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+      },
+      {
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "sha256": "d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+      }
+    ],
+    "resolvedValues": [
+      {
+        "id": "rounded-grove-population",
+        "path": "/entities/population.blue-winter-grove.roundedGrove/components/population.quantity/count",
+        "value": [32, 38]
+      },
+      {
+        "id": "rounded-grove-leave",
+        "path": "/entities/population.blue-winter-grove.roundedGrove/components/population.distribution/leave",
+        "value": [
+          "a broad opening aligned with the creek",
+          "gaps into misty deep forest",
+          "two clear sightlines from the creek into the grove"
+        ]
+      },
+      {
+        "id": "rounded-tree-acceptance",
+        "path": "/validation/suites/suite.semantic/rules/0/value",
+        "value": [32, 38]
+      },
+      {
+        "id": "rounded-tree-metric-target",
+        "path": "/entities/scene.blue-winter-grove/components/validation.metricTargets/rounded-tree-count",
+        "value": {
+          "max": 38,
+          "min": 32
+        }
+      },
+      {
+        "id": "existing-review-one",
+        "path": "/validation/humanReview/0/question",
+        "value": "Can a player explain who the three companions are and why each one examines the world differently?"
+      },
+      {
+        "id": "existing-review-two",
+        "path": "/validation/humanReview/1/question",
+        "value": "Do shared crown and trunk definitions create a consistent tree family without duplicate silhouettes?"
+      },
+      {
+        "id": "existing-review-three",
+        "path": "/validation/humanReview/2/question",
+        "value": "Does the creek invite movement while the landmark rewards leaving the direct route?"
+      },
+      {
+        "id": "existing-review-four",
+        "path": "/validation/humanReview/3/question",
+        "value": "Can every important visual decision be traced to a tagged reference image?"
+      },
+      {
+        "id": "sightline-review",
+        "path": "/validation/humanReview/4/question",
+        "value": "Do two clear sightlines carry the eye from the creek into the grove?"
+      }
+    ],
+    "arrayLengths": [
+      {
+        "id": "human-review-count",
+        "path": "/validation/humanReview",
+        "length": 47
+      }
+    ],
+    "forbiddenKeys": [],
+    "source": [
+      {
+        "id": "layout-range-once",
+        "file": "src/blue-winter-grove/blue-winter-grove.layout.ts",
+        "mode": "occurs",
+        "text": "between(32, 38)",
+        "count": 1
+      },
+      {
+        "id": "acceptance-range-once",
+        "file": "src/blue-winter-grove/blue-winter-grove.contract.ts",
+        "mode": "occurs",
+        "text": "between(32, 38)",
+        "count": 1
+      },
+      {
+        "id": "sightline-leave-text",
+        "file": "src/blue-winter-grove/blue-winter-grove.layout.ts",
+        "mode": "occurs",
+        "text": "two clear sightlines from the creek into the grove",
+        "count": 1
+      },
+      {
+        "id": "sightline-review-text",
+        "file": "src/blue-winter-grove/blue-winter-grove.contract.ts",
+        "mode": "occurs",
+        "text": "Do two clear sightlines carry the eye from the creek into the grove?",
+        "count": 1
+      },
+      {
+        "id": "old-range-removed-layout",
+        "file": "src/blue-winter-grove/blue-winter-grove.layout.ts",
+        "mode": "excludes",
+        "text": "between(28, 42)"
+      },
+      {
+        "id": "old-range-removed-contract",
+        "file": "src/blue-winter-grove/blue-winter-grove.contract.ts",
+        "mode": "excludes",
+        "text": "between(28, 42)"
+      }
+    ],
+    "baseline": {
+      "ignorePointers": [
+        "/contract/provenance/authoring/semantic/acceptance/review",
+        "/contract/provenance/authoring/semantic/acceptance/checks/0/expected",
+        "/contract/provenance/authoring/semantic/cast/roundedGrove/amount",
+        "/contract/provenance/authoring/semantic/cast/roundedGrove/placement/leave",
+        "/entities/population.blue-winter-grove.roundedGrove/components/population.distribution/leave",
+        "/entities/population.blue-winter-grove.roundedGrove/components/population.quantity/count",
+        "/entities/scene.blue-winter-grove/components/validation.metricTargets/rounded-tree-count",
+        "/validation/humanReview",
+        "/validation/suites/suite.semantic/rules/0/value"
+      ]
+    }
+  },
+  "rubric": [
+    {
+      "id": "bounded-correctness",
+      "title": "Bounded correctness",
+      "description": "The four requested edits are exact, coherent, and no broader redesign is introduced."
+    },
+    {
+      "id": "preservation",
+      "title": "Preservation",
+      "description": "Existing author intent, graph identity, relationships, and reference lineage remain intact."
+    },
+    {
+      "id": "source-clarity",
+      "title": "Source clarity",
+      "description": "The revised lines remain easy to locate and understand in their semantic modules."
+    },
+    {
+      "id": "change-discipline",
+      "title": "Change discipline",
+      "description": "The edit avoids unrelated formatting churn, generated artifacts, and technical workarounds."
+    }
+  ]
+}

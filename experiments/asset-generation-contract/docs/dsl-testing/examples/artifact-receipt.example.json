@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0-draft",
+  "id": "artifact-receipt.prototype.blue-winter-grove.oldGrowthWinterTree.seed-01847",
+  "requirementId": "artifact-requirement.prototype.blue-winter-grove.oldGrowthWinterTree.voxel-model",
+  "status": "satisfied",
+  "source": {
+    "contractId": "scene.blue-winter-grove",
+    "contractRevision": 1,
+    "semanticInputHash": "sha256:EXAMPLE_SEMANTIC_INPUT_HASH",
+    "resolvedContractHash": "sha256:EXAMPLE_RESOLVED_CONTRACT_HASH",
+    "contractSliceHash": "sha256:EXAMPLE_PROTOTYPE_SLICE_HASH"
+  },
+  "producer": {
+    "kind": "agent",
+    "agent": "codex",
+    "model": "EXAMPLE_MODEL_ID",
+    "implementation": "antikylabs.synthesis.tree-geometry",
+    "implementationVersion": "0.1.0",
+    "workItemId": "work-item.prototype.blue-winter-grove.oldGrowthWinterTree.voxel-model"
+  },
+  "artifacts": [
+    {
+      "role": "voxel-source",
+      "path": "generated/blue-winter-grove/assets/prototype.blue-winter-grove.oldGrowthWinterTree/winter-tree-01847/source.vox.json",
+      "sha256": "EXAMPLE_VOXEL_SOURCE_HASH",
+      "mediaType": "application/json"
+    },
+    {
+      "role": "asset-metrics",
+      "path": "generated/blue-winter-grove/assets/prototype.blue-winter-grove.oldGrowthWinterTree/winter-tree-01847/metrics.json",
+      "sha256": "EXAMPLE_METRICS_HASH",
+      "mediaType": "application/json"
+    },
+    {
+      "role": "acceptance-render",
+      "path": "generated/blue-winter-grove/assets/prototype.blue-winter-grove.oldGrowthWinterTree/winter-tree-01847/preview.png",
+      "sha256": "EXAMPLE_RENDER_HASH",
+      "mediaType": "image/png"
+    }
+  ],
+  "validation": {
+    "result": "pass",
+    "blockingFailures": 0,
+    "warnings": 1,
+    "reports": [
+      "generated/blue-winter-grove/assets/prototype.blue-winter-grove.oldGrowthWinterTree/winter-tree-01847/validation.json"
+    ],
+    "checks": [
+      {
+        "id": "tree.minimum-height",
+        "result": "pass",
+        "observed": 151
+      },
+      {
+        "id": "tree.readable-structure",
+        "result": "pass"
+      },
+      {
+        "id": "tree.forbidden-forms",
+        "result": "pass"
+      }
+    ]
+  },
+  "trace": {
+    "generatedFrom": [
+      "prototype.blue-winter-grove.oldGrowthWinterTree"
+    ],
+    "semanticSources": [
+      "$.definitions.oldGrowthWinterTree"
+    ],
+    "producedBy": [
+      "system.synthesis.tree-geometry"
+    ],
+    "validates": [
+      "prototype.blue-winter-grove.oldGrowthWinterTree"
+    ]
+  },
+  "notes": "All EXAMPLE_* values are placeholders illustrating the receipt shape."
+}

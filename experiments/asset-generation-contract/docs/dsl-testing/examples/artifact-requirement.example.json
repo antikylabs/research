@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0-draft",
+  "id": "artifact-requirement.prototype.blue-winter-grove.oldGrowthWinterTree.voxel-model",
+  "kind": "voxel-model",
+  "title": "Generate the old-growth winter-tree family prototype",
+  "status": "ready",
+  "statusReasons": [
+    "No current artifact receipt satisfies this requirement and source hash.",
+    "Dependencies are satisfied and the required producer capability is available."
+  ],
+  "contractRefs": [
+    "prototype.blue-winter-grove.oldGrowthWinterTree"
+  ],
+  "semanticSources": [
+    "$.definitions.oldGrowthWinterTree",
+    "$.cast.winterGrove.of"
+  ],
+  "source": {
+    "contractId": "scene.blue-winter-grove",
+    "contractRevision": 1,
+    "semanticInputHash": "sha256:EXAMPLE_SEMANTIC_INPUT_HASH",
+    "resolvedContractHash": "sha256:EXAMPLE_RESOLVED_CONTRACT_HASH",
+    "contractSliceHash": "sha256:EXAMPLE_PROTOTYPE_SLICE_HASH",
+    "profiles": [
+      {
+        "id": "antikylabs.profile.voxel-diorama",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "producer": {
+    "capability": "antikylabs.synthesis.tree-geometry",
+    "implementationVersion": "0.1.0",
+    "requiredTooling": [
+      "Antiky voxel asset writer",
+      "Antiky structural validator"
+    ]
+  },
+  "inputs": {
+    "prototype": "prototype.blue-winter-grove.oldGrowthWinterTree",
+    "heightM": [
+      9,
+      18
+    ],
+    "seedStream": "asset/<derived-instance-id>/tree-geometry",
+    "identity": [
+      "rounded snow-heavy crowns punctuated by occasional conifer spires",
+      "dark ochre trunks with readable forks, root flares, and canopy gaps"
+    ],
+    "preserve": [
+      "mature scale",
+      "visible structure",
+      "family resemblance"
+    ],
+    "avoid": [
+      "cone-only crowns",
+      "perfect symmetry",
+      "smooth snow blobs"
+    ]
+  },
+  "dependsOn": [],
+  "expectedArtifacts": [
+    {
+      "role": "voxel-source",
+      "pathPattern": "generated/blue-winter-grove/assets/prototype.blue-winter-grove.oldGrowthWinterTree/*/source.vox.json",
+      "required": true
+    },
+    {
+      "role": "asset-metrics",
+      "pathPattern": "generated/blue-winter-grove/assets/prototype.blue-winter-grove.oldGrowthWinterTree/*/metrics.json",
+      "required": true
+    },
+    {
+      "role": "acceptance-render",
+      "pathPattern": "generated/blue-winter-grove/assets/prototype.blue-winter-grove.oldGrowthWinterTree/*/preview.png",
+      "required": false
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "tree.minimum-height",
+      "kind": "metric",
+      "metric": "voxelHeight",
+      "operator": "greaterThanOrEqual",
+      "value": 90,
+      "blocking": true,
+      "derivedFrom": "$.definitions.oldGrowthWinterTree.shape.height"
+    },
+    {
+      "id": "tree.readable-structure",
+      "kind": "validator",
+      "validator": "antikylabs.validate.tree-readable-structure",
+      "blocking": true,
+      "derivedFrom": "$.definitions.oldGrowthWinterTree.identity"
+    },
+    {
+      "id": "tree.forbidden-forms",
+      "kind": "validator",
+      "validator": "antikylabs.validate.tree-forbidden-forms",
+      "blocking": true,
+      "derivedFrom": "$.definitions.oldGrowthWinterTree.avoid"
+    }
+  ],
+  "trace": {
+    "generatedFrom": [
+      "prototype.blue-winter-grove.oldGrowthWinterTree"
+    ],
+    "semanticSources": [
+      "$.definitions.oldGrowthWinterTree"
+    ],
+    "relatesTo": [
+      "population.blue-winter-grove.winterGrove"
+    ]
+  }
+}

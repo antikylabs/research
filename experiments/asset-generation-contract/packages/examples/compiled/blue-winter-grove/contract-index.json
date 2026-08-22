@@ -1,0 +1,5086 @@
+{
+  "byId": {
+    "population.blue-winter-grove.coniferSpires": {
+      "kind": "population",
+      "path": "$.entities[\"population.blue-winter-grove.coniferSpires\"]"
+    },
+    "population.blue-winter-grove.landmarkTree": {
+      "kind": "population",
+      "path": "$.entities[\"population.blue-winter-grove.landmarkTree\"]"
+    },
+    "population.blue-winter-grove.roundedGrove": {
+      "kind": "population",
+      "path": "$.entities[\"population.blue-winter-grove.roundedGrove\"]"
+    },
+    "population.blue-winter-grove.travellingParty": {
+      "kind": "population",
+      "path": "$.entities[\"population.blue-winter-grove.travellingParty\"]"
+    },
+    "profile.voxel-diorama": {
+      "kind": "profile",
+      "path": "$.definitions.profiles[\"profile.voxel-diorama\"]"
+    },
+    "prototype.blue-winter-grove.character": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.character\"]"
+    },
+    "prototype.blue-winter-grove.creekWater": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.creekWater\"]"
+    },
+    "prototype.blue-winter-grove.forestFloorDetails": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.forestFloorDetails\"]"
+    },
+    "prototype.blue-winter-grove.frostBentLandmark": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentLandmark\"]"
+    },
+    "prototype.blue-winter-grove.frostBentTrunk": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentTrunk\"]"
+    },
+    "prototype.blue-winter-grove.powderSnow": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.powderSnow\"]"
+    },
+    "prototype.blue-winter-grove.roundedSnowCrown": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedSnowCrown\"]"
+    },
+    "prototype.blue-winter-grove.roundedWinterTree": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedWinterTree\"]"
+    },
+    "prototype.blue-winter-grove.scholar": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.scholar\"]"
+    },
+    "prototype.blue-winter-grove.scout": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.scout\"]"
+    },
+    "prototype.blue-winter-grove.sheetIce": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.sheetIce\"]"
+    },
+    "prototype.blue-winter-grove.spireConifer": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireConifer\"]"
+    },
+    "prototype.blue-winter-grove.spireSnowCrown": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireSnowCrown\"]"
+    },
+    "prototype.blue-winter-grove.vanguard": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.vanguard\"]"
+    },
+    "prototype.blue-winter-grove.warmForkedTrunk": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.warmForkedTrunk\"]"
+    },
+    "prototype.blue-winter-grove.winterSurfaces": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterSurfaces\"]"
+    },
+    "prototype.blue-winter-grove.winterTree": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterTree\"]"
+    },
+    "prototype.blue-winter-grove.winterboundParty": {
+      "kind": "prototype",
+      "path": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterboundParty\"]"
+    },
+    "region.blue-winter-grove.clearing": {
+      "kind": "region",
+      "path": "$.entities[\"region.blue-winter-grove.clearing\"]"
+    },
+    "region.blue-winter-grove.frozenCreek": {
+      "kind": "region",
+      "path": "$.entities[\"region.blue-winter-grove.frozenCreek\"]"
+    },
+    "rel.blue-winter-grove.frames.coniferSpires.clearing": {
+      "kind": "relationship",
+      "path": "$.relationships[0]"
+    },
+    "rel.blue-winter-grove.frames.landmarkTree.clearing": {
+      "kind": "relationship",
+      "path": "$.relationships[1]"
+    },
+    "rel.blue-winter-grove.frames.roundedGrove.clearing": {
+      "kind": "relationship",
+      "path": "$.relationships[2]"
+    },
+    "scene.blue-winter-grove": {
+      "kind": "scene",
+      "path": "$.entities[\"scene.blue-winter-grove\"]"
+    },
+    "system.layout.region-masks": {
+      "kind": "system",
+      "path": "$.systems[1]"
+    },
+    "system.population.semantic-layout": {
+      "kind": "system",
+      "path": "$.systems[2]"
+    },
+    "system.publish.resolved-contract": {
+      "kind": "system",
+      "path": "$.systems[6]"
+    },
+    "system.render.acceptance-views": {
+      "kind": "system",
+      "path": "$.systems[4]"
+    },
+    "system.resolve.contract": {
+      "kind": "system",
+      "path": "$.systems[0]"
+    },
+    "system.synthesis.semantic-prototypes": {
+      "kind": "system",
+      "path": "$.systems[3]"
+    },
+    "system.validate.contract-and-structure": {
+      "kind": "system",
+      "path": "$.systems[5]"
+    }
+  },
+  "bySemanticPath": {
+    "$": [
+      "antikylabs.scene.blue-winter-grove",
+      "scene.blue-winter-grove",
+      "scene.blue-winter-grove#ownership",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.acceptance": [
+      "policy.validation-promotion",
+      "scene.blue-winter-grove#validation.acceptance",
+      "suite.semantic"
+    ],
+    "$.acceptance.checks": [
+      "scene.blue-winter-grove#validation.metricTargets"
+    ],
+    "$.acceptance.checks[0]": [
+      "semantic.rounded-tree-count"
+    ],
+    "$.acceptance.checks[1]": [
+      "semantic.party-count"
+    ],
+    "$.acceptance.review[0]": [
+      "review.semantic.1"
+    ],
+    "$.acceptance.review[1]": [
+      "review.semantic.2"
+    ],
+    "$.acceptance.review[2]": [
+      "review.semantic.3"
+    ],
+    "$.acceptance.review[3]": [
+      "review.semantic.4"
+    ],
+    "$.cast.clearing": [
+      "region.blue-winter-grove.clearing",
+      "region.blue-winter-grove.clearing#ownership",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.cast.clearing.keep[0]": [
+      "review.rule.region.blue-winter-grove.clearing.required.1"
+    ],
+    "$.cast.clearing.keep[1]": [
+      "review.rule.region.blue-winter-grove.clearing.required.2"
+    ],
+    "$.cast.clearing.keep[2]": [
+      "review.rule.region.blue-winter-grove.clearing.required.3"
+    ],
+    "$.cast.clearing.name": [
+      "region.blue-winter-grove.clearing#description.intent"
+    ],
+    "$.cast.clearing.purpose": [
+      "region.blue-winter-grove.clearing#composition.negativeSpace",
+      "region.blue-winter-grove.clearing#description.intent"
+    ],
+    "$.cast.clearing.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.cast.coniferSpires": [
+      "population.blue-winter-grove.coniferSpires",
+      "population.blue-winter-grove.coniferSpires#ownership",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.cast.coniferSpires.amount": [
+      "population.blue-winter-grove.coniferSpires#population.quantity"
+    ],
+    "$.cast.coniferSpires.name": [
+      "population.blue-winter-grove.coniferSpires#description.intent"
+    ],
+    "$.cast.coniferSpires.of": [
+      "population.blue-winter-grove.coniferSpires#population.prototypeMix"
+    ],
+    "$.cast.coniferSpires.placement": [
+      "population.blue-winter-grove.coniferSpires#population.distribution"
+    ],
+    "$.cast.coniferSpires.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.cast.coniferSpires.role": [
+      "population.blue-winter-grove.coniferSpires#composition.populationRole"
+    ],
+    "$.cast.coniferSpires.variation": [
+      "population.blue-winter-grove.coniferSpires#population.variation"
+    ],
+    "$.cast.coniferSpires.variation.avoid": [
+      "population.blue-winter-grove.coniferSpires#style.forbiddenForms"
+    ],
+    "$.cast.frozenCreek": [
+      "region.blue-winter-grove.frozenCreek",
+      "region.blue-winter-grove.frozenCreek#ownership",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.cast.frozenCreek.keep[0]": [
+      "review.rule.region.blue-winter-grove.frozenCreek.required.1"
+    ],
+    "$.cast.frozenCreek.keep[1]": [
+      "review.rule.region.blue-winter-grove.frozenCreek.required.2"
+    ],
+    "$.cast.frozenCreek.keep[2]": [
+      "review.rule.region.blue-winter-grove.frozenCreek.required.3"
+    ],
+    "$.cast.frozenCreek.name": [
+      "region.blue-winter-grove.frozenCreek#description.intent"
+    ],
+    "$.cast.frozenCreek.purpose": [
+      "region.blue-winter-grove.frozenCreek#composition.negativeSpace",
+      "region.blue-winter-grove.frozenCreek#description.intent"
+    ],
+    "$.cast.frozenCreek.references[0]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.cast.landmarkTree": [
+      "population.blue-winter-grove.landmarkTree",
+      "population.blue-winter-grove.landmarkTree#ownership",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.cast.landmarkTree.amount": [
+      "population.blue-winter-grove.landmarkTree#population.quantity"
+    ],
+    "$.cast.landmarkTree.name": [
+      "population.blue-winter-grove.landmarkTree#description.intent"
+    ],
+    "$.cast.landmarkTree.of": [
+      "population.blue-winter-grove.landmarkTree#population.prototypeMix"
+    ],
+    "$.cast.landmarkTree.placement": [
+      "population.blue-winter-grove.landmarkTree#population.distribution"
+    ],
+    "$.cast.landmarkTree.references[0]": [
+      "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+    ],
+    "$.cast.landmarkTree.role": [
+      "population.blue-winter-grove.landmarkTree#composition.populationRole"
+    ],
+    "$.cast.roundedGrove": [
+      "population.blue-winter-grove.roundedGrove",
+      "population.blue-winter-grove.roundedGrove#ownership",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.cast.roundedGrove.amount": [
+      "population.blue-winter-grove.roundedGrove#population.quantity"
+    ],
+    "$.cast.roundedGrove.name": [
+      "population.blue-winter-grove.roundedGrove#description.intent"
+    ],
+    "$.cast.roundedGrove.of": [
+      "population.blue-winter-grove.roundedGrove#population.prototypeMix"
+    ],
+    "$.cast.roundedGrove.placement": [
+      "population.blue-winter-grove.roundedGrove#population.distribution"
+    ],
+    "$.cast.roundedGrove.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.cast.roundedGrove.role": [
+      "population.blue-winter-grove.roundedGrove#composition.populationRole"
+    ],
+    "$.cast.roundedGrove.variation": [
+      "population.blue-winter-grove.roundedGrove#population.variation"
+    ],
+    "$.cast.roundedGrove.variation.avoid": [
+      "population.blue-winter-grove.roundedGrove#style.forbiddenForms"
+    ],
+    "$.cast.travellingParty": [
+      "population.blue-winter-grove.travellingParty",
+      "population.blue-winter-grove.travellingParty#ownership",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.cast.travellingParty.amount": [
+      "population.blue-winter-grove.travellingParty#population.quantity"
+    ],
+    "$.cast.travellingParty.name": [
+      "population.blue-winter-grove.travellingParty#description.intent"
+    ],
+    "$.cast.travellingParty.of": [
+      "population.blue-winter-grove.travellingParty#population.prototypeMix"
+    ],
+    "$.cast.travellingParty.placement": [
+      "population.blue-winter-grove.travellingParty#population.distribution"
+    ],
+    "$.cast.travellingParty.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.cast.travellingParty.references[1]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.cast.travellingParty.role": [
+      "population.blue-winter-grove.travellingParty#composition.populationRole"
+    ],
+    "$.composition[0]": [
+      "rel.blue-winter-grove.frames.roundedGrove.clearing"
+    ],
+    "$.composition[1]": [
+      "rel.blue-winter-grove.frames.coniferSpires.clearing"
+    ],
+    "$.composition[2]": [
+      "rel.blue-winter-grove.frames.landmarkTree.clearing"
+    ],
+    "$.definitions.character": [
+      "prototype.blue-winter-grove.character",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.character.name": [
+      "prototype.blue-winter-grove.character#description.intent",
+      "prototype.blue-winter-grove.scholar#description.intent",
+      "prototype.blue-winter-grove.scout#description.intent",
+      "prototype.blue-winter-grove.vanguard#description.intent"
+    ],
+    "$.definitions.character.references[0]": [
+      "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6"
+    ],
+    "$.definitions.character.rules.avoid": [
+      "prototype.blue-winter-grove.character#style.forbiddenForms",
+      "prototype.blue-winter-grove.scholar#style.forbiddenForms",
+      "prototype.blue-winter-grove.scout#style.forbiddenForms",
+      "prototype.blue-winter-grove.vanguard#style.forbiddenForms"
+    ],
+    "$.definitions.character.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.character.forbidden.1"
+    ],
+    "$.definitions.character.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.character.forbidden.2"
+    ],
+    "$.definitions.character.rules.avoid[2]": [
+      "review.rule.prototype.blue-winter-grove.character.forbidden.3"
+    ],
+    "$.definitions.character.rules.must[0]": [
+      "review.rule.prototype.blue-winter-grove.character.required.1"
+    ],
+    "$.definitions.character.visual": [
+      "prototype.blue-winter-grove.character#style.visualLanguage",
+      "prototype.blue-winter-grove.scholar#style.visualLanguage",
+      "prototype.blue-winter-grove.scout#style.visualLanguage",
+      "prototype.blue-winter-grove.vanguard#style.visualLanguage"
+    ],
+    "$.definitions.creekWater": [
+      "prototype.blue-winter-grove.creekWater",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.creekWater.name": [
+      "prototype.blue-winter-grove.creekWater#description.intent"
+    ],
+    "$.definitions.creekWater.references[0]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.definitions.creekWater.rules.avoid": [
+      "prototype.blue-winter-grove.creekWater#style.forbiddenForms"
+    ],
+    "$.definitions.creekWater.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.creekWater.forbidden.1"
+    ],
+    "$.definitions.creekWater.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.creekWater.forbidden.2"
+    ],
+    "$.definitions.creekWater.rules.avoid[2]": [
+      "review.rule.prototype.blue-winter-grove.creekWater.forbidden.3"
+    ],
+    "$.definitions.forestFloorDetails": [
+      "prototype.blue-winter-grove.forestFloorDetails",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.forestFloorDetails.name": [
+      "prototype.blue-winter-grove.forestFloorDetails#description.intent"
+    ],
+    "$.definitions.forestFloorDetails.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.forestFloorDetails.references[1]": [
+      "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+    ],
+    "$.definitions.forestFloorDetails.rules.avoid": [
+      "prototype.blue-winter-grove.forestFloorDetails#style.forbiddenForms"
+    ],
+    "$.definitions.forestFloorDetails.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.1"
+    ],
+    "$.definitions.forestFloorDetails.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.2"
+    ],
+    "$.definitions.forestFloorDetails.rules.avoid[2]": [
+      "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.3"
+    ],
+    "$.definitions.forestFloorDetails.variation": [
+      "prototype.blue-winter-grove.forestFloorDetails#variation.parameters"
+    ],
+    "$.definitions.frostBentLandmark": [
+      "prototype.blue-winter-grove.frostBentLandmark",
+      "prototype.blue-winter-grove.frostBentLandmark#style.forbiddenForms",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.frostBentLandmark.name": [
+      "prototype.blue-winter-grove.frostBentLandmark#description.intent"
+    ],
+    "$.definitions.frostBentLandmark.references[0]": [
+      "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+    ],
+    "$.definitions.frostBentLandmark.shape": [
+      "prototype.blue-winter-grove.frostBentLandmark#core.bounds"
+    ],
+    "$.definitions.frostBentLandmark.variation": [
+      "prototype.blue-winter-grove.frostBentLandmark#variation.parameters"
+    ],
+    "$.definitions.frostBentTrunk": [
+      "prototype.blue-winter-grove.frostBentTrunk",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.frostBentTrunk.name": [
+      "prototype.blue-winter-grove.frostBentTrunk#description.intent"
+    ],
+    "$.definitions.frostBentTrunk.references[0]": [
+      "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+    ],
+    "$.definitions.frostBentTrunk.rules.avoid": [
+      "prototype.blue-winter-grove.frostBentTrunk#style.forbiddenForms"
+    ],
+    "$.definitions.frostBentTrunk.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.1"
+    ],
+    "$.definitions.frostBentTrunk.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.2"
+    ],
+    "$.definitions.frostBentTrunk.rules.must[0]": [
+      "review.rule.prototype.blue-winter-grove.frostBentTrunk.required.1"
+    ],
+    "$.definitions.powderSnow": [
+      "prototype.blue-winter-grove.powderSnow",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.powderSnow.name": [
+      "prototype.blue-winter-grove.powderSnow#description.intent"
+    ],
+    "$.definitions.powderSnow.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.powderSnow.references[1]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.definitions.powderSnow.variation": [
+      "prototype.blue-winter-grove.powderSnow#variation.parameters"
+    ],
+    "$.definitions.roundedSnowCrown": [
+      "prototype.blue-winter-grove.roundedSnowCrown",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.roundedSnowCrown.name": [
+      "prototype.blue-winter-grove.roundedSnowCrown#description.intent"
+    ],
+    "$.definitions.roundedSnowCrown.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.roundedSnowCrown.references[1]": [
+      "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+    ],
+    "$.definitions.roundedSnowCrown.rules.avoid": [
+      "prototype.blue-winter-grove.roundedSnowCrown#style.forbiddenForms"
+    ],
+    "$.definitions.roundedSnowCrown.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.1"
+    ],
+    "$.definitions.roundedSnowCrown.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.2"
+    ],
+    "$.definitions.roundedSnowCrown.rules.avoid[2]": [
+      "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.3"
+    ],
+    "$.definitions.roundedSnowCrown.variation": [
+      "prototype.blue-winter-grove.roundedSnowCrown#variation.parameters"
+    ],
+    "$.definitions.roundedWinterTree": [
+      "prototype.blue-winter-grove.roundedWinterTree",
+      "prototype.blue-winter-grove.roundedWinterTree#style.forbiddenForms",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.roundedWinterTree.name": [
+      "prototype.blue-winter-grove.roundedWinterTree#description.intent"
+    ],
+    "$.definitions.roundedWinterTree.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.roundedWinterTree.shape": [
+      "prototype.blue-winter-grove.roundedWinterTree#core.bounds"
+    ],
+    "$.definitions.roundedWinterTree.variation": [
+      "prototype.blue-winter-grove.roundedWinterTree#variation.parameters"
+    ],
+    "$.definitions.scholar": [
+      "prototype.blue-winter-grove.scholar",
+      "prototype.blue-winter-grove.scholar#style.forbiddenForms",
+      "prototype.blue-winter-grove.scholar#style.visualLanguage",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.scholar.name": [
+      "prototype.blue-winter-grove.scholar#description.intent"
+    ],
+    "$.definitions.scholar.references[0]": [
+      "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6"
+    ],
+    "$.definitions.scholar.references[1]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.definitions.scout": [
+      "prototype.blue-winter-grove.scout",
+      "prototype.blue-winter-grove.scout#style.forbiddenForms",
+      "prototype.blue-winter-grove.scout#style.visualLanguage",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.scout.name": [
+      "prototype.blue-winter-grove.scout#description.intent"
+    ],
+    "$.definitions.scout.references[0]": [
+      "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6"
+    ],
+    "$.definitions.scout.references[1]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.definitions.sheetIce": [
+      "prototype.blue-winter-grove.sheetIce",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.sheetIce.name": [
+      "prototype.blue-winter-grove.sheetIce#description.intent"
+    ],
+    "$.definitions.sheetIce.references[0]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.definitions.sheetIce.variation": [
+      "prototype.blue-winter-grove.sheetIce#variation.parameters"
+    ],
+    "$.definitions.spireConifer": [
+      "prototype.blue-winter-grove.spireConifer",
+      "prototype.blue-winter-grove.spireConifer#style.forbiddenForms",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.spireConifer.name": [
+      "prototype.blue-winter-grove.spireConifer#description.intent"
+    ],
+    "$.definitions.spireConifer.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.spireConifer.shape": [
+      "prototype.blue-winter-grove.spireConifer#core.bounds"
+    ],
+    "$.definitions.spireConifer.variation": [
+      "prototype.blue-winter-grove.spireConifer#variation.parameters"
+    ],
+    "$.definitions.spireSnowCrown": [
+      "prototype.blue-winter-grove.spireSnowCrown",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.spireSnowCrown.name": [
+      "prototype.blue-winter-grove.spireSnowCrown#description.intent"
+    ],
+    "$.definitions.spireSnowCrown.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.spireSnowCrown.rules.avoid": [
+      "prototype.blue-winter-grove.spireSnowCrown#style.forbiddenForms"
+    ],
+    "$.definitions.spireSnowCrown.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.1"
+    ],
+    "$.definitions.spireSnowCrown.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.2"
+    ],
+    "$.definitions.spireSnowCrown.rules.avoid[2]": [
+      "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.3"
+    ],
+    "$.definitions.spireSnowCrown.variation": [
+      "prototype.blue-winter-grove.spireSnowCrown#variation.parameters"
+    ],
+    "$.definitions.vanguard": [
+      "prototype.blue-winter-grove.vanguard",
+      "prototype.blue-winter-grove.vanguard#style.forbiddenForms",
+      "prototype.blue-winter-grove.vanguard#style.visualLanguage",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.vanguard.name": [
+      "prototype.blue-winter-grove.vanguard#description.intent"
+    ],
+    "$.definitions.vanguard.references[0]": [
+      "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6"
+    ],
+    "$.definitions.vanguard.references[1]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.warmForkedTrunk": [
+      "prototype.blue-winter-grove.warmForkedTrunk",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.warmForkedTrunk.name": [
+      "prototype.blue-winter-grove.frostBentTrunk#description.intent",
+      "prototype.blue-winter-grove.warmForkedTrunk#description.intent"
+    ],
+    "$.definitions.warmForkedTrunk.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.warmForkedTrunk.references[1]": [
+      "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+    ],
+    "$.definitions.warmForkedTrunk.rules.avoid": [
+      "prototype.blue-winter-grove.frostBentTrunk#style.forbiddenForms",
+      "prototype.blue-winter-grove.warmForkedTrunk#style.forbiddenForms"
+    ],
+    "$.definitions.warmForkedTrunk.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.1"
+    ],
+    "$.definitions.warmForkedTrunk.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.2"
+    ],
+    "$.definitions.warmForkedTrunk.rules.avoid[2]": [
+      "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.3"
+    ],
+    "$.definitions.winterSurfaces": [
+      "prototype.blue-winter-grove.winterSurfaces",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.winterSurfaces.name": [
+      "prototype.blue-winter-grove.winterSurfaces#description.intent"
+    ],
+    "$.definitions.winterSurfaces.references[0]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.definitions.winterSurfaces.rules.must[0]": [
+      "review.rule.prototype.blue-winter-grove.winterSurfaces.required.1"
+    ],
+    "$.definitions.winterTree": [
+      "prototype.blue-winter-grove.winterTree",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.winterTree.name": [
+      "prototype.blue-winter-grove.frostBentLandmark#description.intent",
+      "prototype.blue-winter-grove.roundedWinterTree#description.intent",
+      "prototype.blue-winter-grove.spireConifer#description.intent",
+      "prototype.blue-winter-grove.winterTree#description.intent"
+    ],
+    "$.definitions.winterTree.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.winterTree.rules.avoid": [
+      "prototype.blue-winter-grove.frostBentLandmark#style.forbiddenForms",
+      "prototype.blue-winter-grove.roundedWinterTree#style.forbiddenForms",
+      "prototype.blue-winter-grove.spireConifer#style.forbiddenForms",
+      "prototype.blue-winter-grove.winterTree#style.forbiddenForms"
+    ],
+    "$.definitions.winterTree.rules.avoid[0]": [
+      "review.rule.prototype.blue-winter-grove.winterTree.forbidden.1"
+    ],
+    "$.definitions.winterTree.rules.avoid[1]": [
+      "review.rule.prototype.blue-winter-grove.winterTree.forbidden.2"
+    ],
+    "$.definitions.winterTree.rules.avoid[2]": [
+      "review.rule.prototype.blue-winter-grove.winterTree.forbidden.3"
+    ],
+    "$.definitions.winterTree.variation": [
+      "prototype.blue-winter-grove.frostBentLandmark#variation.parameters",
+      "prototype.blue-winter-grove.roundedWinterTree#variation.parameters",
+      "prototype.blue-winter-grove.spireConifer#variation.parameters",
+      "prototype.blue-winter-grove.winterTree#variation.parameters"
+    ],
+    "$.definitions.winterboundParty": [
+      "prototype.blue-winter-grove.winterboundParty",
+      "scene.blue-winter-grove#semantic-projection"
+    ],
+    "$.definitions.winterboundParty.name": [
+      "prototype.blue-winter-grove.winterboundParty#description.intent"
+    ],
+    "$.definitions.winterboundParty.references[0]": [
+      "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6"
+    ],
+    "$.definitions.winterboundParty.references[1]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.definitions.winterboundParty.references[2]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.definitions.winterboundParty.variation": [
+      "prototype.blue-winter-grove.winterboundParty#variation.parameters"
+    ],
+    "$.experience": [
+      "antikylabs.scene.blue-winter-grove",
+      "scene.blue-winter-grove#description.intent"
+    ],
+    "$.key": [
+      "policy.determinism"
+    ],
+    "$.name": [
+      "antikylabs.scene.blue-winter-grove"
+    ],
+    "$.profiles[0]": [
+      "policy.catalog-import",
+      "policy.coordinate-system",
+      "policy.determinism",
+      "policy.outputs",
+      "policy.validation-promotion",
+      "profile.voxel-diorama",
+      "scene.blue-winter-grove#validation.acceptance",
+      "suite.schema",
+      "suite.semantic",
+      "system.layout.region-masks",
+      "system.population.semantic-layout",
+      "system.publish.resolved-contract",
+      "system.render.acceptance-views",
+      "system.resolve.contract",
+      "system.synthesis.semantic-prototypes",
+      "system.validate.contract-and-structure"
+    ],
+    "$.references[0]": [
+      "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3"
+    ],
+    "$.references[1]": [
+      "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019"
+    ],
+    "$.references[2]": [
+      "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1"
+    ],
+    "$.references[3]": [
+      "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6"
+    ],
+    "$.rules.avoid": [
+      "scene.blue-winter-grove#style.forbiddenForms"
+    ],
+    "$.rules.avoid[0]": [
+      "review.rule.scene.blue-winter-grove.forbidden.1"
+    ],
+    "$.rules.avoid[1]": [
+      "review.rule.scene.blue-winter-grove.forbidden.2"
+    ],
+    "$.rules.avoid[2]": [
+      "review.rule.scene.blue-winter-grove.forbidden.3"
+    ],
+    "$.rules.avoid[3]": [
+      "review.rule.scene.blue-winter-grove.forbidden.4"
+    ],
+    "$.rules.avoid[4]": [
+      "review.rule.scene.blue-winter-grove.forbidden.5"
+    ],
+    "$.rules.avoid[5]": [
+      "review.rule.scene.blue-winter-grove.forbidden.6"
+    ],
+    "$.rules.must[0]": [
+      "review.rule.scene.blue-winter-grove.required.1"
+    ],
+    "$.rules.must[1]": [
+      "review.rule.scene.blue-winter-grove.required.2"
+    ],
+    "$.rules.must[2]": [
+      "review.rule.scene.blue-winter-grove.required.3"
+    ],
+    "$.rules.must[3]": [
+      "review.rule.scene.blue-winter-grove.required.4"
+    ],
+    "$.visual": [
+      "scene.blue-winter-grove#style.visualLanguage"
+    ],
+    "$.visual.avoid": [
+      "scene.blue-winter-grove#style.forbiddenForms"
+    ]
+  },
+  "childrenByParent": {
+    "scene.blue-winter-grove": [
+      "population.blue-winter-grove.coniferSpires",
+      "population.blue-winter-grove.landmarkTree",
+      "population.blue-winter-grove.roundedGrove",
+      "population.blue-winter-grove.travellingParty",
+      "region.blue-winter-grove.clearing",
+      "region.blue-winter-grove.frozenCreek"
+    ]
+  },
+  "dependenciesBySourceId": {
+    "population.blue-winter-grove.coniferSpires": [
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.coniferSpires.placement.around",
+        "sourceId": "population.blue-winter-grove.coniferSpires",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.coniferSpires.of",
+        "sourceId": "population.blue-winter-grove.coniferSpires",
+        "targetId": "prototype.blue-winter-grove.spireConifer"
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree": [
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.landmarkTree.placement.around",
+        "sourceId": "population.blue-winter-grove.landmarkTree",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.landmarkTree.of",
+        "sourceId": "population.blue-winter-grove.landmarkTree",
+        "targetId": "prototype.blue-winter-grove.frostBentLandmark"
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove": [
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.roundedGrove.placement.around",
+        "sourceId": "population.blue-winter-grove.roundedGrove",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.roundedGrove.of",
+        "sourceId": "population.blue-winter-grove.roundedGrove",
+        "targetId": "prototype.blue-winter-grove.roundedWinterTree"
+      }
+    ],
+    "population.blue-winter-grove.travellingParty": [
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.travellingParty.placement.around",
+        "sourceId": "population.blue-winter-grove.travellingParty",
+        "targetId": "region.blue-winter-grove.frozenCreek"
+      },
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.travellingParty.of",
+        "sourceId": "population.blue-winter-grove.travellingParty",
+        "targetId": "prototype.blue-winter-grove.winterboundParty"
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentLandmark": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.frostBentLandmark.basedOn",
+        "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+        "targetId": "prototype.blue-winter-grove.winterTree"
+      },
+      {
+        "kind": "part",
+        "role": "trunk",
+        "semanticPath": "$.definitions.frostBentLandmark.parts.trunk",
+        "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+        "targetId": "prototype.blue-winter-grove.frostBentTrunk"
+      },
+      {
+        "kind": "part",
+        "role": "crown",
+        "semanticPath": "$.definitions.frostBentLandmark.parts.crown",
+        "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+        "targetId": "prototype.blue-winter-grove.roundedSnowCrown"
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentTrunk": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.frostBentTrunk.basedOn",
+        "sourceId": "prototype.blue-winter-grove.frostBentTrunk",
+        "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+      }
+    ],
+    "prototype.blue-winter-grove.roundedWinterTree": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.roundedWinterTree.basedOn",
+        "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+        "targetId": "prototype.blue-winter-grove.winterTree"
+      },
+      {
+        "kind": "part",
+        "role": "crown",
+        "semanticPath": "$.definitions.roundedWinterTree.parts.crown",
+        "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+        "targetId": "prototype.blue-winter-grove.roundedSnowCrown"
+      },
+      {
+        "kind": "part",
+        "role": "trunk",
+        "semanticPath": "$.definitions.roundedWinterTree.parts.trunk",
+        "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+        "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+      }
+    ],
+    "prototype.blue-winter-grove.scholar": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.scholar.basedOn",
+        "sourceId": "prototype.blue-winter-grove.scholar",
+        "targetId": "prototype.blue-winter-grove.character"
+      }
+    ],
+    "prototype.blue-winter-grove.scout": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.scout.basedOn",
+        "sourceId": "prototype.blue-winter-grove.scout",
+        "targetId": "prototype.blue-winter-grove.character"
+      }
+    ],
+    "prototype.blue-winter-grove.spireConifer": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.spireConifer.basedOn",
+        "sourceId": "prototype.blue-winter-grove.spireConifer",
+        "targetId": "prototype.blue-winter-grove.winterTree"
+      },
+      {
+        "kind": "part",
+        "role": "crown",
+        "semanticPath": "$.definitions.spireConifer.parts.crown",
+        "sourceId": "prototype.blue-winter-grove.spireConifer",
+        "targetId": "prototype.blue-winter-grove.spireSnowCrown"
+      },
+      {
+        "kind": "part",
+        "role": "trunk",
+        "semanticPath": "$.definitions.spireConifer.parts.trunk",
+        "sourceId": "prototype.blue-winter-grove.spireConifer",
+        "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+      }
+    ],
+    "prototype.blue-winter-grove.vanguard": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.vanguard.basedOn",
+        "sourceId": "prototype.blue-winter-grove.vanguard",
+        "targetId": "prototype.blue-winter-grove.character"
+      }
+    ],
+    "prototype.blue-winter-grove.winterSurfaces": [
+      {
+        "kind": "part",
+        "role": "water",
+        "semanticPath": "$.definitions.winterSurfaces.parts.water",
+        "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+        "targetId": "prototype.blue-winter-grove.creekWater"
+      },
+      {
+        "kind": "part",
+        "role": "powder",
+        "semanticPath": "$.definitions.winterSurfaces.parts.powder",
+        "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+        "targetId": "prototype.blue-winter-grove.powderSnow"
+      },
+      {
+        "kind": "part",
+        "role": "ice",
+        "semanticPath": "$.definitions.winterSurfaces.parts.ice",
+        "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+        "targetId": "prototype.blue-winter-grove.sheetIce"
+      }
+    ],
+    "prototype.blue-winter-grove.winterboundParty": [
+      {
+        "kind": "part",
+        "role": "scholar",
+        "semanticPath": "$.definitions.winterboundParty.parts.scholar",
+        "sourceId": "prototype.blue-winter-grove.winterboundParty",
+        "targetId": "prototype.blue-winter-grove.scholar"
+      },
+      {
+        "kind": "part",
+        "role": "scout",
+        "semanticPath": "$.definitions.winterboundParty.parts.scout",
+        "sourceId": "prototype.blue-winter-grove.winterboundParty",
+        "targetId": "prototype.blue-winter-grove.scout"
+      },
+      {
+        "kind": "part",
+        "role": "vanguard",
+        "semanticPath": "$.definitions.winterboundParty.parts.vanguard",
+        "sourceId": "prototype.blue-winter-grove.winterboundParty",
+        "targetId": "prototype.blue-winter-grove.vanguard"
+      }
+    ],
+    "region.blue-winter-grove.clearing": [
+      {
+        "kind": "feature",
+        "role": "details",
+        "semanticPath": "$.cast.clearing.features.details",
+        "sourceId": "region.blue-winter-grove.clearing",
+        "targetId": "prototype.blue-winter-grove.forestFloorDetails"
+      },
+      {
+        "kind": "feature",
+        "role": "surfaces",
+        "semanticPath": "$.cast.clearing.features.surfaces",
+        "sourceId": "region.blue-winter-grove.clearing",
+        "targetId": "prototype.blue-winter-grove.winterSurfaces"
+      }
+    ],
+    "region.blue-winter-grove.frozenCreek": [
+      {
+        "kind": "feature",
+        "role": "details",
+        "semanticPath": "$.cast.frozenCreek.features.details",
+        "sourceId": "region.blue-winter-grove.frozenCreek",
+        "targetId": "prototype.blue-winter-grove.forestFloorDetails"
+      },
+      {
+        "kind": "feature",
+        "role": "surfaces",
+        "semanticPath": "$.cast.frozenCreek.features.surfaces",
+        "sourceId": "region.blue-winter-grove.frozenCreek",
+        "targetId": "prototype.blue-winter-grove.winterSurfaces"
+      }
+    ],
+    "scene.blue-winter-grove": [
+      {
+        "kind": "acceptance-subject",
+        "semanticPath": "$.acceptance.checks[0].subject",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.roundedGrove"
+      },
+      {
+        "kind": "acceptance-subject",
+        "semanticPath": "$.acceptance.checks[1].subject",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.travellingParty"
+      },
+      {
+        "kind": "frames-source",
+        "semanticPath": "$.composition[1].source",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.coniferSpires"
+      },
+      {
+        "kind": "frames-source",
+        "semanticPath": "$.composition[2].source",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.landmarkTree"
+      },
+      {
+        "kind": "frames-source",
+        "semanticPath": "$.composition[0].source",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.roundedGrove"
+      },
+      {
+        "kind": "frames-target",
+        "semanticPath": "$.composition[0].target",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "frames-target",
+        "semanticPath": "$.composition[1].target",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "frames-target",
+        "semanticPath": "$.composition[2].target",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "play-as",
+        "semanticPath": "$.gameplay.playAs",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.travellingParty"
+      }
+    ]
+  },
+  "dependentsByTargetId": {
+    "population.blue-winter-grove.coniferSpires": [
+      {
+        "kind": "frames-source",
+        "semanticPath": "$.composition[1].source",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.coniferSpires"
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree": [
+      {
+        "kind": "frames-source",
+        "semanticPath": "$.composition[2].source",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.landmarkTree"
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove": [
+      {
+        "kind": "acceptance-subject",
+        "semanticPath": "$.acceptance.checks[0].subject",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.roundedGrove"
+      },
+      {
+        "kind": "frames-source",
+        "semanticPath": "$.composition[0].source",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.roundedGrove"
+      }
+    ],
+    "population.blue-winter-grove.travellingParty": [
+      {
+        "kind": "acceptance-subject",
+        "semanticPath": "$.acceptance.checks[1].subject",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.travellingParty"
+      },
+      {
+        "kind": "play-as",
+        "semanticPath": "$.gameplay.playAs",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "population.blue-winter-grove.travellingParty"
+      }
+    ],
+    "prototype.blue-winter-grove.character": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.scholar.basedOn",
+        "sourceId": "prototype.blue-winter-grove.scholar",
+        "targetId": "prototype.blue-winter-grove.character"
+      },
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.scout.basedOn",
+        "sourceId": "prototype.blue-winter-grove.scout",
+        "targetId": "prototype.blue-winter-grove.character"
+      },
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.vanguard.basedOn",
+        "sourceId": "prototype.blue-winter-grove.vanguard",
+        "targetId": "prototype.blue-winter-grove.character"
+      }
+    ],
+    "prototype.blue-winter-grove.creekWater": [
+      {
+        "kind": "part",
+        "role": "water",
+        "semanticPath": "$.definitions.winterSurfaces.parts.water",
+        "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+        "targetId": "prototype.blue-winter-grove.creekWater"
+      }
+    ],
+    "prototype.blue-winter-grove.forestFloorDetails": [
+      {
+        "kind": "feature",
+        "role": "details",
+        "semanticPath": "$.cast.clearing.features.details",
+        "sourceId": "region.blue-winter-grove.clearing",
+        "targetId": "prototype.blue-winter-grove.forestFloorDetails"
+      },
+      {
+        "kind": "feature",
+        "role": "details",
+        "semanticPath": "$.cast.frozenCreek.features.details",
+        "sourceId": "region.blue-winter-grove.frozenCreek",
+        "targetId": "prototype.blue-winter-grove.forestFloorDetails"
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentLandmark": [
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.landmarkTree.of",
+        "sourceId": "population.blue-winter-grove.landmarkTree",
+        "targetId": "prototype.blue-winter-grove.frostBentLandmark"
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentTrunk": [
+      {
+        "kind": "part",
+        "role": "trunk",
+        "semanticPath": "$.definitions.frostBentLandmark.parts.trunk",
+        "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+        "targetId": "prototype.blue-winter-grove.frostBentTrunk"
+      }
+    ],
+    "prototype.blue-winter-grove.powderSnow": [
+      {
+        "kind": "part",
+        "role": "powder",
+        "semanticPath": "$.definitions.winterSurfaces.parts.powder",
+        "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+        "targetId": "prototype.blue-winter-grove.powderSnow"
+      }
+    ],
+    "prototype.blue-winter-grove.roundedSnowCrown": [
+      {
+        "kind": "part",
+        "role": "crown",
+        "semanticPath": "$.definitions.frostBentLandmark.parts.crown",
+        "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+        "targetId": "prototype.blue-winter-grove.roundedSnowCrown"
+      },
+      {
+        "kind": "part",
+        "role": "crown",
+        "semanticPath": "$.definitions.roundedWinterTree.parts.crown",
+        "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+        "targetId": "prototype.blue-winter-grove.roundedSnowCrown"
+      }
+    ],
+    "prototype.blue-winter-grove.roundedWinterTree": [
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.roundedGrove.of",
+        "sourceId": "population.blue-winter-grove.roundedGrove",
+        "targetId": "prototype.blue-winter-grove.roundedWinterTree"
+      }
+    ],
+    "prototype.blue-winter-grove.scholar": [
+      {
+        "kind": "part",
+        "role": "scholar",
+        "semanticPath": "$.definitions.winterboundParty.parts.scholar",
+        "sourceId": "prototype.blue-winter-grove.winterboundParty",
+        "targetId": "prototype.blue-winter-grove.scholar"
+      }
+    ],
+    "prototype.blue-winter-grove.scout": [
+      {
+        "kind": "part",
+        "role": "scout",
+        "semanticPath": "$.definitions.winterboundParty.parts.scout",
+        "sourceId": "prototype.blue-winter-grove.winterboundParty",
+        "targetId": "prototype.blue-winter-grove.scout"
+      }
+    ],
+    "prototype.blue-winter-grove.sheetIce": [
+      {
+        "kind": "part",
+        "role": "ice",
+        "semanticPath": "$.definitions.winterSurfaces.parts.ice",
+        "sourceId": "prototype.blue-winter-grove.winterSurfaces",
+        "targetId": "prototype.blue-winter-grove.sheetIce"
+      }
+    ],
+    "prototype.blue-winter-grove.spireConifer": [
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.coniferSpires.of",
+        "sourceId": "population.blue-winter-grove.coniferSpires",
+        "targetId": "prototype.blue-winter-grove.spireConifer"
+      }
+    ],
+    "prototype.blue-winter-grove.spireSnowCrown": [
+      {
+        "kind": "part",
+        "role": "crown",
+        "semanticPath": "$.definitions.spireConifer.parts.crown",
+        "sourceId": "prototype.blue-winter-grove.spireConifer",
+        "targetId": "prototype.blue-winter-grove.spireSnowCrown"
+      }
+    ],
+    "prototype.blue-winter-grove.vanguard": [
+      {
+        "kind": "part",
+        "role": "vanguard",
+        "semanticPath": "$.definitions.winterboundParty.parts.vanguard",
+        "sourceId": "prototype.blue-winter-grove.winterboundParty",
+        "targetId": "prototype.blue-winter-grove.vanguard"
+      }
+    ],
+    "prototype.blue-winter-grove.warmForkedTrunk": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.frostBentTrunk.basedOn",
+        "sourceId": "prototype.blue-winter-grove.frostBentTrunk",
+        "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+      },
+      {
+        "kind": "part",
+        "role": "trunk",
+        "semanticPath": "$.definitions.roundedWinterTree.parts.trunk",
+        "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+        "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+      },
+      {
+        "kind": "part",
+        "role": "trunk",
+        "semanticPath": "$.definitions.spireConifer.parts.trunk",
+        "sourceId": "prototype.blue-winter-grove.spireConifer",
+        "targetId": "prototype.blue-winter-grove.warmForkedTrunk"
+      }
+    ],
+    "prototype.blue-winter-grove.winterSurfaces": [
+      {
+        "kind": "feature",
+        "role": "surfaces",
+        "semanticPath": "$.cast.clearing.features.surfaces",
+        "sourceId": "region.blue-winter-grove.clearing",
+        "targetId": "prototype.blue-winter-grove.winterSurfaces"
+      },
+      {
+        "kind": "feature",
+        "role": "surfaces",
+        "semanticPath": "$.cast.frozenCreek.features.surfaces",
+        "sourceId": "region.blue-winter-grove.frozenCreek",
+        "targetId": "prototype.blue-winter-grove.winterSurfaces"
+      }
+    ],
+    "prototype.blue-winter-grove.winterTree": [
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.frostBentLandmark.basedOn",
+        "sourceId": "prototype.blue-winter-grove.frostBentLandmark",
+        "targetId": "prototype.blue-winter-grove.winterTree"
+      },
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.roundedWinterTree.basedOn",
+        "sourceId": "prototype.blue-winter-grove.roundedWinterTree",
+        "targetId": "prototype.blue-winter-grove.winterTree"
+      },
+      {
+        "kind": "based-on",
+        "semanticPath": "$.definitions.spireConifer.basedOn",
+        "sourceId": "prototype.blue-winter-grove.spireConifer",
+        "targetId": "prototype.blue-winter-grove.winterTree"
+      }
+    ],
+    "prototype.blue-winter-grove.winterboundParty": [
+      {
+        "kind": "population-of",
+        "semanticPath": "$.cast.travellingParty.of",
+        "sourceId": "population.blue-winter-grove.travellingParty",
+        "targetId": "prototype.blue-winter-grove.winterboundParty"
+      }
+    ],
+    "region.blue-winter-grove.clearing": [
+      {
+        "kind": "frames-target",
+        "semanticPath": "$.composition[0].target",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "frames-target",
+        "semanticPath": "$.composition[1].target",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "frames-target",
+        "semanticPath": "$.composition[2].target",
+        "sourceId": "scene.blue-winter-grove",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.coniferSpires.placement.around",
+        "sourceId": "population.blue-winter-grove.coniferSpires",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.landmarkTree.placement.around",
+        "sourceId": "population.blue-winter-grove.landmarkTree",
+        "targetId": "region.blue-winter-grove.clearing"
+      },
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.roundedGrove.placement.around",
+        "sourceId": "population.blue-winter-grove.roundedGrove",
+        "targetId": "region.blue-winter-grove.clearing"
+      }
+    ],
+    "region.blue-winter-grove.frozenCreek": [
+      {
+        "kind": "placement-around",
+        "semanticPath": "$.cast.travellingParty.placement.around",
+        "sourceId": "population.blue-winter-grove.travellingParty",
+        "targetId": "region.blue-winter-grove.frozenCreek"
+      }
+    ]
+  },
+  "derivationsByOutputId": {
+    "antikylabs.scene.blue-winter-grove": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "antikylabs.scene.blue-winter-grove",
+        "outputPath": "$.contract",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$",
+          "$.name",
+          "$.experience"
+        ]
+      }
+    ],
+    "policy.catalog-import": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.catalog-import",
+        "outputPath": "$.imports[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "policy.coordinate-system": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.coordinate-system",
+        "outputPath": "$.coordinateSystem",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "policy.determinism": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.determinism",
+        "outputPath": "$.determinism",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]",
+          "$.key"
+        ]
+      }
+    ],
+    "policy.outputs": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.outputs",
+        "outputPath": "$.outputs",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "policy.validation-promotion": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "policy.validation-promotion",
+        "outputPath": "$.validation.promotionPolicy",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]",
+          "$.acceptance"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#composition.populationRole": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#composition.populationRole",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"].components[\"composition.populationRole\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires.role"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#description.intent": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#description.intent",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires.name"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#ownership",
+        "outputPath": "$.entityTree.children[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#population.distribution": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#population.distribution",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"].components[\"population.distribution\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires.placement"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#population.prototypeMix": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#population.prototypeMix",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"].components[\"population.prototypeMix\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires.of"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#population.quantity": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#population.quantity",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"].components[\"population.quantity\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires.amount"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#population.variation": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#population.variation",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"].components[\"population.variation\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires.variation"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.coniferSpires#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.coniferSpires#style.forbiddenForms",
+        "outputPath": "$.entities[\"population.blue-winter-grove.coniferSpires\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.coniferSpires.variation.avoid"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.landmarkTree",
+        "outputPath": "$.entities[\"population.blue-winter-grove.landmarkTree\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.landmarkTree"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree#composition.populationRole": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.landmarkTree#composition.populationRole",
+        "outputPath": "$.entities[\"population.blue-winter-grove.landmarkTree\"].components[\"composition.populationRole\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.landmarkTree.role"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree#description.intent": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.landmarkTree#description.intent",
+        "outputPath": "$.entities[\"population.blue-winter-grove.landmarkTree\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.landmarkTree.name"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.landmarkTree#ownership",
+        "outputPath": "$.entityTree.children[3]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.landmarkTree"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree#population.distribution": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.landmarkTree#population.distribution",
+        "outputPath": "$.entities[\"population.blue-winter-grove.landmarkTree\"].components[\"population.distribution\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.landmarkTree.placement"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree#population.prototypeMix": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.landmarkTree#population.prototypeMix",
+        "outputPath": "$.entities[\"population.blue-winter-grove.landmarkTree\"].components[\"population.prototypeMix\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.landmarkTree.of"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.landmarkTree#population.quantity": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.landmarkTree#population.quantity",
+        "outputPath": "$.entities[\"population.blue-winter-grove.landmarkTree\"].components[\"population.quantity\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.landmarkTree.amount"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#composition.populationRole": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#composition.populationRole",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"].components[\"composition.populationRole\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove.role"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#description.intent": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#description.intent",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove.name"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#ownership",
+        "outputPath": "$.entityTree.children[4]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#population.distribution": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#population.distribution",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"].components[\"population.distribution\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove.placement"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#population.prototypeMix": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#population.prototypeMix",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"].components[\"population.prototypeMix\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove.of"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#population.quantity": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#population.quantity",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"].components[\"population.quantity\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove.amount"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#population.variation": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#population.variation",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"].components[\"population.variation\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove.variation"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.roundedGrove#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.roundedGrove#style.forbiddenForms",
+        "outputPath": "$.entities[\"population.blue-winter-grove.roundedGrove\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.roundedGrove.variation.avoid"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.travellingParty": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.travellingParty",
+        "outputPath": "$.entities[\"population.blue-winter-grove.travellingParty\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.travellingParty"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.travellingParty#composition.populationRole": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.travellingParty#composition.populationRole",
+        "outputPath": "$.entities[\"population.blue-winter-grove.travellingParty\"].components[\"composition.populationRole\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.travellingParty.role"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.travellingParty#description.intent": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.travellingParty#description.intent",
+        "outputPath": "$.entities[\"population.blue-winter-grove.travellingParty\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.travellingParty.name"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.travellingParty#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.travellingParty#ownership",
+        "outputPath": "$.entityTree.children[5]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.travellingParty"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.travellingParty#population.distribution": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.travellingParty#population.distribution",
+        "outputPath": "$.entities[\"population.blue-winter-grove.travellingParty\"].components[\"population.distribution\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.travellingParty.placement"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.travellingParty#population.prototypeMix": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.travellingParty#population.prototypeMix",
+        "outputPath": "$.entities[\"population.blue-winter-grove.travellingParty\"].components[\"population.prototypeMix\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.travellingParty.of"
+        ]
+      }
+    ],
+    "population.blue-winter-grove.travellingParty#population.quantity": [
+      {
+        "lowerer": {
+          "id": "population",
+          "version": "0.1.0"
+        },
+        "outputId": "population.blue-winter-grove.travellingParty#population.quantity",
+        "outputPath": "$.entities[\"population.blue-winter-grove.travellingParty\"].components[\"population.quantity\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.travellingParty.amount"
+        ]
+      }
+    ],
+    "profile.voxel-diorama": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "profile.voxel-diorama",
+        "outputPath": "$.definitions.profiles[\"profile.voxel-diorama\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.character": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.character",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.character\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.character#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.character#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.character\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.character#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.character#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.character\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.character#style.visualLanguage": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.character#style.visualLanguage",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.character\"].components[\"style.visualLanguage\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character.visual"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.creekWater": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.creekWater",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.creekWater\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.creekWater"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.creekWater#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.creekWater#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.creekWater\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.creekWater.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.creekWater#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.creekWater#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.creekWater\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.creekWater.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.forestFloorDetails": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.forestFloorDetails",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.forestFloorDetails\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.forestFloorDetails"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.forestFloorDetails#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.forestFloorDetails#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.forestFloorDetails\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.forestFloorDetails.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.forestFloorDetails#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.forestFloorDetails#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.forestFloorDetails\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.forestFloorDetails.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.forestFloorDetails#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.forestFloorDetails#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.forestFloorDetails\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.forestFloorDetails.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentLandmark": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentLandmark",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentLandmark\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentLandmark"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentLandmark#core.bounds": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentLandmark#core.bounds",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentLandmark\"].components[\"core.bounds\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentLandmark.shape"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentLandmark#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentLandmark#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentLandmark\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentLandmark.name",
+          "$.definitions.winterTree.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentLandmark#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentLandmark#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentLandmark\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentLandmark",
+          "$.definitions.winterTree.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentLandmark#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentLandmark#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentLandmark\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentLandmark.variation",
+          "$.definitions.winterTree.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentTrunk": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentTrunk",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentTrunk\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentTrunk"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentTrunk#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentTrunk#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentTrunk\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentTrunk.name",
+          "$.definitions.warmForkedTrunk.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.frostBentTrunk#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.frostBentTrunk#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.frostBentTrunk\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentTrunk.rules.avoid",
+          "$.definitions.warmForkedTrunk.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.powderSnow": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.powderSnow",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.powderSnow\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.powderSnow"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.powderSnow#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.powderSnow#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.powderSnow\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.powderSnow.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.powderSnow#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.powderSnow#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.powderSnow\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.powderSnow.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedSnowCrown": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedSnowCrown",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedSnowCrown\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedSnowCrown"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedSnowCrown#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedSnowCrown#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedSnowCrown\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedSnowCrown.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedSnowCrown#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedSnowCrown#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedSnowCrown\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedSnowCrown.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedSnowCrown#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedSnowCrown#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedSnowCrown\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedSnowCrown.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedWinterTree": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedWinterTree",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedWinterTree\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedWinterTree"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedWinterTree#core.bounds": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedWinterTree#core.bounds",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedWinterTree\"].components[\"core.bounds\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedWinterTree.shape"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedWinterTree#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedWinterTree#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedWinterTree\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedWinterTree.name",
+          "$.definitions.winterTree.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedWinterTree#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedWinterTree#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedWinterTree\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedWinterTree",
+          "$.definitions.winterTree.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.roundedWinterTree#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.roundedWinterTree#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.roundedWinterTree\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedWinterTree.variation",
+          "$.definitions.winterTree.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scholar": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scholar",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scholar\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scholar"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scholar#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scholar#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scholar\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scholar.name",
+          "$.definitions.character.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scholar#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scholar#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scholar\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scholar",
+          "$.definitions.character.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scholar#style.visualLanguage": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scholar#style.visualLanguage",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scholar\"].components[\"style.visualLanguage\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scholar",
+          "$.definitions.character.visual"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scout": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scout",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scout\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scout"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scout#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scout#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scout\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scout.name",
+          "$.definitions.character.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scout#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scout#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scout\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scout",
+          "$.definitions.character.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.scout#style.visualLanguage": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.scout#style.visualLanguage",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.scout\"].components[\"style.visualLanguage\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.scout",
+          "$.definitions.character.visual"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.sheetIce": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.sheetIce",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.sheetIce\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.sheetIce"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.sheetIce#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.sheetIce#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.sheetIce\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.sheetIce.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.sheetIce#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.sheetIce#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.sheetIce\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.sheetIce.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireConifer": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireConifer",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireConifer\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireConifer"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireConifer#core.bounds": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireConifer#core.bounds",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireConifer\"].components[\"core.bounds\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireConifer.shape"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireConifer#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireConifer#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireConifer\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireConifer.name",
+          "$.definitions.winterTree.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireConifer#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireConifer#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireConifer\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireConifer",
+          "$.definitions.winterTree.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireConifer#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireConifer#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireConifer\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireConifer.variation",
+          "$.definitions.winterTree.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireSnowCrown": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireSnowCrown",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireSnowCrown\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireSnowCrown"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireSnowCrown#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireSnowCrown#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireSnowCrown\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireSnowCrown.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireSnowCrown#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireSnowCrown#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireSnowCrown\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireSnowCrown.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.spireSnowCrown#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.spireSnowCrown#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.spireSnowCrown\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireSnowCrown.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.vanguard": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.vanguard",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.vanguard\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.vanguard"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.vanguard#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.vanguard#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.vanguard\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.vanguard.name",
+          "$.definitions.character.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.vanguard#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.vanguard#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.vanguard\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.vanguard",
+          "$.definitions.character.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.vanguard#style.visualLanguage": [
+      {
+        "lowerer": {
+          "id": "thing-specialization",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.vanguard#style.visualLanguage",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.vanguard\"].components[\"style.visualLanguage\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.vanguard",
+          "$.definitions.character.visual"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.warmForkedTrunk": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.warmForkedTrunk",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.warmForkedTrunk\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.warmForkedTrunk"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.warmForkedTrunk#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.warmForkedTrunk#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.warmForkedTrunk\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.warmForkedTrunk.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.warmForkedTrunk#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.warmForkedTrunk#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.warmForkedTrunk\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.warmForkedTrunk.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterSurfaces": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterSurfaces",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterSurfaces\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterSurfaces"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterSurfaces#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterSurfaces#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterSurfaces\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterSurfaces.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterTree": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterTree",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterTree\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterTree"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterTree#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterTree#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterTree\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterTree.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterTree#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterTree#style.forbiddenForms",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterTree\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterTree.rules.avoid"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterTree#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterTree#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterTree\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterTree.variation"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterboundParty": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterboundParty",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterboundParty\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterboundParty"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterboundParty#description.intent": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterboundParty#description.intent",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterboundParty\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterboundParty.name"
+        ]
+      }
+    ],
+    "prototype.blue-winter-grove.winterboundParty#variation.parameters": [
+      {
+        "lowerer": {
+          "id": "thing-prototype",
+          "version": "0.1.0"
+        },
+        "outputId": "prototype.blue-winter-grove.winterboundParty#variation.parameters",
+        "outputPath": "$.definitions.prototypes[\"prototype.blue-winter-grove.winterboundParty\"].components[\"variation.parameters\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterboundParty.variation"
+        ]
+      }
+    ],
+    "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3": [
+      {
+        "lowerer": {
+          "id": "reference-image-use",
+          "version": "0.1.0"
+        },
+        "outputId": "reference-image.2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3",
+        "outputPath": "$.contract.provenance.authoring.referenceImages",
+        "semanticPaths": [
+          "$.cast.clearing.references[0]",
+          "$.cast.coniferSpires.references[0]",
+          "$.cast.roundedGrove.references[0]",
+          "$.cast.travellingParty.references[0]",
+          "$.definitions.forestFloorDetails.references[0]",
+          "$.definitions.powderSnow.references[0]",
+          "$.definitions.roundedSnowCrown.references[0]",
+          "$.definitions.roundedWinterTree.references[0]",
+          "$.definitions.spireConifer.references[0]",
+          "$.definitions.spireSnowCrown.references[0]",
+          "$.definitions.vanguard.references[1]",
+          "$.definitions.warmForkedTrunk.references[0]",
+          "$.definitions.winterTree.references[0]",
+          "$.definitions.winterboundParty.references[1]",
+          "$.references[0]"
+        ]
+      }
+    ],
+    "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6": [
+      {
+        "lowerer": {
+          "id": "reference-image-use",
+          "version": "0.1.0"
+        },
+        "outputId": "reference-image.af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6",
+        "outputPath": "$.contract.provenance.authoring.referenceImages",
+        "semanticPaths": [
+          "$.definitions.character.references[0]",
+          "$.definitions.scholar.references[0]",
+          "$.definitions.scout.references[0]",
+          "$.definitions.vanguard.references[0]",
+          "$.definitions.winterboundParty.references[0]",
+          "$.references[3]"
+        ]
+      }
+    ],
+    "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1": [
+      {
+        "lowerer": {
+          "id": "reference-image-use",
+          "version": "0.1.0"
+        },
+        "outputId": "reference-image.d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1",
+        "outputPath": "$.contract.provenance.authoring.referenceImages",
+        "semanticPaths": [
+          "$.cast.landmarkTree.references[0]",
+          "$.definitions.forestFloorDetails.references[1]",
+          "$.definitions.frostBentLandmark.references[0]",
+          "$.definitions.frostBentTrunk.references[0]",
+          "$.definitions.roundedSnowCrown.references[1]",
+          "$.definitions.warmForkedTrunk.references[1]",
+          "$.references[2]"
+        ]
+      }
+    ],
+    "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019": [
+      {
+        "lowerer": {
+          "id": "reference-image-use",
+          "version": "0.1.0"
+        },
+        "outputId": "reference-image.e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019",
+        "outputPath": "$.contract.provenance.authoring.referenceImages",
+        "semanticPaths": [
+          "$.cast.frozenCreek.references[0]",
+          "$.cast.travellingParty.references[1]",
+          "$.definitions.creekWater.references[0]",
+          "$.definitions.powderSnow.references[1]",
+          "$.definitions.scholar.references[1]",
+          "$.definitions.scout.references[1]",
+          "$.definitions.sheetIce.references[0]",
+          "$.definitions.winterSurfaces.references[0]",
+          "$.definitions.winterboundParty.references[2]",
+          "$.references[1]"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.clearing": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.clearing",
+        "outputPath": "$.entities[\"region.blue-winter-grove.clearing\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.clearing"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.clearing#composition.negativeSpace": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.clearing#composition.negativeSpace",
+        "outputPath": "$.entities[\"region.blue-winter-grove.clearing\"].components[\"composition.negativeSpace\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.clearing.purpose"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.clearing#description.intent": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.clearing#description.intent",
+        "outputPath": "$.entities[\"region.blue-winter-grove.clearing\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.clearing.name",
+          "$.cast.clearing.purpose"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.clearing#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.clearing#ownership",
+        "outputPath": "$.entityTree.children[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.clearing"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.frozenCreek": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.frozenCreek",
+        "outputPath": "$.entities[\"region.blue-winter-grove.frozenCreek\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.frozenCreek"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.frozenCreek#composition.negativeSpace": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.frozenCreek#composition.negativeSpace",
+        "outputPath": "$.entities[\"region.blue-winter-grove.frozenCreek\"].components[\"composition.negativeSpace\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.frozenCreek.purpose"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.frozenCreek#description.intent": [
+      {
+        "lowerer": {
+          "id": "region",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.frozenCreek#description.intent",
+        "outputPath": "$.entities[\"region.blue-winter-grove.frozenCreek\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.frozenCreek.name",
+          "$.cast.frozenCreek.purpose"
+        ]
+      }
+    ],
+    "region.blue-winter-grove.frozenCreek#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "region.blue-winter-grove.frozenCreek#ownership",
+        "outputPath": "$.entityTree.children[2]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.frozenCreek"
+        ]
+      }
+    ],
+    "rel.blue-winter-grove.frames.coniferSpires.clearing": [
+      {
+        "lowerer": {
+          "id": "composition-frames",
+          "version": "0.1.0"
+        },
+        "outputId": "rel.blue-winter-grove.frames.coniferSpires.clearing",
+        "outputPath": "$.relationships[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.composition[1]"
+        ]
+      }
+    ],
+    "rel.blue-winter-grove.frames.landmarkTree.clearing": [
+      {
+        "lowerer": {
+          "id": "composition-frames",
+          "version": "0.1.0"
+        },
+        "outputId": "rel.blue-winter-grove.frames.landmarkTree.clearing",
+        "outputPath": "$.relationships[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.composition[2]"
+        ]
+      }
+    ],
+    "rel.blue-winter-grove.frames.roundedGrove.clearing": [
+      {
+        "lowerer": {
+          "id": "composition-frames",
+          "version": "0.1.0"
+        },
+        "outputId": "rel.blue-winter-grove.frames.roundedGrove.clearing",
+        "outputPath": "$.relationships[2]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.composition[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.character.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.character.forbidden.1",
+        "outputPath": "$.validation.humanReview[15]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.character.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.character.forbidden.2",
+        "outputPath": "$.validation.humanReview[16]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.character.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.character.forbidden.3",
+        "outputPath": "$.validation.humanReview[17]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.character.required.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.character.required.1",
+        "outputPath": "$.validation.humanReview[14]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.character.rules.must[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.creekWater.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.creekWater.forbidden.1",
+        "outputPath": "$.validation.humanReview[18]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.creekWater.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.creekWater.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.creekWater.forbidden.2",
+        "outputPath": "$.validation.humanReview[19]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.creekWater.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.creekWater.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.creekWater.forbidden.3",
+        "outputPath": "$.validation.humanReview[20]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.creekWater.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.1",
+        "outputPath": "$.validation.humanReview[21]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.forestFloorDetails.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.2",
+        "outputPath": "$.validation.humanReview[22]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.forestFloorDetails.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.forestFloorDetails.forbidden.3",
+        "outputPath": "$.validation.humanReview[23]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.forestFloorDetails.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.1",
+        "outputPath": "$.validation.humanReview[25]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentTrunk.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.frostBentTrunk.forbidden.2",
+        "outputPath": "$.validation.humanReview[26]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentTrunk.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.frostBentTrunk.required.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.frostBentTrunk.required.1",
+        "outputPath": "$.validation.humanReview[24]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.frostBentTrunk.rules.must[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.1",
+        "outputPath": "$.validation.humanReview[27]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedSnowCrown.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.2",
+        "outputPath": "$.validation.humanReview[28]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedSnowCrown.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.roundedSnowCrown.forbidden.3",
+        "outputPath": "$.validation.humanReview[29]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.roundedSnowCrown.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.1",
+        "outputPath": "$.validation.humanReview[30]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireSnowCrown.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.2",
+        "outputPath": "$.validation.humanReview[31]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireSnowCrown.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.spireSnowCrown.forbidden.3",
+        "outputPath": "$.validation.humanReview[32]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.spireSnowCrown.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.1",
+        "outputPath": "$.validation.humanReview[33]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.warmForkedTrunk.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.2",
+        "outputPath": "$.validation.humanReview[34]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.warmForkedTrunk.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.warmForkedTrunk.forbidden.3",
+        "outputPath": "$.validation.humanReview[35]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.warmForkedTrunk.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.winterSurfaces.required.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.winterSurfaces.required.1",
+        "outputPath": "$.validation.humanReview[36]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterSurfaces.rules.must[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.winterTree.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.winterTree.forbidden.1",
+        "outputPath": "$.validation.humanReview[37]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterTree.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.winterTree.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.winterTree.forbidden.2",
+        "outputPath": "$.validation.humanReview[38]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterTree.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.prototype.blue-winter-grove.winterTree.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.prototype.blue-winter-grove.winterTree.forbidden.3",
+        "outputPath": "$.validation.humanReview[39]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.definitions.winterTree.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.region.blue-winter-grove.clearing.required.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.region.blue-winter-grove.clearing.required.1",
+        "outputPath": "$.validation.humanReview[40]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.clearing.keep[0]"
+        ]
+      }
+    ],
+    "review.rule.region.blue-winter-grove.clearing.required.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.region.blue-winter-grove.clearing.required.2",
+        "outputPath": "$.validation.humanReview[41]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.clearing.keep[1]"
+        ]
+      }
+    ],
+    "review.rule.region.blue-winter-grove.clearing.required.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.region.blue-winter-grove.clearing.required.3",
+        "outputPath": "$.validation.humanReview[42]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.clearing.keep[2]"
+        ]
+      }
+    ],
+    "review.rule.region.blue-winter-grove.frozenCreek.required.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.region.blue-winter-grove.frozenCreek.required.1",
+        "outputPath": "$.validation.humanReview[43]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.frozenCreek.keep[0]"
+        ]
+      }
+    ],
+    "review.rule.region.blue-winter-grove.frozenCreek.required.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.region.blue-winter-grove.frozenCreek.required.2",
+        "outputPath": "$.validation.humanReview[44]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.frozenCreek.keep[1]"
+        ]
+      }
+    ],
+    "review.rule.region.blue-winter-grove.frozenCreek.required.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.region.blue-winter-grove.frozenCreek.required.3",
+        "outputPath": "$.validation.humanReview[45]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.cast.frozenCreek.keep[2]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.forbidden.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.forbidden.1",
+        "outputPath": "$.validation.humanReview[8]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[0]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.forbidden.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.forbidden.2",
+        "outputPath": "$.validation.humanReview[9]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[1]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.forbidden.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.forbidden.3",
+        "outputPath": "$.validation.humanReview[10]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[2]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.forbidden.4": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.forbidden.4",
+        "outputPath": "$.validation.humanReview[11]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[3]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.forbidden.5": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.forbidden.5",
+        "outputPath": "$.validation.humanReview[12]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[4]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.forbidden.6": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.forbidden.6",
+        "outputPath": "$.validation.humanReview[13]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.avoid[5]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.required.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.required.1",
+        "outputPath": "$.validation.humanReview[4]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[0]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.required.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.required.2",
+        "outputPath": "$.validation.humanReview[5]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[1]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.required.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.required.3",
+        "outputPath": "$.validation.humanReview[6]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[2]"
+        ]
+      }
+    ],
+    "review.rule.scene.blue-winter-grove.required.4": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.rule.scene.blue-winter-grove.required.4",
+        "outputPath": "$.validation.humanReview[7]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.rules.must[3]"
+        ]
+      }
+    ],
+    "review.semantic.1": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.1",
+        "outputPath": "$.validation.humanReview[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[0]"
+        ]
+      }
+    ],
+    "review.semantic.2": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.2",
+        "outputPath": "$.validation.humanReview[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[1]"
+        ]
+      }
+    ],
+    "review.semantic.3": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.3",
+        "outputPath": "$.validation.humanReview[2]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[2]"
+        ]
+      }
+    ],
+    "review.semantic.4": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "review.semantic.4",
+        "outputPath": "$.validation.humanReview[3]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.review[3]"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove",
+        "outputPath": "$.entities[\"scene.blue-winter-grove\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove#description.intent": [
+      {
+        "lowerer": {
+          "id": "experience-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove#description.intent",
+        "outputPath": "$.entities[\"scene.blue-winter-grove\"].components[\"description.intent\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.experience"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove#ownership": [
+      {
+        "lowerer": {
+          "id": "scene-root",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove#ownership",
+        "outputPath": "$.entityTree",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove#semantic-projection": [
+      {
+        "lowerer": {
+          "id": "semantic-preservation",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove#semantic-projection",
+        "outputPath": "$.contract.provenance.authoring.semantic",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$",
+          "$.definitions.character",
+          "$.definitions.creekWater",
+          "$.definitions.forestFloorDetails",
+          "$.definitions.frostBentLandmark",
+          "$.definitions.frostBentTrunk",
+          "$.definitions.powderSnow",
+          "$.definitions.roundedSnowCrown",
+          "$.definitions.roundedWinterTree",
+          "$.definitions.scholar",
+          "$.definitions.scout",
+          "$.definitions.sheetIce",
+          "$.definitions.spireConifer",
+          "$.definitions.spireSnowCrown",
+          "$.definitions.vanguard",
+          "$.definitions.warmForkedTrunk",
+          "$.definitions.winterSurfaces",
+          "$.definitions.winterTree",
+          "$.definitions.winterboundParty",
+          "$.cast.clearing",
+          "$.cast.coniferSpires",
+          "$.cast.frozenCreek",
+          "$.cast.landmarkTree",
+          "$.cast.roundedGrove",
+          "$.cast.travellingParty"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove#style.forbiddenForms": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove#style.forbiddenForms",
+        "outputPath": "$.entities[\"scene.blue-winter-grove\"].components[\"style.forbiddenForms\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.visual.avoid",
+          "$.rules.avoid"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove#style.visualLanguage": [
+      {
+        "lowerer": {
+          "id": "visual-direction",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove#style.visualLanguage",
+        "outputPath": "$.entities[\"scene.blue-winter-grove\"].components[\"style.visualLanguage\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.visual"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove#validation.acceptance": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove#validation.acceptance",
+        "outputPath": "$.entities[\"scene.blue-winter-grove\"].components[\"validation.acceptance\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance",
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "scene.blue-winter-grove#validation.metricTargets": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "scene.blue-winter-grove#validation.metricTargets",
+        "outputPath": "$.entities[\"scene.blue-winter-grove\"].components[\"validation.metricTargets\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.checks"
+        ]
+      }
+    ],
+    "semantic.party-count": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "semantic.party-count",
+        "outputPath": "$.validation.suites[\"suite.semantic\"].rules[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.checks[1]"
+        ]
+      }
+    ],
+    "semantic.rounded-tree-count": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "semantic.rounded-tree-count",
+        "outputPath": "$.validation.suites[\"suite.semantic\"].rules[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.acceptance.checks[0]"
+        ]
+      }
+    ],
+    "suite.schema": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "suite.schema",
+        "outputPath": "$.validation.suites[\"suite.schema\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "suite.semantic": [
+      {
+        "lowerer": {
+          "id": "acceptance",
+          "version": "0.1.0"
+        },
+        "outputId": "suite.semantic",
+        "outputPath": "$.validation.suites[\"suite.semantic\"]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]",
+          "$.acceptance"
+        ]
+      }
+    ],
+    "system.layout.region-masks": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.layout.region-masks",
+        "outputPath": "$.systems[1]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.population.semantic-layout": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.population.semantic-layout",
+        "outputPath": "$.systems[2]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.publish.resolved-contract": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.publish.resolved-contract",
+        "outputPath": "$.systems[6]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.render.acceptance-views": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.render.acceptance-views",
+        "outputPath": "$.systems[4]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.resolve.contract": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.resolve.contract",
+        "outputPath": "$.systems[0]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.synthesis.semantic-prototypes": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.synthesis.semantic-prototypes",
+        "outputPath": "$.systems[3]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ],
+    "system.validate.contract-and-structure": [
+      {
+        "lowerer": {
+          "id": "voxel-diorama-profile",
+          "version": "0.1.0"
+        },
+        "outputId": "system.validate.contract-and-structure",
+        "outputPath": "$.systems[5]",
+        "profile": {
+          "id": "voxel-diorama",
+          "version": "0.1.0"
+        },
+        "semanticPaths": [
+          "$.profiles[0]"
+        ]
+      }
+    ]
+  },
+  "hashById": {
+    "population.blue-winter-grove.coniferSpires": "c12080a5179538e08fcd46f2ccfbeb0bc4483023a3df0275381eefdf4e2411d5",
+    "population.blue-winter-grove.landmarkTree": "9428852f48a0af055443699d3d872d3b66441a9749e84751d163d8e3725023ac",
+    "population.blue-winter-grove.roundedGrove": "93a7f712d14b90b62d9179833ec252997219e8a1fec3a0d45717f9faf0b96452",
+    "population.blue-winter-grove.travellingParty": "99e1fcf03ebed2886fcd67b9a3498f0073a884c369a3cefba40db1e8f4193d45",
+    "profile.voxel-diorama": "96e655db04701b240f3c03d133db1e86c1b092470741840c2956956675eee025",
+    "prototype.blue-winter-grove.character": "fca72fe46c7815422c22d9a3e6d31b3481f8ebf9e167ccf0f7167d2262df83cd",
+    "prototype.blue-winter-grove.creekWater": "78c3329b81b0b93eb0ebd5df177fccfc7270d8b0ff8265154edec46512f3aee5",
+    "prototype.blue-winter-grove.forestFloorDetails": "d174445fb950dc6d2f96f42d7c92921cb39744dde59aecf8dbdd8dee76b99dcb",
+    "prototype.blue-winter-grove.frostBentLandmark": "c9b7274cf26871b658a7744d6df911b354535794116cf24b2727760266807096",
+    "prototype.blue-winter-grove.frostBentTrunk": "4e0531e8e748300e6f931776214dae015aa1bdc90db4273f84bbc5527b43a6ea",
+    "prototype.blue-winter-grove.powderSnow": "9cda099844f87296360b42243f2bb7a313df2e40c4beadd4e86952e27e0a1808",
+    "prototype.blue-winter-grove.roundedSnowCrown": "9b8f08fcae5bb8cfa3a85b88d8ab894739402ec027912ceb3bc1d4cb7eed72ee",
+    "prototype.blue-winter-grove.roundedWinterTree": "8bf7b36c388b9ae504924a377cf4bb050c04c060fb4dce3d1b4b79c132eae4d3",
+    "prototype.blue-winter-grove.scholar": "705675f68ae920a27d69c9720bd7ebd0bf5a1681e9de2bbb6051b1a7cfa4beea",
+    "prototype.blue-winter-grove.scout": "d74e1f5d51b0d0f7d5cc6ad5e32c30cf241ce3b467c5d3c7be4657e12e7e53f6",
+    "prototype.blue-winter-grove.sheetIce": "4f4e691c3f3efe8f91a3b34638f8372382e8c6264d9e9fd421a1f06721ec8a02",
+    "prototype.blue-winter-grove.spireConifer": "044de1073974666e8e3868a57a1c4cc9639f10c1f5e6abd9bd044f96058bf5e1",
+    "prototype.blue-winter-grove.spireSnowCrown": "bd5ab4f32331335786ce5fd511a7c3d72d8657d5ef48743e2ef4e0d88d49a8e1",
+    "prototype.blue-winter-grove.vanguard": "022a48e0b6ae5f484acc13dbbf9e9817e8b153e974a6324cc506bb73d4e97596",
+    "prototype.blue-winter-grove.warmForkedTrunk": "586678f583ff93a1345b824735177d6a5ec7c32d4db3fbd9946037e6f8e1a023",
+    "prototype.blue-winter-grove.winterSurfaces": "a2461d055f4364979a4319754ebef034546ef6525077c684c83079db75c1e0b2",
+    "prototype.blue-winter-grove.winterTree": "af8dbaf206ab7017d78c35f597280ff67035896d7fa0f183f8dd399ff9f8f93a",
+    "prototype.blue-winter-grove.winterboundParty": "ad652cd2538d422e01f61ab7d6e4227044e246b90cffbb3ba5a0494db769d176",
+    "region.blue-winter-grove.clearing": "cd165469bc6b662bc38124a159d27cb65344473fec36f3dc58858ed839b9c277",
+    "region.blue-winter-grove.frozenCreek": "4739df194b758b02ebf170d4e1248dc68f01e16240afedceaa2a6ccfa6bcc397",
+    "rel.blue-winter-grove.frames.coniferSpires.clearing": "a06a33982ee21b55c7c9be96c4bd2316df17c5658ebe436635062bd37237046c",
+    "rel.blue-winter-grove.frames.landmarkTree.clearing": "658ac5f183dba2d3d2466818c71d51a975e7f0d5a3352330af8d28703a859c75",
+    "rel.blue-winter-grove.frames.roundedGrove.clearing": "8ffd4624037cb956a93803d47150fe83c1c3e7ed7c7930c1edbd0dc1d16225df",
+    "scene.blue-winter-grove": "b5b26c898583ca13d222222ee5cc0a15e927c8458d93147c82a164ae514c3801",
+    "system.layout.region-masks": "8ad6435291a7a650277fdd93586359bbd2e991dbbbede1b23819487e922415b8",
+    "system.population.semantic-layout": "5f0896f738c888f195d24e7557552a1c7f734940d2f47a5d3d0d2fa67033a0af",
+    "system.publish.resolved-contract": "9757a1e616b84862d47e45facb5cf848f36baff116d18962d794a078452a3971",
+    "system.render.acceptance-views": "4abc17e71a166a4fbec396651e89220194e7074f30995ca88a6a8c132846cafe",
+    "system.resolve.contract": "dc51b1ed52c8f5b49a0359eacb69422ad1d3ab74615d3a83dde882eda3359605",
+    "system.synthesis.semantic-prototypes": "528555598a4b421ba7eaa206a92ea70d803acb726c8a7048221bc142afe137b9",
+    "system.validate.contract-and-structure": "1f735f0d11b718b82a1ab29d37e66a3f4d887f7ab0094221369d64669122dbb6"
+  },
+  "incomingRelationshipsById": {
+    "region.blue-winter-grove.clearing": [
+      "rel.blue-winter-grove.frames.coniferSpires.clearing",
+      "rel.blue-winter-grove.frames.landmarkTree.clearing",
+      "rel.blue-winter-grove.frames.roundedGrove.clearing"
+    ]
+  },
+  "outgoingRelationshipsById": {
+    "population.blue-winter-grove.coniferSpires": [
+      "rel.blue-winter-grove.frames.coniferSpires.clearing"
+    ],
+    "population.blue-winter-grove.landmarkTree": [
+      "rel.blue-winter-grove.frames.landmarkTree.clearing"
+    ],
+    "population.blue-winter-grove.roundedGrove": [
+      "rel.blue-winter-grove.frames.roundedGrove.clearing"
+    ]
+  },
+  "prototypesByAncestor": {
+    "prototype.blue-winter-grove.character": [
+      "prototype.blue-winter-grove.scholar",
+      "prototype.blue-winter-grove.scout",
+      "prototype.blue-winter-grove.vanguard"
+    ],
+    "prototype.blue-winter-grove.warmForkedTrunk": [
+      "prototype.blue-winter-grove.frostBentTrunk"
+    ],
+    "prototype.blue-winter-grove.winterTree": [
+      "prototype.blue-winter-grove.frostBentLandmark",
+      "prototype.blue-winter-grove.roundedWinterTree",
+      "prototype.blue-winter-grove.spireConifer"
+    ]
+  },
+  "referenceUsesByImageHash": {
+    "2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3": [
+      {
+        "ownerId": "population.blue-winter-grove.coniferSpires",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.cast.coniferSpires.references[0]",
+        "use": "sparse vertical accents and uneven distant skyline"
+      },
+      {
+        "ownerId": "population.blue-winter-grove.roundedGrove",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.cast.roundedGrove.references[0]",
+        "use": "dominant tree mass, cluster depth, and open perimeter gaps"
+      },
+      {
+        "ownerId": "population.blue-winter-grove.travellingParty",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.cast.travellingParty.references[0]",
+        "use": "party scale and formation in open snow"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.forestFloorDetails.references[0]",
+        "use": "restrained low accents across open powder"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.powderSnow",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.powderSnow.references[0]",
+        "use": "open powder field, rounded drifts, and blue-lilac shadow"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.roundedSnowCrown.references[0]",
+        "use": "broad clustered canopy mass and powder-soft outer silhouette"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.roundedWinterTree",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.roundedWinterTree.references[0]",
+        "use": "dominant grove tree family, scale range, and clustered silhouette"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.spireConifer",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.spireConifer.references[0]",
+        "use": "sparse tall punctuation above and behind rounded tree masses"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.spireSnowCrown",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.spireSnowCrown.references[0]",
+        "use": "slender background accents rising through the rounded canopy"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.vanguard",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.vanguard.references[1]",
+        "use": "party scale and forward travelling pose in the clearing"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.warmForkedTrunk.references[0]",
+        "use": "restrained ochre-brown warmth beneath cool snow"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.winterTree",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.winterTree.references[0]",
+        "use": "shared miniature scale, snow softness, and tree-family cohesion"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.winterboundParty",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.definitions.winterboundParty.references[1]",
+        "use": "group scale, formation, and visual priority in open snow"
+      },
+      {
+        "ownerId": "region.blue-winter-grove.clearing",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.cast.clearing.references[0]",
+        "use": "open breathing room, broken tree edge, and party orientation"
+      },
+      {
+        "ownerId": "scene.blue-winter-grove",
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "semanticPath": "$.references[0]",
+        "use": "scene mood, clearing composition, party scale, and dominant tree family"
+      }
+    ],
+    "af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6": [
+      {
+        "ownerId": "prototype.blue-winter-grove.character",
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "semanticPath": "$.definitions.character.references[0]",
+        "use": "shared sprite proportions, pixel craft, and field-view readability"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.scholar",
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "semanticPath": "$.definitions.scholar.references[0]",
+        "use": "center character identity, cream scarf, staff, and book satchel"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.scout",
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "semanticPath": "$.definitions.scout.references[0]",
+        "use": "right character identity, ochre scarf, bow, and quiver"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.vanguard",
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "semanticPath": "$.definitions.vanguard.references[0]",
+        "use": "left character identity, indigo silhouette, sword, and pack"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.winterboundParty",
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "semanticPath": "$.definitions.winterboundParty.references[0]",
+        "use": "the three fixed identities and their relative silhouettes"
+      },
+      {
+        "ownerId": "scene.blue-winter-grove",
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "semanticPath": "$.references[3]",
+        "use": "authoritative character identities, equipment, palette, and pixel craft"
+      }
+    ],
+    "d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1": [
+      {
+        "ownerId": "population.blue-winter-grove.landmarkTree",
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "semanticPath": "$.cast.landmarkTree.references[0]",
+        "use": "placement, approachable arch, and inspection distance"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "semanticPath": "$.definitions.forestFloorDetails.references[1]",
+        "use": "frost grass, low shrubs, and half-buried stones near the tree base"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.frostBentLandmark",
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "semanticPath": "$.definitions.frostBentLandmark.references[0]",
+        "use": "complete landmark identity, root contact, crown, and arch opening"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.frostBentTrunk",
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "semanticPath": "$.definitions.frostBentTrunk.references[0]",
+        "use": "split trunk, exposed root flare, and low traversable arch"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "semanticPath": "$.definitions.roundedSnowCrown.references[1]",
+        "use": "branch-supported snow clumps with gaps into the crown"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "semanticPath": "$.definitions.warmForkedTrunk.references[1]",
+        "use": "readable forks, branch support, and rooted contact with the ground"
+      },
+      {
+        "ownerId": "scene.blue-winter-grove",
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "semanticPath": "$.references[2]",
+        "use": "close-inspection reward, tree construction, roots, and ground detail"
+      }
+    ],
+    "e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019": [
+      {
+        "ownerId": "population.blue-winter-grove.travellingParty",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.cast.travellingParty.references[1]",
+        "use": "movement and spacing along the route"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.creekWater",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.definitions.creekWater.references[0]",
+        "use": "clear restrained blue water visible beneath and between thin ice"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.powderSnow",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.definitions.powderSnow.references[1]",
+        "use": "soft stepped banks and walkable snow beside the ice"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.scholar",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.definitions.scholar.references[1]",
+        "use": "observing pose and spacing while travelling beside the creek"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.scout",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.definitions.scout.references[1]",
+        "use": "nimble leading pose and readable separation from the other travellers"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.sheetIce",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.definitions.sheetIce.references[0]",
+        "use": "glassy center, cloudy frosted edges, and snow-dusted stepped banks"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.winterSurfaces",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.definitions.winterSurfaces.references[0]",
+        "use": "the required visual separation between powder, water, and ice"
+      },
+      {
+        "ownerId": "prototype.blue-winter-grove.winterboundParty",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.definitions.winterboundParty.references[2]",
+        "use": "movement as one compact party along a readable route"
+      },
+      {
+        "ownerId": "region.blue-winter-grove.frozenCreek",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.cast.frozenCreek.references[0]",
+        "use": "winding route, stepped banks, and distinct water-ice-snow reads"
+      },
+      {
+        "ownerId": "scene.blue-winter-grove",
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "semanticPath": "$.references[1]",
+        "use": "traversal route, surface separation, and party movement"
+      }
+    ]
+  },
+  "systemsByReadType": {
+    "artifact.validationReport": [
+      "system.publish.resolved-contract"
+    ],
+    "composition.populationRole": [
+      "system.population.semantic-layout"
+    ],
+    "contract": [
+      "system.publish.resolved-contract"
+    ],
+    "core.bounds": [
+      "system.layout.region-masks"
+    ],
+    "definitions.prototypes": [
+      "system.resolve.contract",
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.*": [
+      "system.publish.resolved-contract",
+      "system.render.acceptance-views",
+      "system.validate.contract-and-structure"
+    ],
+    "derived.instanceTransform": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.prototypeBinding": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.regionMaskVolume": [
+      "system.population.semantic-layout"
+    ],
+    "entities": [
+      "system.validate.contract-and-structure"
+    ],
+    "entities.*.components": [
+      "system.resolve.contract"
+    ],
+    "imports": [
+      "system.resolve.contract"
+    ],
+    "layout.clearance": [
+      "system.layout.region-masks"
+    ],
+    "layout.regionMask": [
+      "system.layout.region-masks"
+    ],
+    "population.distribution": [
+      "system.population.semantic-layout"
+    ],
+    "population.prototypeMix": [
+      "system.population.semantic-layout"
+    ],
+    "population.quantity": [
+      "system.population.semantic-layout"
+    ],
+    "population.variation": [
+      "system.population.semantic-layout"
+    ],
+    "relationships": [
+      "system.resolve.contract",
+      "system.validate.contract-and-structure"
+    ],
+    "relationships:composition.*": [
+      "system.population.semantic-layout"
+    ],
+    "render.camera": [
+      "system.render.acceptance-views"
+    ],
+    "render.outputPasses": [
+      "system.render.acceptance-views"
+    ],
+    "systems": [
+      "system.validate.contract-and-structure"
+    ],
+    "validation.suites": [
+      "system.validate.contract-and-structure"
+    ],
+    "variation.parameters": [
+      "system.synthesis.semantic-prototypes"
+    ]
+  },
+  "systemsByWriteType": {
+    "artifact.metricSeries": [
+      "system.validate.contract-and-structure"
+    ],
+    "artifact.provenanceMap": [
+      "system.publish.resolved-contract"
+    ],
+    "artifact.render": [
+      "system.render.acceptance-views"
+    ],
+    "artifact.renderMetadata": [
+      "system.render.acceptance-views"
+    ],
+    "artifact.resolvedContract": [
+      "system.publish.resolved-contract"
+    ],
+    "artifact.validationReport": [
+      "system.validate.contract-and-structure"
+    ],
+    "derived.assetMetrics": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.dependencyGraph": [
+      "system.resolve.contract"
+    ],
+    "derived.distanceField": [
+      "system.layout.region-masks"
+    ],
+    "derived.instanceTransform": [
+      "system.population.semantic-layout"
+    ],
+    "derived.populationInstance": [
+      "system.population.semantic-layout"
+    ],
+    "derived.prototypeArtifact": [
+      "system.synthesis.semantic-prototypes"
+    ],
+    "derived.prototypeBinding": [
+      "system.population.semantic-layout"
+    ],
+    "derived.regionMaskVolume": [
+      "system.layout.region-masks"
+    ],
+    "derived.resolvedComponent": [
+      "system.resolve.contract"
+    ],
+    "derived.resolvedPrototype": [
+      "system.resolve.contract"
+    ]
+  }
+}

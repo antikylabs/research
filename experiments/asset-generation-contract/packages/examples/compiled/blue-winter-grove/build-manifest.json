@@ -1,0 +1,384 @@
+{
+  "catalog": {
+    "id": "antikylabs.core-component-catalog",
+    "sha256": "107339a1e475ac399bf203a02a77f3a7b89cc454fd08e9259fbbd3b31aecadbb",
+    "version": "0.1.0"
+  },
+  "compiler": {
+    "id": "@antiky/contracts/compiler",
+    "version": "0.1.0"
+  },
+  "diagnostics": {
+    "errors": 0,
+    "info": 0,
+    "total": 0,
+    "warnings": 0
+  },
+  "inputs": {
+    "entry": "blue-winter-grove.contract.ts",
+    "referenceImages": [
+      {
+        "path": "./references/blue-winter-grove-party-sprite-anchor-v1.png",
+        "sha256": "af9be366dbcd82b50f2f4d429a20204f84ca88262f41ffb9de5d96d69b9cf3e6",
+        "uses": [
+          {
+            "ownerId": "prototype.blue-winter-grove.character",
+            "semanticPath": "$.definitions.character.references[0]",
+            "use": "shared sprite proportions, pixel craft, and field-view readability"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.scholar",
+            "semanticPath": "$.definitions.scholar.references[0]",
+            "use": "center character identity, cream scarf, staff, and book satchel"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.scout",
+            "semanticPath": "$.definitions.scout.references[0]",
+            "use": "right character identity, ochre scarf, bow, and quiver"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.vanguard",
+            "semanticPath": "$.definitions.vanguard.references[0]",
+            "use": "left character identity, indigo silhouette, sword, and pack"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.winterboundParty",
+            "semanticPath": "$.definitions.winterboundParty.references[0]",
+            "use": "the three fixed identities and their relative silhouettes"
+          },
+          {
+            "ownerId": "scene.blue-winter-grove",
+            "semanticPath": "$.references[3]",
+            "use": "authoritative character identities, equipment, palette, and pixel craft"
+          }
+        ]
+      },
+      {
+        "path": "./references/blue-winter-grove-reference-01-clearing-v4.png",
+        "sha256": "2e7b8db169ac7af42ac9fb3343046523ef7106f6b8a954033289267da4e65bb3",
+        "uses": [
+          {
+            "ownerId": "region.blue-winter-grove.clearing",
+            "semanticPath": "$.cast.clearing.references[0]",
+            "use": "open breathing room, broken tree edge, and party orientation"
+          },
+          {
+            "ownerId": "population.blue-winter-grove.coniferSpires",
+            "semanticPath": "$.cast.coniferSpires.references[0]",
+            "use": "sparse vertical accents and uneven distant skyline"
+          },
+          {
+            "ownerId": "population.blue-winter-grove.roundedGrove",
+            "semanticPath": "$.cast.roundedGrove.references[0]",
+            "use": "dominant tree mass, cluster depth, and open perimeter gaps"
+          },
+          {
+            "ownerId": "population.blue-winter-grove.travellingParty",
+            "semanticPath": "$.cast.travellingParty.references[0]",
+            "use": "party scale and formation in open snow"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+            "semanticPath": "$.definitions.forestFloorDetails.references[0]",
+            "use": "restrained low accents across open powder"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.powderSnow",
+            "semanticPath": "$.definitions.powderSnow.references[0]",
+            "use": "open powder field, rounded drifts, and blue-lilac shadow"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+            "semanticPath": "$.definitions.roundedSnowCrown.references[0]",
+            "use": "broad clustered canopy mass and powder-soft outer silhouette"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.roundedWinterTree",
+            "semanticPath": "$.definitions.roundedWinterTree.references[0]",
+            "use": "dominant grove tree family, scale range, and clustered silhouette"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.spireConifer",
+            "semanticPath": "$.definitions.spireConifer.references[0]",
+            "use": "sparse tall punctuation above and behind rounded tree masses"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.spireSnowCrown",
+            "semanticPath": "$.definitions.spireSnowCrown.references[0]",
+            "use": "slender background accents rising through the rounded canopy"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.vanguard",
+            "semanticPath": "$.definitions.vanguard.references[1]",
+            "use": "party scale and forward travelling pose in the clearing"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+            "semanticPath": "$.definitions.warmForkedTrunk.references[0]",
+            "use": "restrained ochre-brown warmth beneath cool snow"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.winterTree",
+            "semanticPath": "$.definitions.winterTree.references[0]",
+            "use": "shared miniature scale, snow softness, and tree-family cohesion"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.winterboundParty",
+            "semanticPath": "$.definitions.winterboundParty.references[1]",
+            "use": "group scale, formation, and visual priority in open snow"
+          },
+          {
+            "ownerId": "scene.blue-winter-grove",
+            "semanticPath": "$.references[0]",
+            "use": "scene mood, clearing composition, party scale, and dominant tree family"
+          }
+        ]
+      },
+      {
+        "path": "./references/blue-winter-grove-reference-02-frozen-creek-v4.png",
+        "sha256": "e15fa1b3a2399e0f55e5b72259a242c70d0171227f9a570a0681105601036019",
+        "uses": [
+          {
+            "ownerId": "region.blue-winter-grove.frozenCreek",
+            "semanticPath": "$.cast.frozenCreek.references[0]",
+            "use": "winding route, stepped banks, and distinct water-ice-snow reads"
+          },
+          {
+            "ownerId": "population.blue-winter-grove.travellingParty",
+            "semanticPath": "$.cast.travellingParty.references[1]",
+            "use": "movement and spacing along the route"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.creekWater",
+            "semanticPath": "$.definitions.creekWater.references[0]",
+            "use": "clear restrained blue water visible beneath and between thin ice"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.powderSnow",
+            "semanticPath": "$.definitions.powderSnow.references[1]",
+            "use": "soft stepped banks and walkable snow beside the ice"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.scholar",
+            "semanticPath": "$.definitions.scholar.references[1]",
+            "use": "observing pose and spacing while travelling beside the creek"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.scout",
+            "semanticPath": "$.definitions.scout.references[1]",
+            "use": "nimble leading pose and readable separation from the other travellers"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.sheetIce",
+            "semanticPath": "$.definitions.sheetIce.references[0]",
+            "use": "glassy center, cloudy frosted edges, and snow-dusted stepped banks"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.winterSurfaces",
+            "semanticPath": "$.definitions.winterSurfaces.references[0]",
+            "use": "the required visual separation between powder, water, and ice"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.winterboundParty",
+            "semanticPath": "$.definitions.winterboundParty.references[2]",
+            "use": "movement as one compact party along a readable route"
+          },
+          {
+            "ownerId": "scene.blue-winter-grove",
+            "semanticPath": "$.references[1]",
+            "use": "traversal route, surface separation, and party movement"
+          }
+        ]
+      },
+      {
+        "path": "./references/blue-winter-grove-reference-03-frost-tree-detail-v4.png",
+        "sha256": "d69d7ffeb4ec5d61f37b810fc9dd01d97dfd2a84eba2ba6403282ac8fb46f6c1",
+        "uses": [
+          {
+            "ownerId": "population.blue-winter-grove.landmarkTree",
+            "semanticPath": "$.cast.landmarkTree.references[0]",
+            "use": "placement, approachable arch, and inspection distance"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.forestFloorDetails",
+            "semanticPath": "$.definitions.forestFloorDetails.references[1]",
+            "use": "frost grass, low shrubs, and half-buried stones near the tree base"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.frostBentLandmark",
+            "semanticPath": "$.definitions.frostBentLandmark.references[0]",
+            "use": "complete landmark identity, root contact, crown, and arch opening"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.frostBentTrunk",
+            "semanticPath": "$.definitions.frostBentTrunk.references[0]",
+            "use": "split trunk, exposed root flare, and low traversable arch"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.roundedSnowCrown",
+            "semanticPath": "$.definitions.roundedSnowCrown.references[1]",
+            "use": "branch-supported snow clumps with gaps into the crown"
+          },
+          {
+            "ownerId": "prototype.blue-winter-grove.warmForkedTrunk",
+            "semanticPath": "$.definitions.warmForkedTrunk.references[1]",
+            "use": "readable forks, branch support, and rooted contact with the ground"
+          },
+          {
+            "ownerId": "scene.blue-winter-grove",
+            "semanticPath": "$.references[2]",
+            "use": "close-inspection reward, tree construction, roots, and ground detail"
+          }
+        ]
+      }
+    ],
+    "semanticSha256": "edb9f4f5bfbb4b66b99699cf99f1331c37c55c0f5fa5373ea8b2f1b8cbdaed14",
+    "sourceFiles": [
+      {
+        "path": "blue-winter-grove.characters.ts",
+        "sha256": "d315750eaa9f0d5a2f5f92a7dc374592ed965511f2a63b1ac3aee092b8de44be"
+      },
+      {
+        "path": "blue-winter-grove.contract.ts",
+        "sha256": "b7462e839893bfd41fec0915a19bcf3ee3cd39db1783df0903a4a0e2ecf7cc5f"
+      },
+      {
+        "path": "blue-winter-grove.definitions.ts",
+        "sha256": "c93a7d540c80879cd2e83282c857dd1363d17f56377642a4d9661a213fd7a47a"
+      },
+      {
+        "path": "blue-winter-grove.environment.ts",
+        "sha256": "a2892773f02c5017c07d4def2e82c577fa5c77c0fd4917b955cbb4aff36a54cd"
+      },
+      {
+        "path": "blue-winter-grove.layout.ts",
+        "sha256": "96ad5a8c2e287840e34ad30f43c9dd238f17ea456581fb2976ddbf9055f8d526"
+      },
+      {
+        "path": "blue-winter-grove.references.ts",
+        "sha256": "b413f169f72792bfe895d349ad32aeba78cef0074d0452a96e9fee5b7e178503"
+      }
+    ]
+  },
+  "lowerers": [
+    {
+      "id": "scene-root",
+      "version": "0.1.0"
+    },
+    {
+      "id": "reference-image-use",
+      "version": "0.1.0"
+    },
+    {
+      "id": "experience-direction",
+      "version": "0.1.0"
+    },
+    {
+      "id": "visual-direction",
+      "version": "0.1.0"
+    },
+    {
+      "id": "gameplay-direction",
+      "version": "0.1.0"
+    },
+    {
+      "id": "thing-prototype",
+      "version": "0.1.0"
+    },
+    {
+      "id": "thing-specialization",
+      "version": "0.1.0"
+    },
+    {
+      "id": "thing-parts",
+      "version": "0.1.0"
+    },
+    {
+      "id": "region",
+      "version": "0.1.0"
+    },
+    {
+      "id": "region-features",
+      "version": "0.1.0"
+    },
+    {
+      "id": "population",
+      "version": "0.1.0"
+    },
+    {
+      "id": "composition-frames",
+      "version": "0.1.0"
+    },
+    {
+      "id": "acceptance",
+      "version": "0.1.0"
+    },
+    {
+      "id": "voxel-diorama-profile",
+      "version": "0.1.0"
+    }
+  ],
+  "outputHashes": {
+    "contract-index.json": "7a4f09243c1027060ae1571d644b42d78b8773618ca571085ae109a856bb0ff4",
+    "contract.refs.ts": "ab1e4886c341be9a5cac1b9575000f45e875aa5aa475a8a0e1dc347ab9396020",
+    "diagnostics.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "resolved-contract.json": "be5dec06b4e938db03e868c8ba11d53a36f89a17b1c6a6179268be70dc39d5a8"
+  },
+  "passes": [
+    {
+      "id": "load-and-serialization-guard",
+      "version": "0.1.0"
+    },
+    {
+      "id": "semantic-collection-and-scoped-identity",
+      "version": "0.1.0"
+    },
+    {
+      "id": "profile-expansion-and-conflict-analysis",
+      "version": "0.1.0"
+    },
+    {
+      "id": "semantic-lowering",
+      "version": "0.1.0"
+    },
+    {
+      "id": "technical-graph-resolution",
+      "version": "0.1.0"
+    },
+    {
+      "id": "schema-and-catalog-validation",
+      "version": "0.1.0"
+    },
+    {
+      "id": "canonicalization-and-hashing",
+      "version": "0.1.0"
+    },
+    {
+      "id": "emission",
+      "version": "0.1.0"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "voxel-diorama",
+      "selection": "explicit",
+      "sha256": "68e368a8074e960a403b233992cf272a0b15e6e46993e1bb125ef21389d54685",
+      "version": "0.1.0"
+    }
+  ],
+  "resolvedContractSha256": "be5dec06b4e938db03e868c8ba11d53a36f89a17b1c6a6179268be70dc39d5a8",
+  "schema": {
+    "id": "https://antikylabs.dev/schemas/generative-scene-contract.schema.json",
+    "sha256": "784caab1245cd7e6268cd3c5b00f13671b17188a7e498bf3d8ae43b6d910b58f",
+    "version": "0.2.0"
+  },
+  "systemOrder": [
+    "system.resolve.contract",
+    "system.layout.region-masks",
+    "system.population.semantic-layout",
+    "system.synthesis.semantic-prototypes",
+    "system.render.acceptance-views",
+    "system.validate.contract-and-structure",
+    "system.publish.resolved-contract"
+  ]
+}

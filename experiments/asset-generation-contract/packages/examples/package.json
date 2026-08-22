@@ -1,0 +1,29 @@
+{
+  "name": "@antiky/contracts-examples",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Readable declarative TypeScript contracts paired with canonical compiler output.",
+  "files": [
+    "compiled",
+    "README.md",
+    "src"
+  ],
+  "scripts": {
+    "build": "npm run compile",
+    "clean": "node -e \"require('node:fs').rmSync('compiled', { recursive: true, force: true })\"",
+    "compile": "npm run clean && npm run build --workspace @antiky/contracts && npm run emit:blue-winter-grove && npm run emit:quiet-canal-market",
+    "compile:blue-winter-grove": "npm run build --workspace @antiky/contracts && npm run emit:blue-winter-grove",
+    "compile:quiet-canal-market": "npm run build --workspace @antiky/contracts && npm run emit:quiet-canal-market",
+    "emit:blue-winter-grove": "antiky-contract compile src/blue-winter-grove/blue-winter-grove.contract.ts --out compiled/blue-winter-grove",
+    "emit:quiet-canal-market": "antiky-contract compile src/quiet-canal-market/quiet-canal-market.contract.ts --out compiled/quiet-canal-market",
+    "lint": "oxlint src test",
+    "pretest": "npm run build --workspace @antiky/contracts",
+    "pretypecheck": "npm run build --workspace @antiky/contracts",
+    "test": "vitest run",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@antiky/contracts": "0.1.0"
+  }
+}

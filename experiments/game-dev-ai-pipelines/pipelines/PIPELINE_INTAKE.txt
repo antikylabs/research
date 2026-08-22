@@ -1,0 +1,8 @@
+Following Repos Need to be researched and pipelines from them extracted. All pipelines need to be extracted and put in a pipeline file for them, don't settle for less than your best research on it.
+-
+
+Following Repos Have been Researched Already:
+- https://github.com/MengTo/threeui
+- https://github.com/OpenDCAI/GameFactory-3A
+- https://github.com/RareSense/Nova3D
+- https://github.com/img2threejs/img2threejs

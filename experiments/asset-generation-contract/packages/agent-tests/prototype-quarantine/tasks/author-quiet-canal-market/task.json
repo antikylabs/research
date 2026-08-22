@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "id": "author-quiet-canal-market",
+  "title": "Author Quiet Canal Market",
+  "summary": "Author a semantic scene contract from the preserved compact brief without receiving the repository's oracle example.",
+  "entry": "src/quiet-canal-market.contract.ts",
+  "allowedWrites": [
+    "src/quiet-canal-market.contract.ts"
+  ],
+  "seeds": [
+    {
+      "source": "docs/usage-docs/reference/dsl.md",
+      "target": "guidance/reference/dsl.md",
+      "optional": false
+    },
+    {
+      "source": "docs/usage-docs/how-to/compile-and-validate.md",
+      "target": "guidance/how-to/compile-and-validate.md",
+      "optional": false
+    },
+    {
+      "source": "docs/usage-docs/how-to/organize-large-contracts.md",
+      "target": "guidance/how-to/organize-large-contracts.md",
+      "optional": false
+    }
+  ],
+  "assertions": {
+    "entityIds": [
+      "region.quiet-canal-market.canals",
+      "region.quiet-canal-market.dock",
+      "region.quiet-canal-market.market",
+      "region.quiet-canal-market.residential",
+      "scene.quiet-canal-market"
+    ],
+    "prototypeIds": [],
+    "systemIds": [
+      "system.resolve.contract",
+      "system.layout.region-masks",
+      "system.population.semantic-layout",
+      "system.synthesis.semantic-prototypes",
+      "system.render.acceptance-views",
+      "system.validate.contract-and-structure",
+      "system.publish.resolved-contract"
+    ],
+    "relationships": [],
+    "references": [],
+    "resolvedValues": [
+      {
+        "id": "contract-name",
+        "path": "/contract/name",
+        "value": "Quiet Canal Market"
+      },
+      {
+        "id": "canal-purpose",
+        "path": "/entities/region.quiet-canal-market.canals/components/composition.negativeSpace/purpose",
+        "value": "primary streets"
+      }
+    ],
+    "arrayLengths": [
+      {
+        "id": "semantic-review-count",
+        "path": "/contract/provenance/authoring/semantic/acceptance/review",
+        "length": 4
+      }
+    ],
+    "forbiddenKeys": [
+      {
+        "id": "no-technical-authoring",
+        "path": "/contract/provenance/authoring/semantic",
+        "key": "technical"
+      }
+    ],
+    "source": [
+      {
+        "id": "source-default-export",
+        "file": "src/quiet-canal-market.contract.ts",
+        "mode": "includes",
+        "text": "export default"
+      },
+      {
+        "id": "source-no-raw-component",
+        "file": "src/quiet-canal-market.contract.ts",
+        "mode": "excludes",
+        "text": "component("
+      },
+      {
+        "id": "source-no-system-authoring",
+        "file": "src/quiet-canal-market.contract.ts",
+        "mode": "excludes",
+        "text": "defineSystem"
+      }
+    ]
+  },
+  "rubric": [
+    {
+      "id": "brief-fidelity",
+      "title": "Brief fidelity",
+      "description": "The authored direction preserves the compact brief without invented requirements."
+    },
+    {
+      "id": "semantic-readability",
+      "title": "Semantic readability",
+      "description": "A game or art director can understand and revise the TypeScript without reading resolved ECS data."
+    },
+    {
+      "id": "information-placement",
+      "title": "Information placement",
+      "description": "Scene, region, rule, visual, and review direction is placed in suitable DSL fields."
+    },
+    {
+      "id": "scope-discipline",
+      "title": "Scope discipline",
+      "description": "The submission stays within the requested scene-authoring scope and avoids speculative implementation."
+    }
+  ]
+}
